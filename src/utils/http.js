@@ -1,11 +1,13 @@
 import axios from "axios";
 import settings from "../settings.json";
 
-const httpClient = axios.create();
+const httpClient = axios.create({
+  baseURL: settings.baseUrl,
+});
 
 const request = async (url, method, data) => {
   return httpClient({
-    url: settings.baseUrl + url,
+    url: url,
     method,
     data,
   })

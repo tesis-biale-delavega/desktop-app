@@ -10,25 +10,26 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^13.5.0",
+    "electron-context-menu": "^3.1.2",
+    "http-proxy-middleware": "^2.0.6",
+    "mapbox-gl": "^2.9.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "react-router-dom": "^6.3.0",
-    "react-query": "^3.39.1",
     "react-map-gl": "^7.0.16",
+    "react-query": "^3.39.1",
+    "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4",
     "sass": "^1.52.1",
-    "mapbox-gl": "^2.9.0",
-    "electron-context-menu": "^3.1.2"
+    "web-vitals": "^2.1.4"
   },
   "main": "public/electron.js",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev": "concurrently -k \"BROWSER=none npm start\" \"npm:electron\"",
-    "electron": "wait-on tcp:3000 && electron ."
+    "electron": "wait-on tcp:3001 && electron ."
   },
   "eslintConfig": {
     "extends": [

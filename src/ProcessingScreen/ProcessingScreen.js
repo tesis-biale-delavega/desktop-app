@@ -63,13 +63,18 @@ const ProcessingScreen = () => {
     },
   };
 
-  const startAnalysisMutation = useMutation(() => {
-    return http.get(`analysis`);
+  const startAnalysisMutation = useMutation((body) => {
+    return http.post(`analysis`, body);
   });
 
   const handleStartProcessing = () => {
     setProcessingState(processingStates.INDEX_GENERATOR);
-    startAnalysisMutation.mutate(undefined, {
+
+    const body = {
+      path: '',
+      name: ''
+    }
+    startAnalysisMutation.mutate(body, {
       onSuccess: (res) => console.log("res", res),
     });
   };

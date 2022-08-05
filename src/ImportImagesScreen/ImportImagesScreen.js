@@ -21,6 +21,19 @@ const ImportImagesScreen = () => {
         }
     }, [fileInput]);
 
+    const onFileInputChange = (event) => {
+        const files = event.target.files
+
+        if(files.length > 0) {
+            const firstFilePath = files[0].path
+            const folderPathSplit = firstFilePath.split("/").slice(0, -1)
+            const folderPath = folderPathSplit.join("/")
+
+            console.log("files changed", event.target.files)
+            console.log("files changed", folderPath)
+        }
+    }
+
     return <ThemeProvider theme={theme}>
         <div className={"import-images-screen-container"}>
             <Button className={"import-button"} variant={"contained"} onClick={() => fileInput.current.click()}>
@@ -29,7 +42,7 @@ const ImportImagesScreen = () => {
             <input
                 ref={fileInput}
                 type="file"
-                onChange={(event) => console.log("files changed", event.target.files)}
+                onChange={onFileInputChange}
                 style={{display: 'none'}}
             />
         </div>
