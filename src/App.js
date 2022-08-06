@@ -10,7 +10,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<ImportImagesScreen />} />
-          <Route path="pre-stitching" element={<ProcessingScreen />} />
+          <Route path="/pre-stitching" element={<ProcessingScreen />} />
         </Routes>
       </div>
   );

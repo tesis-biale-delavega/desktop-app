@@ -15,7 +15,7 @@ import SideBar from "../SideBar/SideBar";
 import { useMutation } from "react-query";
 import * as http from "../utils/http";
 import { useNavigate } from "react-router-dom";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 
 const ProcessingScreen = () => {
   const mapboxToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
@@ -41,57 +41,46 @@ const ProcessingScreen = () => {
 
   const [selectedIndexes, setSelectedIndexes] = useState(indexes);
 
-  const geojson = {
-    type: "FeatureCollection",
-    features: [
-      {
-        type: "Feature",
-        geometry: {
-          type: "Point",
-          coordinates: [6.621111111111111, 46.59916666666667],
-        },
-        properties: null,
-      },
-    ],
-  };
+  const [stitchingData, setStitchingData] = useState(undefined);
 
-  const layerStyle = {
-    id: "point",
-    type: "circle",
-    paint: {
-      "circle-radius": 5,
-      "circle-color": "#e200fc",
-    },
-  };
-
-  const folderPath = useSelector(state => state.analysis.folderPath)
+  const folderPath = useSelector((state) => state.analysis.folderPath);
 
   const startAnalysisMutation = useMutation((body) => {
     return http.post(`analysis`, body);
   });
 
   const handleStartProcessing = () => {
-    setProcessingState(processingStates.INDEX_GENERATOR);
-
     const body = {
       path: folderPath,
-      name: 'algo'
-    }
+      name: "algo",
+    };
+    const mockedResponse = {
+      avg_coords: [46.599518655555556, 6.621405246944445, 829.1021],
+      coords: [
+        [6.6214, 46.599],
+        [6.63, 46.599],
+        [6.63, 46.6],
+        [6.6214, 46.6],
+      ],
+      orthophoto_path:
+        "/Users/braianb/PycharmProjects/image-processing/algo_05082022204057/rgb/odm_orthophoto/odm_orthophoto.png",
+      project_path:
+        "/Users/braianb/PycharmProjects/image-processing/algo_05082022204057",
+    };
     startAnalysisMutation.mutate(body, {
       onSuccess: (res) => {
-        console.log("res", res)
-        const mockedResponse = {
-          "avg_coords": [
-          46.599518655555556,
-          6.621405246944445,
-          829.1021
-        ],
-            "orthophoto_path": "/Users/braianb/PycharmProjects/image-processing/algo_05082022204057/rgb/odm_orthophoto/odm_orthophoto.png",
-            "project_path": "/Users/braianb/PycharmProjects/image-processing/algo_05082022204057"
-        }
+        console.log("res", res);
+        setProcessingState(processingStates.INDEX_GENERATOR);
+      },
+      onError: (error) => {
+        console.log("error", error);
+        setStitchingData(mockedResponse);
+        setProcessingState(processingStates.INDEX_GENERATOR);
       },
     });
   };
+
+  console.log(stitchingData);
 
   const PreStitchingSideBarOptions = () => {
     return (
@@ -182,9 +171,17 @@ const ProcessingScreen = () => {
           mapStyle={mapboxStyle}
           mapboxAccessToken={mapboxToken}
         >
-          <Source id="my-data" type="geojson" data={geojson}>
-            <Layer {...layerStyle} />
-          </Source>
+          {stitchingData && (
+            <Source
+              id="image-source"
+              type="image"
+              url={"file://" + stitchingData?.orthophoto_path}
+              coordinates={stitchingData?.coords}
+            >
+              {console.log(stitchingData?.orthophoto_path)}
+              <Layer id="overlay" source="image-source" type="raster"/>
+            </Source>
+          )}
         </Map>
       </Box>
     </Box>
