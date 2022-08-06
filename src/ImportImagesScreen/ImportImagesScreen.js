@@ -1,6 +1,8 @@
 import React, {useEffect} from "react";
 import "./ImportImagesScreen.scss"
 import {Button, createTheme, ThemeProvider} from "@mui/material";
+import {useDispatch} from "react-redux";
+import {setFolderPath} from "../analysis/analysisSlice";
 
 
 const theme = createTheme({
@@ -13,6 +15,7 @@ const theme = createTheme({
 
 const ImportImagesScreen = () => {
     const fileInput = React.useRef();
+    const dispatch = useDispatch()
 
     useEffect(() => {
         if (fileInput.current !== null) {
@@ -31,6 +34,7 @@ const ImportImagesScreen = () => {
 
             console.log("files changed", event.target.files)
             console.log("files changed", folderPath)
+            dispatch(setFolderPath(folderPath))
         }
     }
 

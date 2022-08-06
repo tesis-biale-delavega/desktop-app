@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 import {createTheme, ThemeProvider} from "@mui/material";
 import {QueryClient, QueryClientProvider} from "react-query";
 import {BrowserRouter} from "react-router-dom";
+import { store } from './app/store'
+import { Provider } from 'react-redux'
 
 const themeOptions = {
     palette: {
@@ -51,7 +53,9 @@ root.render(
     <BrowserRouter>
         <ThemeProvider theme={theme}>
             <QueryClientProvider client={queryClient}>
-                <App/>
+                <Provider store={store}>
+                    <App/>
+                </Provider>
             </QueryClientProvider>
         </ThemeProvider>
     </BrowserRouter>

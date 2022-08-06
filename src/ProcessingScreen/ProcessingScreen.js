@@ -15,6 +15,7 @@ import SideBar from "../SideBar/SideBar";
 import { useMutation } from "react-query";
 import * as http from "../utils/http";
 import { useNavigate } from "react-router-dom";
+import {useSelector} from "react-redux";
 
 const ProcessingScreen = () => {
   const mapboxToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
@@ -63,6 +64,8 @@ const ProcessingScreen = () => {
     },
   };
 
+  const folderPath = useSelector(state => state.analysis.folderPath)
+
   const startAnalysisMutation = useMutation((body) => {
     return http.post(`analysis`, body);
   });
@@ -71,11 +74,22 @@ const ProcessingScreen = () => {
     setProcessingState(processingStates.INDEX_GENERATOR);
 
     const body = {
-      path: '',
-      name: ''
+      path: folderPath,
+      name: 'algo'
     }
     startAnalysisMutation.mutate(body, {
-      onSuccess: (res) => console.log("res", res),
+      onSuccess: (res) => {
+        console.log("res", res)
+        const mockedResponse = {
+          "avg_coords": [
+          46.599518655555556,
+          6.621405246944445,
+          829.1021
+        ],
+            "orthophoto_path": "/Users/braianb/PycharmProjects/image-processing/algo_05082022204057/rgb/odm_orthophoto/odm_orthophoto.png",
+            "project_path": "/Users/braianb/PycharmProjects/image-processing/algo_05082022204057"
+        }
+      },
     });
   };
 
