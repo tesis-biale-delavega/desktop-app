@@ -1,10 +1,6 @@
 import {
   Box,
-  Button,
-  Checkbox,
   Container,
-  FormControlLabel,
-  FormGroup,
   List,
   ListItem,
   ListItemButton,
@@ -14,15 +10,37 @@ import {
 } from "@mui/material";
 import { useSelector } from "react-redux";
 
-const IndexVisualizationHeatmapSideBarOptions = () => {
-  const generatedIndexes = useSelector(
-    (state) => state.analysis.generatedIndexes
+const IndexVisualizationHeatmapSideBarOptions = ({setOverlayImageData, overlayImageData}) => {
+  /*const generatedIndexes = useSelector(
+      (state) => state.analysis.generatedIndexes
+    );*/
+
+  const generatedIndexes = {
+    ndvi: "/Users/braianb/PycharmProjects/image-processing/test/index_ndvi.png",
+  };
+
+  const defaultLayers = [
+    {
+      name: "Orthophoto",
+      imageUrl:
+        "/Users/braianb/PycharmProjects/image-processing/loquequieras_22062022_183507/rgb/odm_orthophoto/odm_orthophoto.png",
+    },
+  ];
+  const generatedIndexesArray = Object.entries(generatedIndexes).map(
+    (index) => {
+      return { name: index[0].toUpperCase(), imageUrl: index[1] };
+    }
   );
 
+  const availableLayers = [...defaultLayers, ...generatedIndexesArray];
+
   console.log("indexgen", generatedIndexes);
+  console.log("imagedata", overlayImageData);
 
   const onLayerClick = (layerData) => {
     console.log("value", layerData);
+    const newOverlayImageData = {...overlayImageData, imageUrl: layerData.imageUrl}
+    setOverlayImageData(newOverlayImageData)
   };
 
   return (
@@ -34,10 +52,10 @@ const IndexVisualizationHeatmapSideBarOptions = () => {
           </Container>
           <Typography color={"#A4A4A4"}>Layers</Typography>
           <List>
-            {generatedIndexes.map((index) => (
+            {availableLayers.map((layer) => (
               <ListItem disablePadding>
-                <ListItemButton onClick={() => onLayerClick(index)}>
-                  <ListItemText primary={index.name} />
+                <ListItemButton onClick={() => onLayerClick(layer)}>
+                  <ListItemText primary={layer.name} />
                 </ListItemButton>
               </ListItem>
             ))}

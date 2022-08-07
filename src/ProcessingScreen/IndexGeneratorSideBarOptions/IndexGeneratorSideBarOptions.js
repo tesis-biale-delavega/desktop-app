@@ -45,10 +45,10 @@ const IndexGeneratorSideBarOptions = ({setProcessingState, processingStates}) =>
                 .map((index) => index.value),
             custom_indexes: [],
         };
-        dispatch(setGeneratedIndexes(selectedIndexes))
         generateIndexesMutation.mutate(body, {
             onSuccess: (res) => {
                 console.log("res", res);
+                dispatch(setGeneratedIndexes(res))
                 setProcessingState(processingStates.INDEX_VISUALIZATION_HEATMAP);
             },
             onError: (error) => {

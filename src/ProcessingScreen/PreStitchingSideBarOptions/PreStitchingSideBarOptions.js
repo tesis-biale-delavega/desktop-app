@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useMutation} from "react-query";
 import * as http from "../../utils/http";
 
-const PreStitchingSideBarOptions = ({setStitchingData, setProcessingState, processingStates}) => {
+const PreStitchingSideBarOptions = ({setOverlayImageData, setProcessingState, processingStates}) => {
     const dispatch = useDispatch();
     const folderPath = useSelector((state) => state.analysis.folderPath);
 
@@ -19,7 +19,8 @@ const PreStitchingSideBarOptions = ({setStitchingData, setProcessingState, proce
         };
         startAnalysisMutation.mutate(body, {
             onSuccess: (res) => {
-                setStitchingData(res);
+                const overlayImageData = {imageUrl: res.orthophoto_path, coords: res.coords.rgb_points}
+                setOverlayImageData(overlayImageData);
                 dispatch(setProjectPath(res.project_path));
                 setProcessingState(processingStates.INDEX_GENERATOR);
             },
