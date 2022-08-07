@@ -34,8 +34,6 @@ const ImportImagesScreen = () => {
             const folderPathSplit = firstFilePath.split("/").slice(0, -1)
             const folderPath = folderPathSplit.join("/")
 
-            console.log("files changed", event.target.files)
-            console.log("files changed", folderPath)
             dispatch(setFolderPath(folderPath))
             folderPath && navigate("/pre-stitching")
         }

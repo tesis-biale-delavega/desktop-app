@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     folderPath: "",
-    projectPath: ""
+    projectPath: "",
+    generatedIndexes: []
 }
 
 export const analysisSlice = createSlice({
@@ -15,10 +16,12 @@ export const analysisSlice = createSlice({
         setProjectPath: (state, action) => {
             state.projectPath = action.payload
         },
+        setGeneratedIndexes: (state, action) => {
+            state.generatedIndexes = action.payload
+        },
     },
 })
 
-// Action creators are generated for each case reducer function
-export const { setFolderPath, setProjectPath } = analysisSlice.actions
+export const { setFolderPath, setProjectPath, setGeneratedIndexes } = analysisSlice.actions
 
 export default analysisSlice.reducer

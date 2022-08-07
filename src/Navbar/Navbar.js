@@ -41,7 +41,7 @@ const Navbar = () => {
           >
             <MenuIcon />
           </IconButton>
-          <div>{"Import Images"}</div>
+          <div>{"Project Name"}</div>
         </Toolbar>
       </AppBar>
     </ThemeProvider>
