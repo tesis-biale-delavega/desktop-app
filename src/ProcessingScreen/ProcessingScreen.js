@@ -15,13 +15,15 @@ import SideBar from "../SideBar/SideBar";
 import { useMutation } from "react-query";
 import * as http from "../utils/http";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setProjectPath } from "../analysis/analysisSlice";
 
 const ProcessingScreen = () => {
   const mapboxToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
   const mapboxStyle = process.env.REACT_APP_MAPBOX_STYLE;
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const processingStates = {
     PRE_STITCHING: 0,
@@ -34,9 +36,10 @@ const ProcessingScreen = () => {
   );
 
   const indexes = [
-    { name: "BNDVI", selected: false },
-    { name: "NDVI", selected: false },
-    { name: "NDRE", selected: false },
+    { name: "BNDVI", value: "bndvi", selected: false },
+    { name: "NDVI", value: "ndvi", selected: false },
+    { name: "NDRE", value: "ndre", selected: false },
+    { name: "VARI", value: "vari", selected: false },
   ];
 
   const [selectedIndexes, setSelectedIndexes] = useState(indexes);
@@ -44,6 +47,7 @@ const ProcessingScreen = () => {
   const [stitchingData, setStitchingData] = useState(undefined);
 
   const folderPath = useSelector((state) => state.analysis.folderPath);
+  const projectPath = useSelector((state) => state.analysis.projectPath);
 
   const startAnalysisMutation = useMutation((body) => {
     return http.post(`analysis`, body);
@@ -70,12 +74,12 @@ const ProcessingScreen = () => {
     startAnalysisMutation.mutate(body, {
       onSuccess: (res) => {
         console.log("res", res);
+        setStitchingData(res);
+        dispatch(setProjectPath(res.project_path));
         setProcessingState(processingStates.INDEX_GENERATOR);
       },
       onError: (error) => {
         console.log("error", error);
-        setStitchingData(mockedResponse);
-        setProcessingState(processingStates.INDEX_GENERATOR);
       },
     });
   };
@@ -111,6 +115,29 @@ const ProcessingScreen = () => {
     setSelectedIndexes(indexesUpdated);
   };
 
+  const generateIndexesMutation = useMutation((body) => {
+    return http.post(`index`, body);
+  });
+
+  const onGenerateIndexesPress = () => {
+    console.log("indexes", selectedIndexes);
+    const body = {
+      project_path: projectPath,
+      indexes: selectedIndexes
+        .map((index) => (index.selected ? index.value : ""))
+        .filter((indexValue) => indexValue !== ""),
+      custom_indexes: [],
+    };
+    generateIndexesMutation.mutate(body, {
+      onSuccess: (res) => {
+        console.log("res", res);
+      },
+      onError: (error) => {
+        console.log("error", error);
+      },
+    });
+  };
+
   const IndexGeneratorSideBarOptions = () => {
     return (
       <Box m={2} flexGrow={1}>
@@ -121,16 +148,24 @@ const ProcessingScreen = () => {
             </Container>
             <Typography>Indexes</Typography>
             <FormGroup>
-              {indexes.map((index) => (
+              {selectedIndexes.map((index) => (
                 <FormControlLabel
-                  control={<Checkbox />}
+                  control={
+                    <Checkbox
+                      checked={index.selected}
+                      onChange={(e) => handleIndexChange(index.name, e)}
+                    />
+                  }
                   label={index.name}
-                  onChange={(e) => handleIndexChange(index.name, e)}
                 />
               ))}
             </FormGroup>
           </div>
-          <Button variant={"contained"} size={"small"}>
+          <Button
+            variant={"contained"}
+            size={"small"}
+            onClick={onGenerateIndexesPress}
+          >
             Generate
           </Button>
         </Stack>
@@ -155,6 +190,8 @@ const ProcessingScreen = () => {
       : setProcessingState(processingState - 1);
   };
 
+  const diff = 0.0005
+
   return (
     // TODO: fix the height of the map to fill entire container
     <Box sx={{ display: "flex", height: "91%" }}>
@@ -176,10 +213,10 @@ const ProcessingScreen = () => {
               id="image-source"
               type="image"
               url={"file://" + stitchingData?.orthophoto_path}
-              coordinates={stitchingData?.coords}
+              coordinates={stitchingData?.coords.rgb_points}
             >
               {console.log(stitchingData?.orthophoto_path)}
-              <Layer id="overlay" source="image-source" type="raster"/>
+              <Layer id="overlay" source="image-source" type="raster" />
             </Source>
           )}
         </Map>
@@ -187,5 +224,21 @@ const ProcessingScreen = () => {
     </Box>
   );
 };
+
+/*coords={[
+                [6.6214, 46.599],
+                [6.63, 46.599],
+                [6.63, 46.6],
+                [6.6214, 46.6],
+              ]}
+
+              coordinates={[
+                [6.6193993636111115, 46.59952603277778],
+                [6.621410919722223, 46.59952603277778],
+                [6.621410919722223, 46.59673472111111],
+                [6.6193993636111115, 46.59673472111111],
+              ]}
+
+              */
 
 export default ProcessingScreen;
