@@ -1,27 +1,36 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    folderPath: "",
-    projectPath: "",
-    generatedIndexes: []
-}
+  folderPath: "",
+  stitchingData: undefined,
+  projectPath: "",
+  generatedIndexes: [],
+};
 
 export const analysisSlice = createSlice({
-    name: 'analysis',
-    initialState,
-    reducers: {
-        setFolderPath: (state, action) => {
-            state.folderPath = action.payload
-        },
-        setProjectPath: (state, action) => {
-            state.projectPath = action.payload
-        },
-        setGeneratedIndexes: (state, action) => {
-            state.generatedIndexes = action.payload
-        },
+  name: "analysis",
+  initialState,
+  reducers: {
+    setFolderPath: (state, action) => {
+      state.folderPath = action.payload;
     },
-})
+    setStitchingData: (state, action) => {
+      state.stitchingData = action.payload;
+    },
+    setProjectPath: (state, action) => {
+      state.projectPath = action.payload;
+    },
+    setGeneratedIndexes: (state, action) => {
+      state.generatedIndexes = action.payload;
+    },
+  },
+});
 
-export const { setFolderPath, setProjectPath, setGeneratedIndexes } = analysisSlice.actions
+export const {
+  setFolderPath,
+  setStitchingData,
+  setProjectPath,
+  setGeneratedIndexes,
+} = analysisSlice.actions;
 
-export default analysisSlice.reducer
+export default analysisSlice.reducer;

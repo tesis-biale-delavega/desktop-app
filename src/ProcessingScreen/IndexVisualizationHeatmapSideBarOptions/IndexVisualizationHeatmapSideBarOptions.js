@@ -11,19 +11,16 @@ import {
 import { useSelector } from "react-redux";
 
 const IndexVisualizationHeatmapSideBarOptions = ({setOverlayImageData, overlayImageData}) => {
-  /*const generatedIndexes = useSelector(
+  const generatedIndexes = useSelector(
       (state) => state.analysis.generatedIndexes
-    );*/
-
-  const generatedIndexes = {
-    ndvi: "/Users/braianb/PycharmProjects/image-processing/test/index_ndvi.png",
-  };
+    );
+  const stitchingData = useSelector(state => state.analysis.stitchingData)
 
   const defaultLayers = [
     {
       name: "Orthophoto",
       imageUrl:
-        "/Users/braianb/PycharmProjects/image-processing/loquequieras_22062022_183507/rgb/odm_orthophoto/odm_orthophoto.png",
+      stitchingData?.orthophoto_path,
     },
   ];
   const generatedIndexesArray = Object.entries(generatedIndexes).map(

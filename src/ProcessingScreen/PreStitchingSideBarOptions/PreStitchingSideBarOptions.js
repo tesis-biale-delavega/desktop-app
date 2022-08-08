@@ -1,5 +1,5 @@
 import { Box, Button } from "@mui/material";
-import {setProjectPath} from "../../analysis/analysisSlice";
+import {setProjectPath, setStitchingData} from "../../analysis/analysisSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {useMutation} from "react-query";
 import * as http from "../../utils/http";
@@ -21,6 +21,7 @@ const PreStitchingSideBarOptions = ({setOverlayImageData, setProcessingState, pr
             onSuccess: (res) => {
                 const overlayImageData = {imageUrl: res.orthophoto_path, coords: res.coords.rgb_points}
                 setOverlayImageData(overlayImageData);
+                dispatch(setStitchingData(res))
                 dispatch(setProjectPath(res.project_path));
                 setProcessingState(processingStates.INDEX_GENERATOR);
             },
