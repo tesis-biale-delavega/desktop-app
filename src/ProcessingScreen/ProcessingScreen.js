@@ -12,6 +12,15 @@ import {
   withGoogleMap,
   withScriptjs,
 } from "react-google-maps";
+import {
+  ImageOverlay,
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+} from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import { LatLngBounds } from "leaflet";
 
 const MyMapComponent = withScriptjs(
   withGoogleMap((props) => (
@@ -19,40 +28,69 @@ const MyMapComponent = withScriptjs(
       defaultZoom={17}
       defaultCenter={{ lat: 46.59916666666667, lng: 6.621111111111111 }}
       mapTypeId={"satellite"}
-      options={{maxZoom: 30}}
     >
       <OverlayView
         bounds={{
           ne: { lat: 46.59952603277778, lng: 6.621111111111111 },
           sw: { lat: 46.59916666666667, lng: 6.621410919722223 },
         }}
-        /*
-         * An alternative to specifying position is specifying bounds.
-         * bounds can either be an instance of google.maps.LatLngBounds
-         * or an object in the following format:
-         * bounds={{
-         *    ne: { lat: 62.400471, lng: -150.005608 },
-         *    sw: { lat: 62.281819, lng: -150.287132 }
-         * }}
-         */
-        /*
-         * 1. Specify the pane the OverlayView will be rendered to. For
-         *    mouse interactivity, use `OverlayView.OVERLAY_MOUSE_TARGET`.
-         *    Defaults to `OverlayView.OVERLAY_LAYER`.
-         */
         mapPaneName={OverlayView.OVERLAY_LAYER}
       >
-        <img
+        {/*<img
           style={{ width: "100%" }}
           src={
             "file://" +
             "/Users/braianb/PycharmProjects/image-processing/test/multispectral/odm_orthophoto/odm_orthophoto.png"
+          }
+        />*/}
+        <img
+          style={{ width: "100%", height: "100%" }}
+          src={
+            "https://i0.wp.com/post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/03/GettyImages-1092658864_hero-1024x575.jpg?w=1575"
           }
         />
       </OverlayView>
     </GoogleMap>
   ))
 );
+
+const bounds = new LatLngBounds(
+  [46.59952603277778, 6.621410919722223],
+  [46.59673472111111, 6.6193993636111115]
+);
+
+const LeafLetMap = () => {
+  const mapboxStyle = process.env.REACT_APP_MAPBOX_STYLE;
+  const mapboxToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
+
+  return (
+    <div style={{ width: "100%", height: "100%" }}>
+      <MapContainer
+        center={[46.59916666666667, 6.621111111111111]}
+        zoom={17}
+        maxZoom={30}
+        style={{ width: "100%", height: "100%" }}
+      >
+        <TileLayer
+          url={
+            mapboxStyle +
+            "/tiles/256/{z}/{x}/{y}@2x?access_token=" +
+            mapboxToken
+          }
+          attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery &copy; <a href="https://www.mapbox.com/">Mapbox</a>'
+        />
+        <ImageOverlay
+          url={
+            "file://" +
+            "/Users/braianb/PycharmProjects/image-processing/test/multispectral/odm_orthophoto/odm_orthophoto.png"
+          }
+          bounds={bounds}
+          zIndex={10}
+        />
+      </MapContainer>
+    </div>
+  );
+};
 
 const ProcessingScreen = () => {
   const mapboxToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
@@ -113,12 +151,13 @@ const ProcessingScreen = () => {
       <SideBar children={getSideBarOptions()} onGoBackClick={handleGoBack} />
       <Box sx={{ flexGrow: 1 }}>
         <Toolbar />
-        <MyMapComponent
+        <LeafLetMap />
+        {/*<MyMapComponent
           googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
           loadingElement={<div style={{ height: `100%` }} />}
           containerElement={<div style={{ height: `100%` }} />}
           mapElement={<div style={{ height: `100%` }} />}
-        />
+        />*/}
         {/*<Map
           initialViewState={{
             latitude: 46.59916666666667,
