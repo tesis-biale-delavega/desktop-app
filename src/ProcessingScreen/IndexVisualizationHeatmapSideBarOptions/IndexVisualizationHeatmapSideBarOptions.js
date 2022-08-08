@@ -1,6 +1,7 @@
 import {
   Box,
   Container,
+  Grid,
   List,
   ListItem,
   ListItemButton,
@@ -10,17 +11,19 @@ import {
 } from "@mui/material";
 import { useSelector } from "react-redux";
 
-const IndexVisualizationHeatmapSideBarOptions = ({setOverlayImageData, overlayImageData}) => {
+const IndexVisualizationHeatmapSideBarOptions = ({
+  setOverlayImageData,
+  overlayImageData,
+}) => {
   const generatedIndexes = useSelector(
-      (state) => state.analysis.generatedIndexes
-    );
-  const stitchingData = useSelector(state => state.analysis.stitchingData)
+    (state) => state.analysis.generatedIndexes
+  );
+  const stitchingData = useSelector((state) => state.analysis.stitchingData);
 
   const defaultLayers = [
     {
       name: "Orthophoto",
-      imageUrl:
-      stitchingData?.orthophoto_path,
+      imageUrl: stitchingData?.orthophoto_path,
     },
   ];
   const generatedIndexesArray = Object.entries(generatedIndexes).map(
@@ -36,22 +39,26 @@ const IndexVisualizationHeatmapSideBarOptions = ({setOverlayImageData, overlayIm
 
   const onLayerClick = (layerData) => {
     console.log("value", layerData);
-    const newOverlayImageData = {...overlayImageData, imageUrl: layerData.imageUrl}
-    setOverlayImageData(newOverlayImageData)
+    const newOverlayImageData = {
+      ...overlayImageData,
+      imageUrl: layerData.imageUrl,
+      name: layerData.name
+    };
+    setOverlayImageData(newOverlayImageData);
   };
 
   return (
-    <Box m={2} flexGrow={1}>
+    <Box flexGrow={1}>
       <Stack justifyContent={"space-between"} height={"100%"}>
         <div>
-          <Container>
-            <Typography>Heatmap</Typography>
+          <Container >
+            <Typography mt={2} align={"center"}>Heatmap</Typography>
           </Container>
-          <Typography color={"#A4A4A4"}>Layers</Typography>
+          <Typography mt={2} ml={2} color={"#A4A4A4"}>Layers</Typography>
           <List>
             {availableLayers.map((layer) => (
               <ListItem disablePadding>
-                <ListItemButton onClick={() => onLayerClick(layer)}>
+                <ListItemButton selected={layer.name === overlayImageData?.name} onClick={() => onLayerClick(layer)}>
                   <ListItemText primary={layer.name} />
                 </ListItemButton>
               </ListItem>
