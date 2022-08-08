@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import {Box, Button, Container} from "@mui/material";
 import {setProjectPath, setStitchingData} from "../../analysis/analysisSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {useMutation} from "react-query";
@@ -33,13 +33,15 @@ const PreStitchingSideBarOptions = ({setOverlayImageData, setProcessingState, pr
 
   return (
     <Box m={2}>
-      <Button
-        variant={"contained"}
-        size={"small"}
-        onClick={handleStartProcessing}
-      >
-        Start processing
-      </Button>
+        <Container>
+            <Button
+                variant={"contained"}
+                size={"small"}
+                onClick={handleStartProcessing}
+            >
+                Start processing
+            </Button>
+        </Container>
     </Box>
   );
 };

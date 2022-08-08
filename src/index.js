@@ -43,6 +43,20 @@ const themeOptions = {
         },
       },
     },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: "#fff",
+        },
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          color: "#fff",
+        },
+      },
+    },
   },
 };
 
