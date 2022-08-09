@@ -1,7 +1,7 @@
 import {
   Box,
   Container,
-  Grid,
+  Grid, Link,
   List,
   ListItem,
   ListItemButton,
@@ -10,6 +10,9 @@ import {
   Typography,
 } from "@mui/material";
 import { useSelector } from "react-redux";
+import {useState} from "react";
+import FormDialog from "../../FormDialog/FormDialog";
+import ThresholdCreatorDialog from "../ThresholdCreatorDialog/ThresholdCreatorDialog";
 
 const IndexVisualizationHeatmapSideBarOptions = ({
   setOverlayImageData,
@@ -19,6 +22,7 @@ const IndexVisualizationHeatmapSideBarOptions = ({
     (state) => state.analysis.generatedIndexes
   );
   const stitchingData = useSelector((state) => state.analysis.stitchingData);
+  const [showThresholdDialog, setShowThresholdDialog] = useState(false)
 
   const defaultLayers = [
     {
@@ -34,8 +38,13 @@ const IndexVisualizationHeatmapSideBarOptions = ({
 
   const availableLayers = [...defaultLayers, ...generatedIndexesArray];
 
-  console.log("indexgen", generatedIndexes);
-  console.log("imagedata", overlayImageData);
+  const handleCreateThresholdClick = () => {
+    setShowThresholdDialog(true)
+  }
+
+  const handleDialogClose = () => {
+    setShowThresholdDialog(false)
+  }
 
   const onLayerClick = (layerData) => {
     console.log("value", layerData);
@@ -51,21 +60,38 @@ const IndexVisualizationHeatmapSideBarOptions = ({
     <Box flexGrow={1}>
       <Stack justifyContent={"space-between"} height={"100%"}>
         <div>
-          <Container >
-            <Typography mt={2} align={"center"}>Heatmap</Typography>
+          <Container>
+            <Typography mt={2} align={"center"}>
+              Heatmap
+            </Typography>
           </Container>
-          <Typography mt={2} ml={2} color={"#A4A4A4"}>Layers</Typography>
+          <Typography mt={2} ml={2} color={"#A4A4A4"}>
+            Layers
+          </Typography>
           <List>
             {availableLayers.map((layer) => (
               <ListItem disablePadding>
-                <ListItemButton selected={layer.name === overlayImageData?.name} onClick={() => onLayerClick(layer)}>
+                <ListItemButton
+                  selected={layer.name === overlayImageData?.name}
+                  onClick={() => onLayerClick(layer)}
+                >
                   <ListItemText primary={layer.name} />
                 </ListItemButton>
               </ListItem>
             ))}
           </List>
+          <Link
+            component="button"
+            variant="body2"
+            onClick={handleCreateThresholdClick}
+            underline={"none"}
+            color={"#ffffff"}
+          >
+            <Typography mt={2}>Create threshold</Typography>
+          </Link>
         </div>
       </Stack>
+      {showThresholdDialog && <ThresholdCreatorDialog isOpen={showThresholdDialog} handleClose={handleDialogClose} />}
     </Box>
   );
 };
