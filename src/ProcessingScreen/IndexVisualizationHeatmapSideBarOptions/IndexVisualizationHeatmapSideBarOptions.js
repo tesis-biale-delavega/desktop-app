@@ -1,7 +1,7 @@
 import {
   Box,
   Container,
-  Grid, Link,
+  Link,
   List,
   ListItem,
   ListItemButton,
@@ -10,8 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useSelector } from "react-redux";
-import {useState} from "react";
-import FormDialog from "../../FormDialog/FormDialog";
+import { useState } from "react";
 import ThresholdCreatorDialog from "../ThresholdCreatorDialog/ThresholdCreatorDialog";
 
 const IndexVisualizationHeatmapSideBarOptions = ({
@@ -22,7 +21,7 @@ const IndexVisualizationHeatmapSideBarOptions = ({
     (state) => state.analysis.generatedIndexes
   );
   const stitchingData = useSelector((state) => state.analysis.stitchingData);
-  const [showThresholdDialog, setShowThresholdDialog] = useState(false)
+  const [showThresholdDialog, setShowThresholdDialog] = useState(false);
 
   const defaultLayers = [
     {
@@ -32,26 +31,26 @@ const IndexVisualizationHeatmapSideBarOptions = ({
   ];
   const generatedIndexesArray = Object.entries(generatedIndexes).map(
     (index) => {
-      return { name: index[0].toUpperCase(), imageUrl: index[1].img };
+      return { name: index[0].toUpperCase(), imageUrl: index[1].img, imageVector: index[1].vector };
     }
   );
 
   const availableLayers = [...defaultLayers, ...generatedIndexesArray];
 
   const handleCreateThresholdClick = () => {
-    setShowThresholdDialog(true)
-  }
+    setShowThresholdDialog(true);
+  };
 
-  const handleDialogClose = () => {
-    setShowThresholdDialog(false)
-  }
+  const handleThresholdDialogClose = () => {
+    setShowThresholdDialog(false);
+  };
 
   const onLayerClick = (layerData) => {
-    console.log("value", layerData);
     const newOverlayImageData = {
       ...overlayImageData,
       imageUrl: layerData.imageUrl,
-      name: layerData.name
+      imageVector: layerData.imageVector,
+      name: layerData.name,
     };
     setOverlayImageData(newOverlayImageData);
   };
@@ -86,12 +85,19 @@ const IndexVisualizationHeatmapSideBarOptions = ({
             onClick={handleCreateThresholdClick}
             underline={"none"}
             color={"#ffffff"}
+            disabled={overlayImageData?.name === "Orthophoto"}
           >
-            <Typography mt={2}>Create threshold</Typography>
+            <Typography mt={2} ml={2}>Create threshold</Typography>
           </Link>
         </div>
       </Stack>
-      {showThresholdDialog && <ThresholdCreatorDialog isOpen={showThresholdDialog} handleClose={handleDialogClose} />}
+      {showThresholdDialog && (
+        <ThresholdCreatorDialog
+          isOpen={showThresholdDialog}
+          handleClose={handleThresholdDialogClose}
+          layerData={overlayImageData}
+        />
+      )}
     </Box>
   );
 };
