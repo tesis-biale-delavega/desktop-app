@@ -16,11 +16,11 @@ const ProcessingScreen = () => {
     PRE_STITCHING: 0,
     INDEX_GENERATOR: 1,
     INDEX_VISUALIZATION_HEATMAP: 2,
-    CUSTOM_INDEX_CREATION: 3
+    CUSTOM_INDEX_CREATION: 3,
   };
 
   const [processingState, setProcessingState] = useState(
-    processingStates.CUSTOM_INDEX_CREATION
+    processingStates.INDEX_GENERATOR
   );
 
   const [overlayImageData, setOverlayImageData] = useState(undefined);
@@ -51,24 +51,25 @@ const ProcessingScreen = () => {
         );
       case processingStates.CUSTOM_INDEX_CREATION:
         return (
-            <CustomIndexCreationSideBarOptions/>
-        )
+          <CustomIndexCreationSideBarOptions
+            setProcessingState={setProcessingState}
+            processingStates={processingStates}
+          />
+        );
       default:
         break;
     }
   };
 
   const handleGoBack = () => {
-    if(processingState === processingStates.CUSTOM_INDEX_CREATION) {
-      setProcessingState(processingStates.INDEX_GENERATOR)
+    if (processingState === processingStates.CUSTOM_INDEX_CREATION) {
+      setProcessingState(processingStates.INDEX_GENERATOR);
     } else {
       processingState === 0
-          ? navigate("/")
-          : setProcessingState(processingState - 1);
+        ? navigate("/")
+        : setProcessingState(processingState - 1);
     }
   };
-
-  console.log(processingState)
 
   return (
     // TODO: fix the height of the map to fill entire container

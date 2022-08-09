@@ -9,11 +9,14 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import * as http from "../../utils/http";
 import { useDispatch, useSelector } from "react-redux";
-import { setGeneratedIndexes } from "../../analysis/analysisSlice";
+import {
+  setGeneratedIndexes,
+  setIndexesData,
+} from "../../analysis/analysisSlice";
 
 const IndexGeneratorSideBarOptions = ({
   setProcessingState,
@@ -21,15 +24,7 @@ const IndexGeneratorSideBarOptions = ({
 }) => {
   const dispatch = useDispatch();
   const projectPath = useSelector((state) => state.analysis.projectPath);
-
-  const indexes = [
-    { name: "BNDVI", value: "bndvi", selected: false },
-    { name: "NDVI", value: "ndvi", selected: false },
-    { name: "NDRE", value: "ndre", selected: false },
-    { name: "VARI", value: "vari", selected: false },
-  ];
-
-  const [indexesData, setIndexesData] = useState(indexes);
+  const indexesData = useSelector((state) => state.analysis.indexesData);
 
   const handleIndexChange = (indexName, e) => {
     const target = e.target;
@@ -43,7 +38,7 @@ const IndexGeneratorSideBarOptions = ({
           }
         : oldIndex
     );
-    setIndexesData(indexesUpdated);
+    dispatch(setIndexesData(indexesUpdated));
   };
 
   const generateIndexesMutation = useMutation((body) => {
@@ -51,11 +46,19 @@ const IndexGeneratorSideBarOptions = ({
   });
 
   const onGenerateIndexesPress = () => {
-    const selectedIndexes = indexesData.filter((index) => index.selected);
+    const selectedNormalIndexes = indexesData.filter(
+      (index) => !index.formula && index.selected
+    );
+    const selectedCustomIndexes = indexesData.filter(
+      (index) => index.formula && index.selected
+    );
     const body = {
       project_path: projectPath,
-      indexes: selectedIndexes.map((index) => index.value),
-      custom_indexes: [],
+      indexes: selectedNormalIndexes.map((index) => index.value),
+      custom_indexes: selectedCustomIndexes.map((index) => ({
+        formula: index.formula,
+        name: index.name,
+      })),
     };
     generateIndexesMutation.mutate(body, {
       onSuccess: (res) => {

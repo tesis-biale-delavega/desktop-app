@@ -54,6 +54,19 @@ const themeOptions = {
       styleOverrides: {
         root: {
           color: "#fff",
+          "&:before": {
+            borderBottom: "1px solid #fff !important"
+          }
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          "&.Mui-disabled": {
+            color: "#4d4d4d",
+            backgroundColor: "#757373"
+          }
         },
       },
     },

@@ -10,11 +10,23 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import {useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {setIndexesData} from "../../analysis/analysisSlice";
 
 const CustomIndexCreationSideBarOptions = ({
   setProcessingState,
   processingStates,
 }) => {
+  const dispatch = useDispatch()
+  const indexesData = useSelector(state => state.analysis.indexesData)
+  const [customIndexData, setCustomIndexData] = useState(undefined)
+
+  const handleCreateClick = () => {
+    setProcessingState(processingStates.INDEX_GENERATOR)
+    dispatch(setIndexesData([...indexesData, customIndexData]))
+  }
+
   return (
     <Box m={2} flexGrow={1}>
       <Stack justifyContent={"space-between"} height={"100%"}>
@@ -29,6 +41,7 @@ const CustomIndexCreationSideBarOptions = ({
             variant="standard"
             fullWidth
             margin={"dense"}
+            onChange={(e) => setCustomIndexData({...customIndexData, name: e.target.value})}
           />
           <TextField
             id="standard-multiline-static"
@@ -38,9 +51,10 @@ const CustomIndexCreationSideBarOptions = ({
             variant="standard"
             fullWidth
             margin={"dense"}
+            onChange={(e) => setCustomIndexData({...customIndexData, formula: e.target.value})}
           />
         </div>
-        <Button variant={"contained"} size={"small"}>
+        <Button disabled={!customIndexData?.name || !customIndexData?.formula} variant={"contained"} size={"small"} onClick={handleCreateClick}>
           Create
         </Button>
       </Stack>

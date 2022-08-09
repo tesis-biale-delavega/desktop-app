@@ -1,10 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const indexes = [
+  { name: "BNDVI", value: "bndvi", selected: false },
+  { name: "NDVI", value: "ndvi", selected: false },
+  { name: "NDRE", value: "ndre", selected: false },
+  { name: "VARI", value: "vari", selected: false },
+];
+
 const initialState = {
   folderPath: "",
   stitchingData: undefined,
   projectPath: "",
   generatedIndexes: [],
+  indexesData: indexes
 };
 
 export const analysisSlice = createSlice({
@@ -23,6 +31,9 @@ export const analysisSlice = createSlice({
     setGeneratedIndexes: (state, action) => {
       state.generatedIndexes = action.payload;
     },
+    setIndexesData: (state, action) => {
+      state.indexesData = action.payload;
+    },
   },
 });
 
@@ -31,6 +42,7 @@ export const {
   setStitchingData,
   setProjectPath,
   setGeneratedIndexes,
+  setIndexesData
 } = analysisSlice.actions;
 
 export default analysisSlice.reducer;
