@@ -75,6 +75,11 @@ const IndexGeneratorSideBarOptions = ({
     setProcessingState(processingStates.CUSTOM_INDEX_CREATION);
   };
 
+  const handleCustomIndexDelete = (indexData) => {
+    const updatedIndexes = indexesData.filter(index => index.name !== indexData.name)
+    dispatch(setIndexesData(updatedIndexes))
+  }
+
   return (
     <Box m={2} flexGrow={1}>
       <Stack justifyContent={"space-between"} height={"100%"}>
@@ -85,15 +90,18 @@ const IndexGeneratorSideBarOptions = ({
           <Typography mt={2}>Indexes</Typography>
           <FormGroup>
             {indexesData.map((index) => (
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={index.selected}
-                    onChange={(e) => handleIndexChange(index.name, e)}
-                  />
-                }
-                label={index.name}
-              />
+              <Stack direction={"row"}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={index.selected}
+                      onChange={(e) => handleIndexChange(index.name, e)}
+                    />
+                  }
+                  label={index.name}
+                />
+                {index.formula && <Button onClick={() => handleCustomIndexDelete(index)}>delete</Button>}
+              </Stack>
             ))}
           </FormGroup>
           <Link

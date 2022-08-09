@@ -28,7 +28,7 @@ const IndexVisualizationHeatmapSideBarOptions = ({
   ];
   const generatedIndexesArray = Object.entries(generatedIndexes).map(
     (index) => {
-      return { name: index[0].toUpperCase(), imageUrl: index[1] };
+      return { name: index[0].toUpperCase(), imageUrl: index[1].img };
     }
   );
 
