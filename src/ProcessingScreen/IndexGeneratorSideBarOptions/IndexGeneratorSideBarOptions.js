@@ -9,7 +9,6 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import * as http from "../../utils/http";
 import { useDispatch, useSelector } from "react-redux";
