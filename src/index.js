@@ -70,15 +70,6 @@ const themeOptions = {
         },
       },
     },
-    MuiDialog: {
-      styleOverrides: {
-        root: {
-          "&.MuiPaper": {
-            backgroundColor: "#757373"
-          }
-        },
-      },
-    },
   },
 };
 
