@@ -7,7 +7,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 const FormDialog = ({open, handleClose, handleConfirm, title, content}) => {
     return (
         <div>
-            <Dialog open={open} onClose={handleClose} PaperProps={{sx:{backgroundColor: "#000"}}}>
+            <Dialog open={open} onClose={handleClose} PaperProps={{sx:{backgroundColor: "#383838"}}}>
                 <DialogTitle>{title}</DialogTitle>
                 <DialogContent>
                     {content()}

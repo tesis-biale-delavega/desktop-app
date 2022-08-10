@@ -31,11 +31,11 @@ const IndexVisualizationHeatmapSideBarOptions = ({
   ];
   const generatedIndexesArray = Object.entries(generatedIndexes).map(
     (index) => {
-      return { name: index[0].toUpperCase(), imageUrl: index[1].img, imageVector: index[1].vector };
+      return { name: index[0].toUpperCase(), imageUrl: index[1]?.img, imageVector: index[1]?.vector };
     }
   );
 
-  const availableLayers = [...defaultLayers, ...generatedIndexesArray];
+  const [availableLayers, setAvailableLayers] = useState([...defaultLayers, ...generatedIndexesArray]);
 
   const handleCreateThresholdClick = () => {
     setShowThresholdDialog(true);
@@ -47,7 +47,7 @@ const IndexVisualizationHeatmapSideBarOptions = ({
 
   const onLayerClick = (layerData) => {
     const newOverlayImageData = {
-      ...overlayImageData,
+      coords: overlayImageData.coords,
       imageUrl: layerData.imageUrl,
       imageVector: layerData.imageVector,
       name: layerData.name,
@@ -85,7 +85,7 @@ const IndexVisualizationHeatmapSideBarOptions = ({
             onClick={handleCreateThresholdClick}
             underline={"none"}
             color={"#ffffff"}
-            disabled={overlayImageData?.name === "Orthophoto"}
+            disabled={!overlayImageData?.imageVector}
           >
             <Typography mt={2} ml={2}>Create threshold</Typography>
           </Link>
@@ -96,6 +96,9 @@ const IndexVisualizationHeatmapSideBarOptions = ({
           isOpen={showThresholdDialog}
           handleClose={handleThresholdDialogClose}
           layerData={overlayImageData}
+          availableLayers={availableLayers}
+          setAvailableLayers={setAvailableLayers}
+          onLayerClick={onLayerClick}
         />
       )}
     </Box>
