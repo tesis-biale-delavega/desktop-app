@@ -16,6 +16,10 @@ import {
   setGeneratedIndexes,
   setIndexesData,
 } from "../../analysis/analysisSlice";
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import {useState} from "react";
+import IndexInfoDialog from "../IndexInfoDialog/IndexInfoDialog";
 
 const IndexGeneratorSideBarOptions = ({
   setProcessingState,
@@ -24,6 +28,8 @@ const IndexGeneratorSideBarOptions = ({
   const dispatch = useDispatch();
   const projectPath = useSelector((state) => state.analysis.projectPath);
   const indexesData = useSelector((state) => state.analysis.indexesData);
+  const [showIndexInfoDialog, setShowIndexInfoDialog] = useState(false)
+  const [indexInfo, setIndexInfo] = useState(undefined)
 
   const handleIndexChange = (indexName, e) => {
     const target = e.target;
@@ -80,6 +86,11 @@ const IndexGeneratorSideBarOptions = ({
     dispatch(setIndexesData(updatedIndexes))
   }
 
+  const handleIndexInfoClick = (indexData) => {
+    setShowIndexInfoDialog(true)
+    setIndexInfo(indexData)
+  }
+
   return (
     <Box m={2} flexGrow={1}>
       <Stack justifyContent={"space-between"} height={"100%"}>
@@ -90,7 +101,7 @@ const IndexGeneratorSideBarOptions = ({
           <Typography mt={2}>Indexes</Typography>
           <FormGroup>
             {indexesData.map((index) => (
-              <Stack direction={"row"}>
+              <Stack justifyContent={"space-between"} direction={"row"}>
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -100,7 +111,16 @@ const IndexGeneratorSideBarOptions = ({
                   }
                   label={index.name}
                 />
-                {index.formula && <Button onClick={() => handleCustomIndexDelete(index)}>delete</Button>}
+                {index.info && (
+                  <Button onClick={() => handleIndexInfoClick(index)}>
+                    <InfoOutlinedIcon />
+                  </Button>
+                )}
+                {index.formula && (
+                  <Button onClick={() => handleCustomIndexDelete(index)}>
+                    <DeleteOutlineIcon />
+                  </Button>
+                )}
               </Stack>
             ))}
           </FormGroup>
@@ -122,6 +142,11 @@ const IndexGeneratorSideBarOptions = ({
           Generate
         </Button>
       </Stack>
+      <IndexInfoDialog
+        open={showIndexInfoDialog}
+        setShowIndexInfoDialog={setShowIndexInfoDialog}
+        indexData={indexInfo}
+      />
     </Box>
   );
 };
