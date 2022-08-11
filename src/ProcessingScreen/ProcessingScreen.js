@@ -20,7 +20,7 @@ const ProcessingScreen = () => {
   };
 
   const [processingState, setProcessingState] = useState(
-    processingStates.INDEX_GENERATOR
+    processingStates.PRE_STITCHING
   );
 
   const [overlayImageData, setOverlayImageData] = useState(undefined);

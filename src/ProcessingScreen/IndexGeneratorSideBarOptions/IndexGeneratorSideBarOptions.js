@@ -131,7 +131,7 @@ const IndexGeneratorSideBarOptions = ({
             underline={"none"}
             color={"#ffffff"}
           >
-            <Typography mt={2}>Create custom index</Typography>
+            <Typography mt={2} mb={2}>Create custom index</Typography>
           </Link>
         </div>
         <Button
