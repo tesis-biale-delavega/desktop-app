@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { Box, Toolbar } from "@mui/material";
 import SideBar from "../SideBar/SideBar";
 import { useNavigate } from "react-router-dom";
@@ -8,22 +8,23 @@ import IndexVisualizationHeatmapSideBarOptions from "./IndexVisualizationHeatmap
 import "leaflet/dist/leaflet.css";
 import LeafLetMap from "./LeafLetMap/LeafLetMap";
 import CustomIndexCreationSideBarOptions from "./CustomIndexCreationSideBarOptions/CustomIndexCreationSideBarOptions";
+import {useDispatch} from "react-redux";
+import {setProcessState} from "../analysis/analysisSlice";
+import {processingStates} from "../utils/processingStates";
 
 const ProcessingScreen = () => {
   const navigate = useNavigate();
-
-  const processingStates = {
-    PRE_STITCHING: 0,
-    INDEX_GENERATOR: 1,
-    INDEX_VISUALIZATION_HEATMAP: 2,
-    CUSTOM_INDEX_CREATION: 3,
-  };
+  const dispatch = useDispatch()
 
   const [processingState, setProcessingState] = useState(
-    processingStates.PRE_STITCHING
+    processingStates.INDEX_VISUALIZATION_HEATMAP
   );
 
   const [overlayImageData, setOverlayImageData] = useState(undefined);
+
+  useEffect(() => {
+    dispatch(setProcessState(processingState))
+  }, [processingState])
 
   const getSideBarOptions = () => {
     switch (processingState) {

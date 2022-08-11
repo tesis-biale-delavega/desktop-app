@@ -7,6 +7,7 @@ const initialState = {
   projectPath: "",
   generatedIndexes: [],
   indexesData: indexes,
+  processState: undefined
 };
 
 export const analysisSlice = createSlice({
@@ -28,6 +29,9 @@ export const analysisSlice = createSlice({
     setIndexesData: (state, action) => {
       state.indexesData = action.payload;
     },
+    setProcessState: (state, action) => {
+      state.processState = action.payload;
+    },
   },
 });
 
@@ -37,6 +41,7 @@ export const {
   setProjectPath,
   setGeneratedIndexes,
   setIndexesData,
+  setProcessState
 } = analysisSlice.actions;
 
 export default analysisSlice.reducer;
