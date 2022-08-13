@@ -1,10 +1,11 @@
 import {Box, Button, Container} from "@mui/material";
-import {setProjectPath, setStitchingData} from "../../analysis/analysisSlice";
+import {setProcessingState, setProjectPath, setStitchingData} from "../../analysis/analysisSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {useMutation} from "react-query";
 import * as http from "../../utils/http";
+import {processingStates} from "../../utils/processingStates";
 
-const PreStitchingSideBarOptions = ({setOverlayImageData, setProcessingState, processingStates}) => {
+const PreStitchingSideBarOptions = ({setOverlayImageData}) => {
     const dispatch = useDispatch();
     const folderPath = useSelector((state) => state.analysis.folderPath);
 
@@ -23,7 +24,7 @@ const PreStitchingSideBarOptions = ({setOverlayImageData, setProcessingState, pr
                 setOverlayImageData(overlayImageData);
                 dispatch(setStitchingData(res))
                 dispatch(setProjectPath(res.project_path));
-                setProcessingState(processingStates.INDEX_GENERATOR);
+                dispatch(setProcessingState(processingStates.INDEX_GENERATOR));
             },
             onError: (error) => {
                 console.log("error", error);

@@ -14,17 +14,15 @@ import * as http from "../../utils/http";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setGeneratedIndexes,
-  setIndexesData,
+  setIndexesData, setProcessingState,
 } from "../../analysis/analysisSlice";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import {useState} from "react";
 import IndexInfoDialog from "../IndexInfoDialog/IndexInfoDialog";
+import {processingStates} from "../../utils/processingStates";
 
-const IndexGeneratorSideBarOptions = ({
-  setProcessingState,
-  processingStates,
-}) => {
+const IndexGeneratorSideBarOptions = () => {
   const dispatch = useDispatch();
   const projectPath = useSelector((state) => state.analysis.projectPath);
   const indexesData = useSelector((state) => state.analysis.indexesData);
@@ -69,7 +67,7 @@ const IndexGeneratorSideBarOptions = ({
       onSuccess: (res) => {
         console.log("res", res);
         dispatch(setGeneratedIndexes(res));
-        setProcessingState(processingStates.INDEX_VISUALIZATION_HEATMAP);
+        dispatch(setProcessingState(processingStates.INDEX_VISUALIZATION_HEATMAP));
       },
       onError: (error) => {
         console.log("error", error);
@@ -78,7 +76,7 @@ const IndexGeneratorSideBarOptions = ({
   };
 
   const handleCreateCustomIndexClick = () => {
-    setProcessingState(processingStates.CUSTOM_INDEX_CREATION);
+    dispatch(setProcessingState(processingStates.CUSTOM_INDEX_CREATION));
   };
 
   const handleCustomIndexDelete = (indexData) => {

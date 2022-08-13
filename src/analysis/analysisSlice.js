@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {indexes} from "../utils/indexes";
+import {processingStates} from "../utils/processingStates";
 
 const initialState = {
   folderPath: "",
@@ -7,7 +8,7 @@ const initialState = {
   projectPath: "",
   generatedIndexes: [],
   indexesData: indexes,
-  processState: undefined
+  processingState: processingStates.INDEX_VISUALIZATION_HEATMAP
 };
 
 export const analysisSlice = createSlice({
@@ -29,8 +30,8 @@ export const analysisSlice = createSlice({
     setIndexesData: (state, action) => {
       state.indexesData = action.payload;
     },
-    setProcessState: (state, action) => {
-      state.processState = action.payload;
+    setProcessingState: (state, action) => {
+      state.processingState = action.payload;
     },
   },
 });
@@ -41,7 +42,7 @@ export const {
   setProjectPath,
   setGeneratedIndexes,
   setIndexesData,
-  setProcessState
+  setProcessingState
 } = analysisSlice.actions;
 
 export default analysisSlice.reducer;

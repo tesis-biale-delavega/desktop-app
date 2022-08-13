@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useState } from "react";
 import { Box, Toolbar } from "@mui/material";
 import SideBar from "../SideBar/SideBar";
 import { useNavigate } from "react-router-dom";
@@ -8,23 +8,20 @@ import IndexVisualizationHeatmapSideBarOptions from "./IndexVisualizationHeatmap
 import "leaflet/dist/leaflet.css";
 import LeafLetMap from "./LeafLetMap/LeafLetMap";
 import CustomIndexCreationSideBarOptions from "./CustomIndexCreationSideBarOptions/CustomIndexCreationSideBarOptions";
-import {useDispatch} from "react-redux";
-import {setProcessState} from "../analysis/analysisSlice";
-import {processingStates} from "../utils/processingStates";
+import { useDispatch, useSelector } from "react-redux";
+import { processingStates } from "../utils/processingStates";
+import { setProcessingState } from "../analysis/analysisSlice";
+import ComparisonSliderSideBarOptions from "./ComparisonSliderSideBarOptions/ComparisonSliderSideBarOptions";
+import ReactCompareImage from "react-compare-image";
 
 const ProcessingScreen = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
-
-  const [processingState, setProcessingState] = useState(
-    processingStates.INDEX_VISUALIZATION_HEATMAP
+  const dispatch = useDispatch();
+  const processingState = useSelector(
+    (state) => state.analysis.processingState
   );
 
   const [overlayImageData, setOverlayImageData] = useState(undefined);
-
-  useEffect(() => {
-    dispatch(setProcessState(processingState))
-  }, [processingState])
 
   const getSideBarOptions = () => {
     switch (processingState) {
@@ -32,17 +29,10 @@ const ProcessingScreen = () => {
         return (
           <PreStitchingSideBarOptions
             setOverlayImageData={setOverlayImageData}
-            setProcessingState={setProcessingState}
-            processingStates={processingStates}
           />
         );
       case processingStates.INDEX_GENERATOR:
-        return (
-          <IndexGeneratorSideBarOptions
-            setProcessingState={setProcessingState}
-            processingStates={processingStates}
-          />
-        );
+        return <IndexGeneratorSideBarOptions />;
       case processingStates.INDEX_VISUALIZATION_HEATMAP:
         return (
           <IndexVisualizationHeatmapSideBarOptions
@@ -51,12 +41,9 @@ const ProcessingScreen = () => {
           />
         );
       case processingStates.CUSTOM_INDEX_CREATION:
-        return (
-          <CustomIndexCreationSideBarOptions
-            setProcessingState={setProcessingState}
-            processingStates={processingStates}
-          />
-        );
+        return <CustomIndexCreationSideBarOptions />;
+      case processingStates.IMAGE_COMPARISON_SLIDER:
+        return <ComparisonSliderSideBarOptions />;
       default:
         break;
     }
@@ -64,11 +51,11 @@ const ProcessingScreen = () => {
 
   const handleGoBack = () => {
     if (processingState === processingStates.CUSTOM_INDEX_CREATION) {
-      setProcessingState(processingStates.INDEX_GENERATOR);
+      dispatch(setProcessingState(processingStates.INDEX_GENERATOR));
     } else {
       processingState === 0
         ? navigate("/")
-        : setProcessingState(processingState - 1);
+        : dispatch(setProcessingState(processingState - 1));
     }
   };
 
@@ -78,10 +65,21 @@ const ProcessingScreen = () => {
       <SideBar children={getSideBarOptions()} onGoBackClick={handleGoBack} />
       <Box sx={{ flexGrow: 1 }}>
         <Toolbar />
-        <LeafLetMap
-          imageUrl={overlayImageData?.imageUrl}
-          coords={overlayImageData?.coords}
-        />
+        {processingState === processingStates.IMAGE_COMPARISON_SLIDER ? (
+          <ReactCompareImage
+            leftImage={
+              "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823_1280.jpg"
+            }
+            rightImage={
+              "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
+            }
+          />
+        ) : (
+          <LeafLetMap
+            imageUrl={overlayImageData?.imageUrl}
+            coords={overlayImageData?.coords}
+          />
+        )}
       </Box>
     </Box>
   );

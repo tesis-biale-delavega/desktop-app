@@ -3,6 +3,13 @@ const path = require('path');
 const { app, BrowserWindow } = require('electron');
 const isDev = require('electron-is-dev');
 const contextMenu = require('electron-context-menu');
+const { default: installExtension, REDUX_DEVTOOLS } = require('electron-devtools-installer');
+
+app.whenReady().then(() => {
+    installExtension(REDUX_DEVTOOLS)
+        .then((name) => console.log(`Added Extension:  ${name}`))
+        .catch((err) => console.log('An error occurred: ', err));
+});
 
 contextMenu({
     showSaveImageAs: true

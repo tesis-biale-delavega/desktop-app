@@ -8,18 +8,16 @@ import {
 } from "@mui/material";
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {setIndexesData} from "../../analysis/analysisSlice";
+import {setIndexesData, setProcessingState} from "../../analysis/analysisSlice";
+import {processingStates} from "../../utils/processingStates";
 
-const CustomIndexCreationSideBarOptions = ({
-  setProcessingState,
-  processingStates,
-}) => {
+const CustomIndexCreationSideBarOptions = () => {
   const dispatch = useDispatch()
   const indexesData = useSelector(state => state.analysis.indexesData)
   const [customIndexData, setCustomIndexData] = useState(undefined)
 
   const handleCreateClick = () => {
-    setProcessingState(processingStates.INDEX_GENERATOR)
+    dispatch(setProcessingState(processingStates.INDEX_GENERATOR))
     dispatch(setIndexesData([...indexesData, customIndexData]))
   }
 
