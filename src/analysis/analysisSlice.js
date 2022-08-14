@@ -8,7 +8,7 @@ const initialState = {
   projectPath: "",
   generatedIndexes: [],
   indexesData: indexes,
-  processingState: processingStates.INDEX_VISUALIZATION_HEATMAP,
+  processingState: processingStates.PRE_STITCHING,
   availableImageLayers: [],
   compareLayersSlider: undefined
 };

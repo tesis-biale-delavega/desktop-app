@@ -35,7 +35,7 @@ const ImportImagesScreen = () => {
             const folderPath = folderPathSplit.join("/")
 
             dispatch(setFolderPath(folderPath))
-            folderPath && navigate("/pre-stitching")
+            folderPath && navigate("/processing")
         }
     }
 

@@ -1,13 +1,13 @@
 import {
   AppBar,
   Box,
-  createTheme,
+  Container,
   IconButton,
-  ThemeProvider,
+  TextField,
   Toolbar,
+  Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import MenuIcon from "@mui/icons-material/Menu";
 import { useDispatch, useSelector } from "react-redux";
 import { processingStates } from "../utils/processingStates";
 import { useMutation } from "react-query";
@@ -15,14 +15,10 @@ import * as http from "../utils/http";
 import GetAppOutlinedIcon from "@mui/icons-material/GetAppOutlined";
 import CompareIcon from "@mui/icons-material/Compare";
 import { setProcessingState } from "../analysis/analysisSlice";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#383838",
-    },
-  },
-});
+import HomeIcon from "@mui/icons-material/Home";
+import { useState } from "react";
+import EditIcon from "@mui/icons-material/Edit";
+import CheckIcon from "@mui/icons-material/Check";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -32,8 +28,14 @@ const Navbar = () => {
   const projectPath = useSelector((state) => state.analysis.projectPath);
   const dispatch = useDispatch();
 
-  const handleBtnPress = () => {
-    navigate("pre-stitching");
+  const [projectNameEditMode, setProjectNameEditMode] = useState(false);
+
+  const handleHomePress = () => {
+    navigate("/");
+  };
+
+  const handleEditProjectNamePress = () => {
+    setProjectNameEditMode(true);
   };
 
   const exportProjectMutation = useMutation((body) => {
@@ -58,52 +60,78 @@ const Navbar = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <AppBar
-        color={"primary"}
-        position={"fixed"}
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      >
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-            onClick={handleBtnPress}
-          >
-            <MenuIcon />
-          </IconButton>
-          <div>{"Project Name"}</div>
-          {(processingState === processingStates.INDEX_VISUALIZATION_HEATMAP ||
-            processingState === processingStates.IMAGE_COMPARISON_SLIDER) && (
-            <Box ml={"auto"}>
-              {processingState !== processingStates.IMAGE_COMPARISON_SLIDER && (
-                <IconButton
-                  size="large"
-                  edge="start"
-                  color="inherit"
-                  aria-label="export-project"
-                  onClick={handleCompareSliderPress}
-                >
-                  <CompareIcon />
-                </IconButton>
-              )}
+    <AppBar
+      position={"fixed"}
+      sx={{
+        zIndex: (theme) => theme.zIndex.drawer + 1,
+        backgroundColor: "#383838",
+      }}
+    >
+      <Toolbar>
+        <IconButton
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="home"
+          sx={{ mr: 2 }}
+          onClick={handleHomePress}
+        >
+          <HomeIcon />
+        </IconButton>
+        {projectNameEditMode ? (
+          <Box>
+            <TextField value={"Project unnamed"} />
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="confirm"
+              onClick={handleEditProjectNamePress}
+            >
+              <CheckIcon />
+            </IconButton>
+          </Box>
+        ) : (
+          <Container>
+            <Typography>Project unnamed</Typography>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="edit"
+              onClick={handleEditProjectNamePress}
+            >
+              <EditIcon />
+            </IconButton>
+          </Container>
+        )}
+        {(processingState === processingStates.INDEX_VISUALIZATION_HEATMAP ||
+          processingState === processingStates.IMAGE_COMPARISON_SLIDER) && (
+          <Box ml={"auto"}>
+            {processingState !== processingStates.IMAGE_COMPARISON_SLIDER && (
               <IconButton
                 size="large"
                 edge="start"
                 color="inherit"
                 aria-label="export-project"
-                onClick={handleExportProjectPress}
+                onClick={handleCompareSliderPress}
               >
-                <GetAppOutlinedIcon />
+                <CompareIcon />
               </IconButton>
-            </Box>
-          )}
-        </Toolbar>
-      </AppBar>
-    </ThemeProvider>
+            )}
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="export-project"
+              onClick={handleExportProjectPress}
+            >
+              <GetAppOutlinedIcon />
+            </IconButton>
+          </Box>
+        )}
+      </Toolbar>
+    </AppBar>
   );
 };
 
