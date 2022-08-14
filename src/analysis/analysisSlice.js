@@ -8,7 +8,9 @@ const initialState = {
   projectPath: "",
   generatedIndexes: [],
   indexesData: indexes,
-  processingState: processingStates.INDEX_VISUALIZATION_HEATMAP
+  processingState: processingStates.INDEX_VISUALIZATION_HEATMAP,
+  availableImageLayers: [],
+  compareLayersSlider: undefined
 };
 
 export const analysisSlice = createSlice({
@@ -33,6 +35,12 @@ export const analysisSlice = createSlice({
     setProcessingState: (state, action) => {
       state.processingState = action.payload;
     },
+    setAvailableImageLayers: (state, action) => {
+      state.availableImageLayers = action.payload;
+    },
+    setCompareLayersSlider: (state, action) => {
+      state.compareLayersSlider = action.payload;
+    },
   },
 });
 
@@ -42,7 +50,9 @@ export const {
   setProjectPath,
   setGeneratedIndexes,
   setIndexesData,
-  setProcessingState
+  setProcessingState,
+  setAvailableImageLayers,
+  setCompareLayersSlider
 } = analysisSlice.actions;
 
 export default analysisSlice.reducer;

@@ -1,22 +1,42 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
-  Container, FormControl, InputLabel, MenuItem, Select,
+  Container,
+  FormControl,
+  MenuItem,
+  Select,
   Stack,
   Typography,
 } from "@mui/material";
-import {useState} from "react";
+import { useState } from "react";
+import { setCompareLayersSlider } from "../../analysis/analysisSlice";
 
 const ComparisonSliderSideBarOptions = ({
   setOverlayImageData,
   overlayImageData,
 }) => {
-  const generatedIndexes = useSelector(
-    (state) => state.analysis.generatedIndexes
-  );
-  const stitchingData = useSelector((state) => state.analysis.stitchingData);
+  const dispatch = useDispatch();
+  const availableImageLayers = useSelector(state => state.analysis.availableImageLayers)
 
-  const [compareLayers, setCompareLayers] = useState({leftLayer: "Ortho", rightLayer: "FirstIndex"})
+  const [compareLayers, setCompareLayers] = useState({
+    leftLayer: availableImageLayers?.[0],
+    rightLayer: availableImageLayers?.[1],
+  });
+
+  const handleLayerChange = (e, isLeftLayer) => {
+    const value = e.target.value;
+    const layer = availableImageLayers.find(
+      (layer) => layer.imageUrl === value
+    );
+    const newCompareLayers = isLeftLayer
+      ? { ...compareLayers, leftLayer: layer }
+      : {
+          ...compareLayers,
+          rightLayer: layer,
+        };
+    dispatch(setCompareLayersSlider(newCompareLayers));
+    setCompareLayers(newCompareLayers);
+  };
 
   return (
     <Box flexGrow={1}>
@@ -32,18 +52,26 @@ const ComparisonSliderSideBarOptions = ({
               <Typography mb={2} color={"#A4A4A4"}>
                 Left layer
               </Typography>
-              <Select value={compareLayers.leftLayer}>
-                <MenuItem value={"Ortho"}>Ortho</MenuItem>
-                <MenuItem value={"FirstIndex"}>FirstIndex</MenuItem>
+              <Select
+                value={compareLayers.leftLayer?.imageUrl}
+                onChange={(e) => handleLayerChange(e, true)}
+              >
+                {availableImageLayers.map((layer) => (
+                  <MenuItem value={layer.imageUrl}>{layer.name}</MenuItem>
+                ))}
               </Select>
             </FormControl>
             <FormControl fullWidth margin={"normal"}>
               <Typography mb={2} color={"#A4A4A4"}>
                 Right layer
               </Typography>
-              <Select value={compareLayers.rightLayer}>
-                <MenuItem value={"Ortho"}>Ortho</MenuItem>
-                <MenuItem value={"FirstIndex"}>FirstIndex</MenuItem>
+              <Select
+                value={compareLayers.rightLayer?.imageUrl}
+                onChange={(e) => handleLayerChange(e, false)}
+              >
+                {availableImageLayers.map((layer) => (
+                  <MenuItem value={layer.imageUrl}>{layer.name}</MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Box>

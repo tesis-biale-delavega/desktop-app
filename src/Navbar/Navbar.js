@@ -76,32 +76,31 @@ const Navbar = () => {
             <MenuIcon />
           </IconButton>
           <div>{"Project Name"}</div>
-          {processingState === processingStates.INDEX_VISUALIZATION_HEATMAP ||
-            (processingState === processingStates.IMAGE_COMPARISON_SLIDER && (
-              <Box ml={"auto"}>
-                {processingState !==
-                  processingStates.IMAGE_COMPARISON_SLIDER && (
-                  <IconButton
-                    size="large"
-                    edge="start"
-                    color="inherit"
-                    aria-label="export-project"
-                    onClick={handleCompareSliderPress}
-                  >
-                    <CompareIcon />
-                  </IconButton>
-                )}
+          {(processingState === processingStates.INDEX_VISUALIZATION_HEATMAP ||
+            processingState === processingStates.IMAGE_COMPARISON_SLIDER) && (
+            <Box ml={"auto"}>
+              {processingState !== processingStates.IMAGE_COMPARISON_SLIDER && (
                 <IconButton
                   size="large"
                   edge="start"
                   color="inherit"
                   aria-label="export-project"
-                  onClick={handleExportProjectPress}
+                  onClick={handleCompareSliderPress}
                 >
-                  <GetAppOutlinedIcon />
+                  <CompareIcon />
                 </IconButton>
-              </Box>
-            ))}
+              )}
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="export-project"
+                onClick={handleExportProjectPress}
+              >
+                <GetAppOutlinedIcon />
+              </IconButton>
+            </Box>
+          )}
         </Toolbar>
       </AppBar>
     </ThemeProvider>

@@ -12,13 +12,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { processingStates } from "../utils/processingStates";
 import { setProcessingState } from "../analysis/analysisSlice";
 import ComparisonSliderSideBarOptions from "./ComparisonSliderSideBarOptions/ComparisonSliderSideBarOptions";
-import ReactCompareImage from "react-compare-image";
+import {
+  ReactCompareSlider,
+  ReactCompareSliderImage,
+} from "react-compare-slider";
 
 const ProcessingScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const processingState = useSelector(
     (state) => state.analysis.processingState
+  );
+  const compareLayersSlider = useSelector(
+    (state) => state.analysis.compareLayersSlider
   );
 
   const [overlayImageData, setOverlayImageData] = useState(undefined);
@@ -66,12 +72,18 @@ const ProcessingScreen = () => {
       <Box sx={{ flexGrow: 1 }}>
         <Toolbar />
         {processingState === processingStates.IMAGE_COMPARISON_SLIDER ? (
-          <ReactCompareImage
-            leftImage={
-              "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823_1280.jpg"
+          <ReactCompareSlider
+            itemOne={
+              <ReactCompareSliderImage
+                src={"file://" + compareLayersSlider?.leftLayer?.imageUrl}
+                style={{ objectFit: "contain", backgroundColor: "#535353" }}
+              />
             }
-            rightImage={
-              "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
+            itemTwo={
+              <ReactCompareSliderImage
+                src={"file://" + compareLayersSlider?.rightLayer?.imageUrl}
+                style={{ objectFit: "contain", backgroundColor: "#535353" }}
+              />
             }
           />
         ) : (

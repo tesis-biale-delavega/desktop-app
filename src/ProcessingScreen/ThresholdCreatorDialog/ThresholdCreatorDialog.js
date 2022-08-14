@@ -12,8 +12,6 @@ const ThresholdCreatorDialog = ({ isOpen, handleClose, layerData, availableLayer
     setValue(newValue);
   };
 
-  console.log("data", layerData);
-
   const thresholdMutation = useMutation((body) => {
     return http.post(`threshold`, body);
   });

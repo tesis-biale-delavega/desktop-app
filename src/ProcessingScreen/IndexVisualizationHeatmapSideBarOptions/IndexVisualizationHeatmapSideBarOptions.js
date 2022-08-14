@@ -9,14 +9,16 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import ThresholdCreatorDialog from "../ThresholdCreatorDialog/ThresholdCreatorDialog";
+import { setAvailableImageLayers } from "../../analysis/analysisSlice";
 
 const IndexVisualizationHeatmapSideBarOptions = ({
   setOverlayImageData,
   overlayImageData,
 }) => {
+  const dispatch = useDispatch();
   const generatedIndexes = useSelector(
     (state) => state.analysis.generatedIndexes
   );
@@ -31,11 +33,22 @@ const IndexVisualizationHeatmapSideBarOptions = ({
   ];
   const generatedIndexesArray = Object.entries(generatedIndexes).map(
     (index) => {
-      return { name: index[0].toUpperCase(), imageUrl: index[1]?.img, imageVector: index[1]?.vector };
+      return {
+        name: index[0].toUpperCase(),
+        imageUrl: index[1]?.img,
+        imageVector: index[1]?.vector,
+      };
     }
   );
 
-  const [availableLayers, setAvailableLayers] = useState([...defaultLayers, ...generatedIndexesArray]);
+  const [availableLayers, setAvailableLayers] = useState([
+    ...defaultLayers,
+    ...generatedIndexesArray,
+  ]);
+
+  useEffect(() => {
+    dispatch(setAvailableImageLayers(availableLayers));
+  }, [availableLayers]);
 
   const handleCreateThresholdClick = () => {
     setShowThresholdDialog(true);
@@ -87,7 +100,9 @@ const IndexVisualizationHeatmapSideBarOptions = ({
             color={"#ffffff"}
             disabled={!overlayImageData?.imageVector}
           >
-            <Typography mt={2} ml={2}>Create threshold</Typography>
+            <Typography mt={2} ml={2}>
+              Create threshold
+            </Typography>
           </Link>
         </div>
       </Stack>
