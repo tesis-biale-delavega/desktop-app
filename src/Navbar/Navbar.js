@@ -1,20 +1,20 @@
 import {
   AppBar,
   Box,
-  Container,
   IconButton,
+  Stack,
   TextField,
   Toolbar,
   Typography,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { processingStates } from "../utils/processingStates";
 import { useMutation } from "react-query";
 import * as http from "../utils/http";
 import GetAppOutlinedIcon from "@mui/icons-material/GetAppOutlined";
 import CompareIcon from "@mui/icons-material/Compare";
-import { setProcessingState } from "../analysis/analysisSlice";
+import { setProcessingState, setProjectName } from "../analysis/analysisSlice";
 import HomeIcon from "@mui/icons-material/Home";
 import { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
@@ -22,20 +22,19 @@ import CheckIcon from "@mui/icons-material/Check";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const location = useLocation()
   const processingState = useSelector(
     (state) => state.analysis.processingState
   );
   const projectPath = useSelector((state) => state.analysis.projectPath);
-  const dispatch = useDispatch();
+  const projectName = useSelector((state) => state.analysis.projectName);
 
   const [projectNameEditMode, setProjectNameEditMode] = useState(false);
+  const [temporalProjectName, setTemporalProjectName] = useState(projectName);
 
   const handleHomePress = () => {
     navigate("/");
-  };
-
-  const handleEditProjectNamePress = () => {
-    setProjectNameEditMode(true);
   };
 
   const exportProjectMutation = useMutation((body) => {
@@ -59,6 +58,20 @@ const Navbar = () => {
     dispatch(setProcessingState(processingStates.IMAGE_COMPARISON_SLIDER));
   };
 
+  const handleEditProjectNamePress = () => {
+    setProjectNameEditMode(true);
+  };
+
+  const handleProjectNameChange = (e) => {
+    const value = e.target.value;
+    setTemporalProjectName(value);
+  };
+
+  const handleConfirmEditProjectName = () => {
+    dispatch(setProjectName(temporalProjectName));
+    setProjectNameEditMode(false);
+  };
+
   return (
     <AppBar
       position={"fixed"}
@@ -78,32 +91,41 @@ const Navbar = () => {
         >
           <HomeIcon />
         </IconButton>
-        {projectNameEditMode ? (
-          <Box>
-            <TextField value={"Project unnamed"} />
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="confirm"
-              onClick={handleEditProjectNamePress}
-            >
-              <CheckIcon />
-            </IconButton>
-          </Box>
-        ) : (
-          <Container>
-            <Typography>Project unnamed</Typography>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="edit"
-              onClick={handleEditProjectNamePress}
-            >
-              <EditIcon />
-            </IconButton>
-          </Container>
+        {(location.pathname === "/processing" && processingState === processingStates.PRE_STITCHING) && (
+          <>
+            {projectNameEditMode ? (
+              <Box>
+                <TextField
+                  value={temporalProjectName}
+                  onChange={handleProjectNameChange}
+                />
+                <IconButton
+                  size="large"
+                  edge="start"
+                  color="inherit"
+                  aria-label="confirm"
+                  onClick={handleConfirmEditProjectName}
+                  sx={{ ml: 1 }}
+                >
+                  <CheckIcon />
+                </IconButton>
+              </Box>
+            ) : (
+              <Stack direction={"row"} alignItems={"center"}>
+                <Typography>{temporalProjectName}</Typography>
+                <IconButton
+                  size="large"
+                  edge="start"
+                  color="inherit"
+                  aria-label="edit"
+                  onClick={handleEditProjectNamePress}
+                  sx={{ ml: 1 }}
+                >
+                  <EditIcon />
+                </IconButton>
+              </Stack>
+            )}
+          </>
         )}
         {(processingState === processingStates.INDEX_VISUALIZATION_HEATMAP ||
           processingState === processingStates.IMAGE_COMPARISON_SLIDER) && (

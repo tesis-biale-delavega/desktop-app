@@ -2,6 +2,8 @@ import { Button, Paper, Stack, Toolbar, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import AddIcon from "@mui/icons-material/Add";
+import {useDispatch} from "react-redux";
+import {setProjectName} from "../analysis/analysisSlice";
 
 const createProjectSX = {
     marginTop: 2,
@@ -19,8 +21,10 @@ const createProjectSX = {
 
 const ProjectsListScreen = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   const handleCreateProject = () => {
+      dispatch(setProjectName("Project unnamed"))
       navigate("/processing")
   }
 

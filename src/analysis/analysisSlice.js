@@ -5,6 +5,7 @@ import {processingStates} from "../utils/processingStates";
 const initialState = {
   folderPath: "",
   stitchingData: undefined,
+  projectName: "Project unnamed",
   projectPath: "",
   generatedIndexes: [],
   indexesData: indexes,
@@ -41,6 +42,9 @@ export const analysisSlice = createSlice({
     setCompareLayersSlider: (state, action) => {
       state.compareLayersSlider = action.payload;
     },
+    setProjectName: (state, action) => {
+      state.projectName = action.payload;
+    },
   },
 });
 
@@ -52,7 +56,8 @@ export const {
   setIndexesData,
   setProcessingState,
   setAvailableImageLayers,
-  setCompareLayersSlider
+  setCompareLayersSlider,
+  setProjectName
 } = analysisSlice.actions;
 
 export default analysisSlice.reducer;
