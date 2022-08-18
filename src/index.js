@@ -13,7 +13,7 @@ import reportWebVitals from "./reportWebVitals";
 
 const themeOptions = {
   palette: {
-    type: "light",
+    mode: "dark",
     primary: {
       main: "#b7821d",
     },

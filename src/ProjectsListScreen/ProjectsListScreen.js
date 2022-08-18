@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import React from "react";
 import AddIcon from "@mui/icons-material/Add";
 import {useDispatch} from "react-redux";
-import {setProjectName} from "../analysis/analysisSlice";
+import {setProjectFolderAlreadyCreated, setProjectName} from "../analysis/analysisSlice";
 
 const createProjectSX = {
     marginTop: 2,
@@ -25,7 +25,8 @@ const ProjectsListScreen = () => {
 
   const handleCreateProject = () => {
       dispatch(setProjectName("Project unnamed"))
-      navigate("/processing")
+      dispatch(setProjectFolderAlreadyCreated(false));
+      navigate("/import-images")
   }
 
   return (

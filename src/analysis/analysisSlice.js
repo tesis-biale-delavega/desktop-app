@@ -11,7 +11,8 @@ const initialState = {
   indexesData: indexes,
   processingState: processingStates.PRE_STITCHING,
   availableImageLayers: [],
-  compareLayersSlider: undefined
+  compareLayersSlider: undefined,
+  projectFolderAlreadyCreated: false
 };
 
 export const analysisSlice = createSlice({
@@ -45,6 +46,9 @@ export const analysisSlice = createSlice({
     setProjectName: (state, action) => {
       state.projectName = action.payload;
     },
+    setProjectFolderAlreadyCreated: (state, action) => {
+      state.projectFolderAlreadyCreated = action.payload;
+    },
   },
 });
 
@@ -57,7 +61,8 @@ export const {
   setProcessingState,
   setAvailableImageLayers,
   setCompareLayersSlider,
-  setProjectName
+  setProjectName,
+  setProjectFolderAlreadyCreated
 } = analysisSlice.actions;
 
 export default analysisSlice.reducer;

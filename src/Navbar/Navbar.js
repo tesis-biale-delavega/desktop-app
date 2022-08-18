@@ -29,9 +29,10 @@ const Navbar = () => {
   );
   const projectPath = useSelector((state) => state.analysis.projectPath);
   const projectName = useSelector((state) => state.analysis.projectName);
+  const projectFolderAlreadyCreated = useSelector((state) => state.analysis.projectFolderAlreadyCreated);
 
   const [projectNameEditMode, setProjectNameEditMode] = useState(false);
-  const [temporalProjectName, setTemporalProjectName] = useState(projectName);
+  const [temporalProjectName, setTemporalProjectName] = useState(projectName ? projectName : "");
 
   const handleHomePress = () => {
     navigate("/");
@@ -91,42 +92,45 @@ const Navbar = () => {
         >
           <HomeIcon />
         </IconButton>
-        {(location.pathname === "/processing" && processingState === processingStates.PRE_STITCHING) && (
-          <>
-            {projectNameEditMode ? (
-              <Box>
-                <TextField
-                  value={temporalProjectName}
-                  onChange={handleProjectNameChange}
-                />
-                <IconButton
-                  size="large"
-                  edge="start"
-                  color="inherit"
-                  aria-label="confirm"
-                  onClick={handleConfirmEditProjectName}
-                  sx={{ ml: 1 }}
-                >
-                  <CheckIcon />
-                </IconButton>
-              </Box>
-            ) : (
-              <Stack direction={"row"} alignItems={"center"}>
-                <Typography>{temporalProjectName}</Typography>
-                <IconButton
-                  size="large"
-                  edge="start"
-                  color="inherit"
-                  aria-label="edit"
-                  onClick={handleEditProjectNamePress}
-                  sx={{ ml: 1 }}
-                >
-                  <EditIcon />
-                </IconButton>
-              </Stack>
-            )}
-          </>
-        )}
+        {(location.pathname === "/processing" || location.pathname === "/import-images") && (
+            <>
+              {projectNameEditMode && !projectFolderAlreadyCreated ? (
+                <Stack direction={"row"} alignItems={"center"}>
+                  <TextField
+                    value={temporalProjectName}
+                    onChange={handleProjectNameChange}
+                    size={"small"}
+                  />
+                  <IconButton
+                    size="large"
+                    edge="start"
+                    color="inherit"
+                    aria-label="confirm"
+                    onClick={handleConfirmEditProjectName}
+                    sx={{ ml: 1 }}
+                  >
+                    <CheckIcon />
+                  </IconButton>
+                </Stack>
+              ) : (
+                <Stack direction={"row"} alignItems={"center"}>
+                  <Typography>{temporalProjectName}</Typography>
+                  {!projectFolderAlreadyCreated &&
+                    <IconButton
+                      size="large"
+                      edge="start"
+                      color="inherit"
+                      aria-label="edit"
+                      onClick={handleEditProjectNamePress}
+                      sx={{ ml: 1 }}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                  }
+                </Stack>
+              )}
+            </>
+          )}
         {(processingState === processingStates.INDEX_VISUALIZATION_HEATMAP ||
           processingState === processingStates.IMAGE_COMPARISON_SLIDER) && (
           <Box ml={"auto"}>

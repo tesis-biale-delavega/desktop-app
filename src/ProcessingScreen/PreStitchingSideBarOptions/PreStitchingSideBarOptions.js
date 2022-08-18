@@ -1,6 +1,7 @@
 import { Box, Button, Container } from "@mui/material";
 import {
   setProcessingState,
+  setProjectFolderAlreadyCreated,
   setProjectPath,
   setStitchingData,
 } from "../../analysis/analysisSlice";
@@ -33,6 +34,7 @@ const PreStitchingSideBarOptions = ({ setOverlayImageData }) => {
         dispatch(setStitchingData(res));
         dispatch(setProjectPath(res.project_path));
         dispatch(setProcessingState(processingStates.INDEX_GENERATOR));
+        dispatch(setProjectFolderAlreadyCreated(true));
       },
       onError: (error) => {
         console.log("error", error);
