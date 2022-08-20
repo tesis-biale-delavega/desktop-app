@@ -18,11 +18,11 @@ import {
 } from "../analysis/analysisSlice";
 
 const createProjectSX = {
-  marginTop: 2,
   borderStyle: "dashed",
   borderColor: "#fff",
-  width: "16%",
   color: "#fff",
+  minHeight: "110px",
+  minWidth: "298px",
   textTransform: "unset",
   "&:hover": {
     borderStyle: "dashed",
@@ -48,6 +48,24 @@ const ProjectsListScreen = () => {
       orthophoto_path:
         "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
     },
+    {
+      name: "Project unnamed 2",
+      date: 628021800000,
+      orthophoto_path:
+          "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
+    },
+    {
+      name: "Project unnamed 3",
+      date: 628021800000,
+      orthophoto_path:
+          "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
+    },
+    {
+      name: "Project unnamed 4",
+      date: 628021800000,
+      orthophoto_path:
+          "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
+    },
   ];
 
   return (
@@ -55,34 +73,49 @@ const ProjectsListScreen = () => {
       <Toolbar />
       <Stack m={10}>
         <Typography>Local Projects</Typography>
-        <Stack direction={"row"}>
+        <Stack direction={"row"} alignItems={"center"} mt={2} flexWrap={"wrap"} gap={"30px"}>
           <Button
             variant={"outlined"}
             sx={createProjectSX}
             onClick={handleCreateProject}
           >
-            <AddIcon />
             <Typography ml={2}>Create Project</Typography>
+            <AddIcon />
           </Button>
           {list.map((project) => (
-            <Card sx={{ml: 2 }}>
-              <CardActionArea sx={{display: "flex"}}>
+            <Card
+              sx={{
+                ml: 2,
+                bgcolor: "#7B7B7B",
+                borderRadius: 4,
+                height: "110px",
+                width: "298px",
+              }}
+               elevation={4}
+            >
+              <CardActionArea sx={{ display: "flex" }}>
                 <CardContent sx={{ flex: "1 0 auto" }}>
-                  <Typography component="div" variant="h5">
-                    {project.name}
-                  </Typography>
-                  <Typography
-                    variant="subtitle1"
-                    color="text.secondary"
-                    component="div"
+                  <Stack
+                    direction={"column"}
+                    alignItems={"space-between"}
+                    sx={{ width: "100%" }}
                   >
-                    {new Date(project.date).toLocaleDateString()}
-                  </Typography>
+                    <Typography component="div" variant="body1">
+                      {project.name}
+                    </Typography>
+                    <Typography
+                      variant="subtitle1"
+                      color="text.secondary"
+                      component="div"
+                    >
+                      {new Date(project.date).toLocaleDateString()}
+                    </Typography>
+                  </Stack>
                 </CardContent>
                 <CardMedia
                   sx={{
-                    height: 110,
-                    width: 115,
+                    height: "110px",
+                    width: "35%",
                     backgroundSize: "contain",
                     bgcolor: "#AEAEAE",
                   }}
