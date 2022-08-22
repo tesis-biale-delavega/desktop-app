@@ -20,10 +20,13 @@ import {
 const createProjectSX = {
   borderStyle: "dashed",
   borderColor: "#fff",
+  borderRadius: 4,
   color: "#fff",
   minHeight: "110px",
   minWidth: "298px",
   textTransform: "unset",
+  display: "flex",
+  justifyContent: "space-evenly",
   "&:hover": {
     borderStyle: "dashed",
     borderColor: "#fff",
@@ -41,7 +44,7 @@ const ProjectsListScreen = () => {
     navigate("/import-images");
   };
 
-  const list = [
+  const localProjectsList = [
     {
       name: "Project unnamed 1",
       date: 628021800000,
@@ -52,28 +55,99 @@ const ProjectsListScreen = () => {
       name: "Project unnamed 2",
       date: 628021800000,
       orthophoto_path:
-          "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
+        "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
     },
     {
       name: "Project unnamed 3",
       date: 628021800000,
       orthophoto_path:
-          "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
+        "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
     },
     {
       name: "Project unnamed 4",
+      date: 628021800000,
+      orthophoto_path:
+        "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
+    },
+  ];
+
+  const cloudProjectsList = [
+    {
+      name: "Project unnamed 5",
+      date: 628021800000,
+      orthophoto_path:
+        "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
+    },
+    {
+      name: "Project unnamed 6",
+      date: 628021800000,
+      orthophoto_path:
+        "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
+    },
+    {
+      name: "Project unnamed 5",
       date: 628021800000,
       orthophoto_path:
           "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
     },
   ];
 
+  const ProjectListItem = ({ project }) => {
+    return (
+      <Card
+        sx={{
+          bgcolor: "#7B7B7B",
+          borderRadius: 4,
+          height: "110px",
+          width: "298px",
+        }}
+        elevation={4}
+      >
+        <CardActionArea sx={{ display: "flex" }}>
+          <CardContent sx={{ flex: "1 0 auto" }}>
+            <Stack
+              direction={"column"}
+              alignItems={"space-between"}
+              sx={{ width: "100%" }}
+            >
+              <Typography component="div" variant="body1">
+                {project.name}
+              </Typography>
+              <Typography
+                variant="subtitle1"
+                color="text.secondary"
+                component="div"
+              >
+                {new Date(project.date).toLocaleDateString()}
+              </Typography>
+            </Stack>
+          </CardContent>
+          <CardMedia
+            sx={{
+              height: "110px",
+              width: "35%",
+              backgroundSize: "contain",
+              bgcolor: "#AEAEAE",
+            }}
+            image={"file://" + project.orthophoto_path}
+          />
+        </CardActionArea>
+      </Card>
+    );
+  };
+
   return (
-    <Stack sx={{ backgroundColor: "#535353", height: "100%" }}>
+    <Stack >
       <Toolbar />
-      <Stack m={10}>
+      <Stack m={5}>
         <Typography>Local Projects</Typography>
-        <Stack direction={"row"} alignItems={"center"} mt={2} flexWrap={"wrap"} gap={"30px"}>
+        <Stack
+          direction={"row"}
+          alignItems={"center"}
+          mt={2}
+          flexWrap={"wrap"}
+          gap={"45px"}
+        >
           <Button
             variant={"outlined"}
             sx={createProjectSX}
@@ -82,52 +156,26 @@ const ProjectsListScreen = () => {
             <Typography ml={2}>Create Project</Typography>
             <AddIcon />
           </Button>
-          {list.map((project) => (
-            <Card
-              sx={{
-                ml: 2,
-                bgcolor: "#7B7B7B",
-                borderRadius: 4,
-                height: "110px",
-                width: "298px",
-              }}
-               elevation={4}
-            >
-              <CardActionArea sx={{ display: "flex" }}>
-                <CardContent sx={{ flex: "1 0 auto" }}>
-                  <Stack
-                    direction={"column"}
-                    alignItems={"space-between"}
-                    sx={{ width: "100%" }}
-                  >
-                    <Typography component="div" variant="body1">
-                      {project.name}
-                    </Typography>
-                    <Typography
-                      variant="subtitle1"
-                      color="text.secondary"
-                      component="div"
-                    >
-                      {new Date(project.date).toLocaleDateString()}
-                    </Typography>
-                  </Stack>
-                </CardContent>
-                <CardMedia
-                  sx={{
-                    height: "110px",
-                    width: "35%",
-                    backgroundSize: "contain",
-                    bgcolor: "#AEAEAE",
-                  }}
-                  image={"file://" + project.orthophoto_path}
-                />
-              </CardActionArea>
-            </Card>
+          {localProjectsList.map((project) => (
+            <ProjectListItem project={project} />
           ))}
         </Stack>
       </Stack>
-      <Stack m={10}>
+      <Stack m={5}>
         <Typography>Cloud Projects</Typography>
+        {cloudProjectsList.length > 0 ?
+          <Stack
+            direction={"row"}
+            alignItems={"center"}
+            mt={2}
+            flexWrap={"wrap"}
+            gap={"45px"}
+          >
+            {cloudProjectsList.map((project) => (
+              <ProjectListItem project={project} />
+            ))}
+          </Stack> : <Typography mt={2} variant={"body1"}>No projects to show</Typography>
+        }
       </Stack>
     </Stack>
   );
