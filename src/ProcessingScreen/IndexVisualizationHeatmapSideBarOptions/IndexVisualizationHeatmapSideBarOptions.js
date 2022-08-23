@@ -60,7 +60,8 @@ const IndexVisualizationHeatmapSideBarOptions = ({
 
   const onLayerClick = (layerData) => {
     const newOverlayImageData = {
-      coords: overlayImageData.coords,
+      centerCoords: overlayImageData.centerCoords,
+      imageCoords: overlayImageData.imageCoords,
       imageUrl: layerData.imageUrl,
       imageVector: layerData.imageVector,
       name: layerData.name,

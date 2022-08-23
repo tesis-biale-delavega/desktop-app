@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Toolbar } from "@mui/material";
 import SideBar from "../SideBar/SideBar";
 import { useNavigate } from "react-router-dom";
@@ -28,6 +28,10 @@ const ProcessingScreen = () => {
   );
 
   const [overlayImageData, setOverlayImageData] = useState(undefined);
+
+  useEffect(() => {
+    dispatch(setProcessingState(processingStates.PRE_STITCHING));
+  }, []);
 
   const getSideBarOptions = () => {
     switch (processingState) {
@@ -89,7 +93,8 @@ const ProcessingScreen = () => {
         ) : (
           <LeafLetMap
             imageUrl={overlayImageData?.imageUrl}
-            coords={overlayImageData?.coords}
+            imageCoords={overlayImageData?.imageCoords}
+            centerCoords={overlayImageData?.centerCoords}
           />
         )}
       </Box>

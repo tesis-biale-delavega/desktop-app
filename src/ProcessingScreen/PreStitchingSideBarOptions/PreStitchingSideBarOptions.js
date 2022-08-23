@@ -28,7 +28,8 @@ const PreStitchingSideBarOptions = ({ setOverlayImageData }) => {
       onSuccess: (res) => {
         const overlayImageData = {
           imageUrl: res.orthophoto_path,
-          coords: res.coords.rgb_points,
+          centerCoords: [res.coords.avg_rgb_lat, res.coords.avg_rgb_long],
+          imageCoords: res.coords.rgb_points,
         };
         setOverlayImageData(overlayImageData);
         dispatch(setStitchingData(res));
