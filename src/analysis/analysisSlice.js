@@ -5,7 +5,7 @@ import {processingStates} from "../utils/processingStates";
 const initialState = {
   folderPath: "",
   stitchingData: undefined,
-  projectName: "Project unnamed",
+  projectName: "Proyecto sin nombre",
   projectPath: "",
   generatedIndexes: [],
   indexesData: indexes,

@@ -94,9 +94,9 @@ const IndexGeneratorSideBarOptions = () => {
       <Stack justifyContent={"space-between"} height={"100%"}>
         <div>
           <Container>
-            <Typography align={"center"}>Index Generator</Typography>
+            <Typography align={"center"}>Generador de Indices</Typography>
           </Container>
-          <Typography mt={2}>Indexes</Typography>
+          <Typography mt={2}>Indices</Typography>
           <FormGroup>
             {indexesData.map((index) => (
               <Stack justifyContent={"space-between"} direction={"row"}>
@@ -129,7 +129,7 @@ const IndexGeneratorSideBarOptions = () => {
             underline={"none"}
             color={"#ffffff"}
           >
-            <Typography mt={2} mb={2}>Create custom index</Typography>
+            <Typography mt={2} mb={2}>Crear indice personalizado</Typography>
           </Link>
         </div>
         <Button
@@ -137,7 +137,7 @@ const IndexGeneratorSideBarOptions = () => {
           size={"small"}
           onClick={onGenerateIndexesPress}
         >
-          Generate
+          Generar
         </Button>
       </Stack>
       <IndexInfoDialog

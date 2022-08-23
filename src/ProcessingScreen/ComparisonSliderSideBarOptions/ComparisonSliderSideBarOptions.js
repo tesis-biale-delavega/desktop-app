@@ -44,13 +44,13 @@ const ComparisonSliderSideBarOptions = ({
         <div>
           <Container>
             <Typography mt={2} align={"center"}>
-              Comparison Slider
+              Slider Comparativo
             </Typography>
           </Container>
           <Box m={2}>
             <FormControl fullWidth>
               <Typography mb={2} color={"#A4A4A4"}>
-                Left layer
+                Capa izquierda
               </Typography>
               <Select
                 value={compareLayers.leftLayer?.imageUrl}
@@ -63,7 +63,7 @@ const ComparisonSliderSideBarOptions = ({
             </FormControl>
             <FormControl fullWidth margin={"normal"}>
               <Typography mb={2} color={"#A4A4A4"}>
-                Right layer
+                Capa derecha
               </Typography>
               <Select
                 value={compareLayers.rightLayer?.imageUrl}

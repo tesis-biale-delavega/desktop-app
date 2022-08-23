@@ -51,7 +51,7 @@ const PreStitchingSideBarOptions = ({ setOverlayImageData }) => {
           size={"small"}
           onClick={handleStartProcessing}
         >
-          Start processing
+          Empezar procesamiento
         </Button>
       </Container>
     </Box>

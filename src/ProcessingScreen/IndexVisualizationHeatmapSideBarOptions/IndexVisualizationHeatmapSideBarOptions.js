@@ -75,11 +75,11 @@ const IndexVisualizationHeatmapSideBarOptions = ({
         <div>
           <Container>
             <Typography mt={2} align={"center"}>
-              Heatmap
+              Mapa de calor
             </Typography>
           </Container>
           <Typography mt={2} ml={2} color={"#A4A4A4"}>
-            Layers
+            Capas
           </Typography>
           <List>
             {availableLayers.map((layer) => (
@@ -102,7 +102,7 @@ const IndexVisualizationHeatmapSideBarOptions = ({
             disabled={!overlayImageData?.imageVector}
           >
             <Typography mt={2} ml={2}>
-              Create threshold
+              Crear threshold
             </Typography>
           </Link>
         </div>

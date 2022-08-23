@@ -39,32 +39,32 @@ const ProjectsListScreen = () => {
   const dispatch = useDispatch();
 
   const handleCreateProject = () => {
-    dispatch(setProjectName("Project unnamed"));
+    dispatch(setProjectName("Proyecto sin nombre"));
     dispatch(setProjectFolderAlreadyCreated(false));
     navigate("/import-images");
   };
 
   const localProjectsList = [
     {
-      name: "Project unnamed 1",
+      name: "Proyecto sin nombre 1",
       date: 628021800000,
       orthophoto_path:
         "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
     },
     {
-      name: "Project unnamed 2",
+      name: "Proyecto sin nombre 2",
       date: 628021800000,
       orthophoto_path:
         "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
     },
     {
-      name: "Project unnamed 3",
+      name: "Proyecto sin nombre 3",
       date: 628021800000,
       orthophoto_path:
         "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
     },
     {
-      name: "Project unnamed 4",
+      name: "Proyecto sin nombre 4",
       date: 628021800000,
       orthophoto_path:
         "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
@@ -73,19 +73,19 @@ const ProjectsListScreen = () => {
 
   const cloudProjectsList = [
     {
-      name: "Project unnamed 5",
+      name: "Proyecto sin nombre 5",
       date: 628021800000,
       orthophoto_path:
         "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
     },
     {
-      name: "Project unnamed 6",
+      name: "Proyecto sin nombre 6",
       date: 628021800000,
       orthophoto_path:
         "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
     },
     {
-      name: "Project unnamed 5",
+      name: "Proyecto sin nombre 5",
       date: 628021800000,
       orthophoto_path:
           "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
@@ -140,7 +140,7 @@ const ProjectsListScreen = () => {
     <Stack >
       <Toolbar />
       <Stack m={5}>
-        <Typography>Local Projects</Typography>
+        <Typography>Proyectos Locales</Typography>
         <Stack
           direction={"row"}
           alignItems={"center"}
@@ -153,7 +153,7 @@ const ProjectsListScreen = () => {
             sx={createProjectSX}
             onClick={handleCreateProject}
           >
-            <Typography ml={2}>Create Project</Typography>
+            <Typography ml={2}>Crear Proyecto</Typography>
             <AddIcon />
           </Button>
           {localProjectsList.map((project) => (
@@ -162,7 +162,7 @@ const ProjectsListScreen = () => {
         </Stack>
       </Stack>
       <Stack m={5}>
-        <Typography>Cloud Projects</Typography>
+        <Typography>Proyectos en la Nube</Typography>
         {cloudProjectsList.length > 0 ?
           <Stack
             direction={"row"}
@@ -174,7 +174,7 @@ const ProjectsListScreen = () => {
             {cloudProjectsList.map((project) => (
               <ProjectListItem project={project} />
             ))}
-          </Stack> : <Typography mt={2} variant={"body1"}>No projects to show</Typography>
+          </Stack> : <Typography mt={2} variant={"body1"}>No hay proyectos para mostrar</Typography>
         }
       </Stack>
     </Stack>

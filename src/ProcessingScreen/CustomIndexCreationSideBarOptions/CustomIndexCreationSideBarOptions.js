@@ -26,9 +26,9 @@ const CustomIndexCreationSideBarOptions = () => {
       <Stack justifyContent={"space-between"} height={"100%"}>
         <div>
           <Container>
-            <Typography>Custom Index Creator</Typography>
+            <Typography>Indice Personalizado</Typography>
           </Container>
-          <Typography mt={2}>Index</Typography>
+          <Typography mt={2}>Indice</Typography>
           <TextField
             id="standard-basic"
             label="Index name"
@@ -49,7 +49,7 @@ const CustomIndexCreationSideBarOptions = () => {
           />
         </div>
         <Button disabled={!customIndexData?.name || !customIndexData?.formula} variant={"contained"} size={"small"} onClick={handleCreateClick}>
-          Create
+          Crear
         </Button>
       </Stack>
     </Box>

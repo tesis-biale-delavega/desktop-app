@@ -42,7 +42,7 @@ const ImportImagesScreen = () => {
     return <ThemeProvider theme={theme}>
         <div className={"import-images-screen-container"}>
             <Button className={"import-button"} variant={"contained"} onClick={() => fileInput.current.click()}>
-                {"Import Images (.tiff, .jpg)"}
+                {"Importar Imagenes (.tiff, .jpg)"}
             </Button>
             <input
                 ref={fileInput}

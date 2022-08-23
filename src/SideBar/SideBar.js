@@ -21,7 +21,7 @@ const SideBar = ({ children, onGoBackClick }) => {
             color={"#fff"}
             onClick={onGoBackClick}
           >
-            Go Back
+            Ir atras
           </Link>
         </Box>
       </Stack>
