@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Toolbar } from "@mui/material";
+import { Box, CircularProgress, Stack, Toolbar } from "@mui/material";
 import SideBar from "../SideBar/SideBar";
 import { useNavigate } from "react-router-dom";
 import IndexGeneratorSideBarOptions from "./IndexGeneratorSideBarOptions/IndexGeneratorSideBarOptions";
@@ -28,6 +28,7 @@ const ProcessingScreen = () => {
   );
 
   const [overlayImageData, setOverlayImageData] = useState(undefined);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     dispatch(setProcessingState(processingStates.PRE_STITCHING));
@@ -39,6 +40,7 @@ const ProcessingScreen = () => {
         return (
           <PreStitchingSideBarOptions
             setOverlayImageData={setOverlayImageData}
+            setIsLoading={setIsLoading}
           />
         );
       case processingStates.INDEX_GENERATOR:
@@ -73,31 +75,38 @@ const ProcessingScreen = () => {
     // TODO: fix the height of the map to fill entire container
     <Box sx={{ display: "flex", height: "91%" }}>
       <SideBar children={getSideBarOptions()} onGoBackClick={handleGoBack} />
-      <Box sx={{ flexGrow: 1 }}>
-        <Toolbar />
-        {processingState === processingStates.IMAGE_COMPARISON_SLIDER ? (
-          <ReactCompareSlider
-            itemOne={
-              <ReactCompareSliderImage
-                src={"file://" + compareLayersSlider?.leftLayer?.imageUrl}
-                style={{ objectFit: "contain", backgroundColor: "#535353" }}
-              />
-            }
-            itemTwo={
-              <ReactCompareSliderImage
-                src={"file://" + compareLayersSlider?.rightLayer?.imageUrl}
-                style={{ objectFit: "contain", backgroundColor: "#535353" }}
-              />
-            }
-          />
-        ) : (
-          <LeafLetMap
-            imageUrl={overlayImageData?.imageUrl}
-            imageCoords={overlayImageData?.imageCoords}
-            centerCoords={overlayImageData?.centerCoords}
-          />
+      <Stack direction={"column"} flexGrow={1}>
+        <Box sx={{ flexGrow: 1 }}>
+          <Toolbar />
+          {processingState === processingStates.IMAGE_COMPARISON_SLIDER ? (
+            <ReactCompareSlider
+              itemOne={
+                <ReactCompareSliderImage
+                  src={"file://" + compareLayersSlider?.leftLayer?.imageUrl}
+                  style={{ objectFit: "contain", backgroundColor: "#535353" }}
+                />
+              }
+              itemTwo={
+                <ReactCompareSliderImage
+                  src={"file://" + compareLayersSlider?.rightLayer?.imageUrl}
+                  style={{ objectFit: "contain", backgroundColor: "#535353" }}
+                />
+              }
+            />
+          ) : (
+            <LeafLetMap
+              imageUrl={overlayImageData?.imageUrl}
+              imageCoords={overlayImageData?.imageCoords}
+              centerCoords={overlayImageData?.centerCoords}
+            />
+          )}
+        </Box>
+        {isLoading && (
+          <Box sx={{position: "absolute"}}>
+            <CircularProgress />
+          </Box>
         )}
-      </Box>
+      </Stack>
     </Box>
   );
 };

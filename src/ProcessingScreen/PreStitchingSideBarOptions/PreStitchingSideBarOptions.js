@@ -10,7 +10,7 @@ import { useMutation } from "react-query";
 import * as http from "../../utils/http";
 import { processingStates } from "../../utils/processingStates";
 
-const PreStitchingSideBarOptions = ({ setOverlayImageData }) => {
+const PreStitchingSideBarOptions = ({ setOverlayImageData, setIsLoading }) => {
   const dispatch = useDispatch();
   const folderPath = useSelector((state) => state.analysis.folderPath);
   const projectName = useSelector((state) => state.analysis.projectName);
@@ -24,6 +24,7 @@ const PreStitchingSideBarOptions = ({ setOverlayImageData }) => {
       path: folderPath,
       name: projectName,
     };
+    setIsLoading(true)
     startAnalysisMutation.mutate(body, {
       onSuccess: (res) => {
         const overlayImageData = {
@@ -36,9 +37,11 @@ const PreStitchingSideBarOptions = ({ setOverlayImageData }) => {
         dispatch(setProjectPath(res.project_path));
         dispatch(setProcessingState(processingStates.INDEX_GENERATOR));
         dispatch(setProjectFolderAlreadyCreated(true));
+        setIsLoading(false)
       },
       onError: (error) => {
         console.log("error", error);
+        setIsLoading(false)
       },
     });
   };
