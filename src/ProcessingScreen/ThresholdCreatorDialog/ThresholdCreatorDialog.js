@@ -4,8 +4,18 @@ import { useState } from "react";
 import { Box, Slider } from "@mui/material";
 import { useMutation } from "react-query";
 import * as http from "../../utils/http";
+import { useDispatch } from "react-redux";
+import { setProcessingIsLoading } from "../../analysis/analysisSlice";
 
-const ThresholdCreatorDialog = ({ isOpen, handleClose, layerData, availableLayers, setAvailableLayers,onLayerClick }) => {
+const ThresholdCreatorDialog = ({
+  isOpen,
+  handleClose,
+  layerData,
+  availableLayers,
+  setAvailableLayers,
+  onLayerClick,
+}) => {
+  const dispatch = useDispatch();
   const [value, setValue] = useState([0.2, 0.8]);
 
   const handleChange = (event, newValue) => {
@@ -22,21 +32,25 @@ const ThresholdCreatorDialog = ({ isOpen, handleClose, layerData, availableLayer
       threshold_max: value[1],
       threshold_min: value[0],
     };
+    dispatch(setProcessingIsLoading(true));
     thresholdMutation.mutate(body, {
       onSuccess: (res) => {
         console.log("res", res);
-        const layerName = layerData.name + "_THRESHOLD_" + value[0] + "_" + value[1];
+        const layerName =
+          layerData.name + "_THRESHOLD_" + value[0] + "_" + value[1];
         const imageUrl = res.zone;
         const thresholdData = {
           name: layerName,
           imageUrl: imageUrl,
         };
-        setAvailableLayers([...availableLayers, thresholdData])
-        onLayerClick(thresholdData)
-        handleClose()
+        setAvailableLayers([...availableLayers, thresholdData]);
+        onLayerClick(thresholdData);
+        handleClose();
+        dispatch(setProcessingIsLoading(false));
       },
       onError: (error) => {
         console.log("error", error);
+        dispatch(setProcessingIsLoading(false));
       },
     });
   };

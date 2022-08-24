@@ -26,9 +26,11 @@ const ProcessingScreen = () => {
   const compareLayersSlider = useSelector(
     (state) => state.analysis.compareLayersSlider
   );
+  const processingIsLoading = useSelector(
+    (state) => state.analysis.processingIsLoading
+  );
 
   const [overlayImageData, setOverlayImageData] = useState(undefined);
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     dispatch(setProcessingState(processingStates.PRE_STITCHING));
@@ -40,7 +42,6 @@ const ProcessingScreen = () => {
         return (
           <PreStitchingSideBarOptions
             setOverlayImageData={setOverlayImageData}
-            setIsLoading={setIsLoading}
           />
         );
       case processingStates.INDEX_GENERATOR:
@@ -101,9 +102,16 @@ const ProcessingScreen = () => {
             />
           )}
         </Box>
-        {isLoading && (
-          <Box sx={{position: "absolute"}}>
-            <CircularProgress />
+        {processingIsLoading && (
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: "25px",
+              right: "15px",
+              zIndex: 400,
+            }}
+          >
+            <CircularProgress sx={{ color: "#fff" }} />
           </Box>
         )}
       </Stack>

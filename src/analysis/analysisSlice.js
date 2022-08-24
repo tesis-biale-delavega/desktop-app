@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {indexes} from "../utils/indexes";
-import {processingStates} from "../utils/processingStates";
+import { indexes } from "../utils/indexes";
+import { processingStates } from "../utils/processingStates";
 
 const initialState = {
   folderPath: "",
@@ -12,7 +12,8 @@ const initialState = {
   processingState: processingStates.PRE_STITCHING,
   availableImageLayers: [],
   compareLayersSlider: undefined,
-  projectFolderAlreadyCreated: false
+  projectFolderAlreadyCreated: false,
+  processingIsLoading: false,
 };
 
 export const analysisSlice = createSlice({
@@ -49,6 +50,9 @@ export const analysisSlice = createSlice({
     setProjectFolderAlreadyCreated: (state, action) => {
       state.projectFolderAlreadyCreated = action.payload;
     },
+    setProcessingIsLoading: (state, action) => {
+      state.processingIsLoading = action.payload;
+    },
   },
 });
 
@@ -62,7 +66,8 @@ export const {
   setAvailableImageLayers,
   setCompareLayersSlider,
   setProjectName,
-  setProjectFolderAlreadyCreated
+  setProjectFolderAlreadyCreated,
+  setProcessingIsLoading,
 } = analysisSlice.actions;
 
 export default analysisSlice.reducer;

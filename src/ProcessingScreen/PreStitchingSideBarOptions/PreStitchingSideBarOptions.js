@@ -1,5 +1,6 @@
 import { Box, Button, Container } from "@mui/material";
 import {
+  setProcessingIsLoading,
   setProcessingState,
   setProjectFolderAlreadyCreated,
   setProjectPath,
@@ -10,7 +11,7 @@ import { useMutation } from "react-query";
 import * as http from "../../utils/http";
 import { processingStates } from "../../utils/processingStates";
 
-const PreStitchingSideBarOptions = ({ setOverlayImageData, setIsLoading }) => {
+const PreStitchingSideBarOptions = ({ setOverlayImageData }) => {
   const dispatch = useDispatch();
   const folderPath = useSelector((state) => state.analysis.folderPath);
   const projectName = useSelector((state) => state.analysis.projectName);
@@ -24,7 +25,7 @@ const PreStitchingSideBarOptions = ({ setOverlayImageData, setIsLoading }) => {
       path: folderPath,
       name: projectName,
     };
-    setIsLoading(true)
+    dispatch(setProcessingIsLoading(true))
     startAnalysisMutation.mutate(body, {
       onSuccess: (res) => {
         const overlayImageData = {
@@ -37,11 +38,11 @@ const PreStitchingSideBarOptions = ({ setOverlayImageData, setIsLoading }) => {
         dispatch(setProjectPath(res.project_path));
         dispatch(setProcessingState(processingStates.INDEX_GENERATOR));
         dispatch(setProjectFolderAlreadyCreated(true));
-        setIsLoading(false)
+        dispatch(setProcessingIsLoading(false))
       },
       onError: (error) => {
         console.log("error", error);
-        setIsLoading(false)
+        dispatch(setProcessingIsLoading(false))
       },
     });
   };

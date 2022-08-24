@@ -14,20 +14,22 @@ import * as http from "../../utils/http";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setGeneratedIndexes,
-  setIndexesData, setProcessingState,
+  setIndexesData,
+  setProcessingIsLoading,
+  setProcessingState,
 } from "../../analysis/analysisSlice";
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import {useState} from "react";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { useState } from "react";
 import IndexInfoDialog from "../IndexInfoDialog/IndexInfoDialog";
-import {processingStates} from "../../utils/processingStates";
+import { processingStates } from "../../utils/processingStates";
 
 const IndexGeneratorSideBarOptions = () => {
   const dispatch = useDispatch();
   const projectPath = useSelector((state) => state.analysis.projectPath);
   const indexesData = useSelector((state) => state.analysis.indexesData);
-  const [showIndexInfoDialog, setShowIndexInfoDialog] = useState(false)
-  const [indexInfo, setIndexInfo] = useState(undefined)
+  const [showIndexInfoDialog, setShowIndexInfoDialog] = useState(false);
+  const [indexInfo, setIndexInfo] = useState(undefined);
 
   const handleIndexChange = (indexName, e) => {
     const target = e.target;
@@ -63,14 +65,19 @@ const IndexGeneratorSideBarOptions = () => {
         name: index.name,
       })),
     };
+    dispatch(setProcessingIsLoading(true));
     generateIndexesMutation.mutate(body, {
       onSuccess: (res) => {
         console.log("res", res);
         dispatch(setGeneratedIndexes(res));
-        dispatch(setProcessingState(processingStates.INDEX_VISUALIZATION_HEATMAP));
+        dispatch(
+          setProcessingState(processingStates.INDEX_VISUALIZATION_HEATMAP)
+        );
+        dispatch(setProcessingIsLoading(false));
       },
       onError: (error) => {
         console.log("error", error);
+        dispatch(setProcessingIsLoading(false));
       },
     });
   };
@@ -80,14 +87,16 @@ const IndexGeneratorSideBarOptions = () => {
   };
 
   const handleCustomIndexDelete = (indexData) => {
-    const updatedIndexes = indexesData.filter(index => index.name !== indexData.name)
-    dispatch(setIndexesData(updatedIndexes))
-  }
+    const updatedIndexes = indexesData.filter(
+      (index) => index.name !== indexData.name
+    );
+    dispatch(setIndexesData(updatedIndexes));
+  };
 
   const handleIndexInfoClick = (indexData) => {
-    setShowIndexInfoDialog(true)
-    setIndexInfo(indexData)
-  }
+    setShowIndexInfoDialog(true);
+    setIndexInfo(indexData);
+  };
 
   return (
     <Box m={2} flexGrow={1}>
@@ -129,7 +138,9 @@ const IndexGeneratorSideBarOptions = () => {
             underline={"none"}
             color={"#ffffff"}
           >
-            <Typography mt={2} mb={2}>Crear indice personalizado</Typography>
+            <Typography mt={2} mb={2}>
+              Crear indice personalizado
+            </Typography>
           </Link>
         </div>
         <Button
