@@ -9,13 +9,16 @@ import {
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { useDispatch } from "react-redux";
 import {
   setProjectFolderAlreadyCreated,
   setProjectName,
 } from "../analysis/analysisSlice";
+import {useMutation} from "react-query";
+import * as http from "../utils/http";
+import moment from "moment";
 
 const createProjectSX = {
   borderStyle: "dashed",
@@ -44,32 +47,20 @@ const ProjectsListScreen = () => {
     navigate("/import-images");
   };
 
-  const localProjectsList = [
-    {
-      name: "Proyecto sin nombre 1",
-      date: 628021800000,
-      orthophoto_path:
-        "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
-    },
-    {
-      name: "Proyecto sin nombre 2",
-      date: 628021800000,
-      orthophoto_path:
-        "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
-    },
-    {
-      name: "Proyecto sin nombre 3",
-      date: 628021800000,
-      orthophoto_path:
-        "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
-    },
-    {
-      name: "Proyecto sin nombre 4",
-      date: 628021800000,
-      orthophoto_path:
-        "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
-    },
-  ];
+  const localProjectsListMutation = useMutation(() => {
+    return http.get(`projects`);
+  });
+
+  const [localProjectsList, setLocalProjectList] = useState([])
+
+  useEffect(() => {
+    localProjectsListMutation.mutate({}, {
+      onSuccess: (res) => {
+        console.log(res)
+        setLocalProjectList(res.projects)
+      }
+    })
+  }, [])
 
   const cloudProjectsList = [
     {
@@ -118,7 +109,7 @@ const ProjectsListScreen = () => {
                 color="text.secondary"
                 component="div"
               >
-                {new Date(project.date).toLocaleDateString()}
+                {moment(project.date).format("LLL")}
               </Typography>
             </Stack>
           </CardContent>
