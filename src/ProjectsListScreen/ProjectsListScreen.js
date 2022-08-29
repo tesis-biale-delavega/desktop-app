@@ -58,6 +58,9 @@ const ProjectsListScreen = () => {
       onSuccess: (res) => {
         console.log(res)
         setLocalProjectList(res.projects)
+      },
+      onError: (error) => {
+        console.log(error)
       }
     })
   }, [])
@@ -109,7 +112,7 @@ const ProjectsListScreen = () => {
                 color="text.secondary"
                 component="div"
               >
-                {moment(project.date).format("LLL")}
+                {moment(project.date * 1000).format("L")}
               </Typography>
             </Stack>
           </CardContent>

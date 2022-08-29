@@ -26,14 +26,14 @@ const LeafLetMap = ({ imageUrl, imageCoords, centerCoords }) => {
   }, [centerCoords]);
 
   return (
-    <div style={{ width: "100%", height: "100%" }}>
+    <div style={{ width: "100%", display: "flex",flexGrow: 1 }}>
       <MapContainer
         center={
           centerCoords ? centerCoords : [46.59916666666667, 6.621111111111111]
         }
         zoom={17}
         maxZoom={30}
-        style={{ width: "100%", height: "100%" }}
+        style={{ width: "100%", flexGrow: 1 }}
         whenReady={setMap}
       >
         <TileLayer

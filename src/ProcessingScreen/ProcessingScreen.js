@@ -74,10 +74,10 @@ const ProcessingScreen = () => {
 
   return (
     // TODO: fix the height of the map to fill entire container
-    <Box sx={{ display: "flex", height: "91%" }}>
+    <Box sx={{ display: "flex", flexGrow: 1 }}>
       <SideBar children={getSideBarOptions()} onGoBackClick={handleGoBack} />
       <Stack direction={"column"} flexGrow={1}>
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
           <Toolbar />
           {processingState === processingStates.IMAGE_COMPARISON_SLIDER ? (
             <ReactCompareSlider
