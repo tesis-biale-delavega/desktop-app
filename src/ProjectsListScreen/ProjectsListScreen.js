@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Card,
   CardActionArea,
@@ -9,16 +10,17 @@ import {
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { useDispatch } from "react-redux";
 import {
   setProjectFolderAlreadyCreated,
   setProjectName,
 } from "../analysis/analysisSlice";
-import {useMutation} from "react-query";
+import { useMutation } from "react-query";
 import * as http from "../utils/http";
 import moment from "moment";
+import PhotoSizeSelectActualOutlinedIcon from "@mui/icons-material/PhotoSizeSelectActualOutlined";
 
 const createProjectSX = {
   borderStyle: "dashed",
@@ -51,19 +53,22 @@ const ProjectsListScreen = () => {
     return http.get(`projects`);
   });
 
-  const [localProjectsList, setLocalProjectList] = useState([])
+  const [localProjectsList, setLocalProjectList] = useState([]);
 
   useEffect(() => {
-    localProjectsListMutation.mutate({}, {
-      onSuccess: (res) => {
-        console.log(res)
-        setLocalProjectList(res.projects)
-      },
-      onError: (error) => {
-        console.log(error)
+    localProjectsListMutation.mutate(
+      {},
+      {
+        onSuccess: (res) => {
+          console.log(res);
+          setLocalProjectList(res.projects);
+        },
+        onError: (error) => {
+          console.log(error);
+        },
       }
-    })
-  }, [])
+    );
+  }, []);
 
   const cloudProjectsList = [
     {
@@ -82,7 +87,7 @@ const ProjectsListScreen = () => {
       name: "Proyecto sin nombre 5",
       date: 628021800000,
       orthophoto_path:
-          "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
+        "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
     },
   ];
 
@@ -116,22 +121,38 @@ const ProjectsListScreen = () => {
               </Typography>
             </Stack>
           </CardContent>
-          <CardMedia
-            sx={{
-              height: "110px",
-              width: "35%",
-              backgroundSize: "contain",
-              bgcolor: "#AEAEAE",
-            }}
-            image={"file://" + project.orthophoto_path}
-          />
+          {project.orthophoto_path ? (
+            <CardMedia
+              sx={{
+                height: "110px",
+                width: "35%",
+                backgroundSize: "contain",
+                bgcolor: "#AEAEAE",
+              }}
+              image={"file://" + project.orthophoto_path}
+            />
+          ) : (
+            <Box
+              sx={{
+                height: "110px",
+                width: "35%",
+                backgroundSize: "contain",
+                bgcolor: "#AEAEAE",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <PhotoSizeSelectActualOutlinedIcon />
+            </Box>
+          )}
         </CardActionArea>
       </Card>
     );
   };
 
   return (
-    <Stack >
+    <Stack>
       <Toolbar />
       <Stack m={5}>
         <Typography>Proyectos Locales</Typography>
@@ -157,7 +178,7 @@ const ProjectsListScreen = () => {
       </Stack>
       <Stack m={5}>
         <Typography>Proyectos en la Nube</Typography>
-        {cloudProjectsList.length > 0 ?
+        {cloudProjectsList.length > 0 ? (
           <Stack
             direction={"row"}
             alignItems={"center"}
@@ -168,8 +189,12 @@ const ProjectsListScreen = () => {
             {cloudProjectsList.map((project) => (
               <ProjectListItem project={project} />
             ))}
-          </Stack> : <Typography mt={2} variant={"body1"}>No hay proyectos para mostrar</Typography>
-        }
+          </Stack>
+        ) : (
+          <Typography mt={2} variant={"body1"}>
+            No hay proyectos para mostrar
+          </Typography>
+        )}
       </Stack>
     </Stack>
   );
