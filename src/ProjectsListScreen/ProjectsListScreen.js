@@ -14,13 +14,17 @@ import React, { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { useDispatch } from "react-redux";
 import {
+  setProcessingState,
   setProjectFolderAlreadyCreated,
   setProjectName,
+  setProjectPath,
+  setStitchingData,
 } from "../analysis/analysisSlice";
 import { useMutation } from "react-query";
 import * as http from "../utils/http";
 import moment from "moment";
 import PhotoSizeSelectActualOutlinedIcon from "@mui/icons-material/PhotoSizeSelectActualOutlined";
+import { processingStates } from "../utils/processingStates";
 
 const createProjectSX = {
   borderStyle: "dashed",
@@ -91,6 +95,15 @@ const ProjectsListScreen = () => {
     },
   ];
 
+  const onProjectItemClick = (project) => {
+    setProjectName(project.name);
+    setProjectPath(project.path);
+    setStitchingData({ orthophoto_data: project.orthophoto_path });
+    dispatch(setProcessingState(processingStates.INDEX_VISUALIZATION_HEATMAP));
+    dispatch(setProjectFolderAlreadyCreated(true));
+    navigate("/processing")
+  };
+
   const ProjectListItem = ({ project }) => {
     return (
       <Card
@@ -101,6 +114,7 @@ const ProjectsListScreen = () => {
           width: "298px",
         }}
         elevation={4}
+        onClick={() => onProjectItemClick(project)}
       >
         <CardActionArea sx={{ display: "flex" }}>
           <CardContent sx={{ flex: "1 0 auto" }}>
