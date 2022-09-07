@@ -29,6 +29,8 @@ const IndexVisualizationHeatmapSideBarOptions = ({
     {
       name: "Orthophoto",
       imageUrl: stitchingData?.orthophoto_path,
+      centerCoords: stitchingData?.centerCoords,
+      imageCoords: stitchingData?.imageCoords,
     },
   ];
   const generatedIndexesArray = Object.entries(generatedIndexes).map(
@@ -45,6 +47,11 @@ const IndexVisualizationHeatmapSideBarOptions = ({
     ...defaultLayers,
     ...generatedIndexesArray,
   ]);
+
+  useEffect(() => {
+    const orthophotoData = defaultLayers[0]
+    !overlayImageData && setOverlayImageData(orthophotoData)
+  }, [])
 
   useEffect(() => {
     dispatch(setAvailableImageLayers(availableLayers));

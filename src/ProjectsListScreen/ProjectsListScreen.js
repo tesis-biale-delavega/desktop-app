@@ -14,6 +14,7 @@ import React, { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { useDispatch } from "react-redux";
 import {
+  setGeneratedIndexes,
   setProcessingState,
   setProjectFolderAlreadyCreated,
   setProjectName,
@@ -96,12 +97,22 @@ const ProjectsListScreen = () => {
   ];
 
   const onProjectItemClick = (project) => {
-    setProjectName(project.name);
-    setProjectPath(project.path);
-    setStitchingData({ orthophoto_data: project.orthophoto_path });
+    dispatch(setProjectName(project.name));
+    dispatch(setProjectPath(project.path));
+    dispatch(
+      setStitchingData({
+        orthophoto_path: project.orthophoto_path,
+        centerCoords: [
+          project.avg_coordinates.avg_rgb_lat,
+          project.avg_coordinates.avg_rgb_long,
+        ],
+        imageCoords: project.avg_coordinates.rgb_points,
+      })
+    );
+    dispatch(setGeneratedIndexes(project.indexes));
     dispatch(setProcessingState(processingStates.INDEX_VISUALIZATION_HEATMAP));
     dispatch(setProjectFolderAlreadyCreated(true));
-    navigate("/processing")
+    navigate("/processing");
   };
 
   const ProjectListItem = ({ project }) => {
