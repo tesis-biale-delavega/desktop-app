@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useMutation } from "react-query";
 import * as http from "../../utils/http";
 import { processingStates } from "../../utils/processingStates";
+import {toast} from "react-toastify";
 
 const PreStitchingSideBarOptions = ({ setOverlayImageData }) => {
   const dispatch = useDispatch();
@@ -45,6 +46,7 @@ const PreStitchingSideBarOptions = ({ setOverlayImageData }) => {
         dispatch(setProcessingIsLoading(false))
       },
     });
+    toast.success("Proyecto creado y guardado con exito!")
   };
 
   return (
