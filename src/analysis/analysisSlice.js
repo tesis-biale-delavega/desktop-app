@@ -20,6 +20,7 @@ export const analysisSlice = createSlice({
   name: "analysis",
   initialState,
   reducers: {
+    clearState: () => initialState,
     setFolderPath: (state, action) => {
       state.folderPath = action.payload;
     },
@@ -57,6 +58,7 @@ export const analysisSlice = createSlice({
 });
 
 export const {
+  clearState,
   setFolderPath,
   setStitchingData,
   setProjectPath,

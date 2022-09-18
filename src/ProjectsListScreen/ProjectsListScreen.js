@@ -14,6 +14,7 @@ import React, { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { useDispatch } from "react-redux";
 import {
+  clearState,
   setGeneratedIndexes,
   setProcessingState,
   setProjectFolderAlreadyCreated,
@@ -73,6 +74,7 @@ const ProjectsListScreen = () => {
         },
       }
     );
+    dispatch(clearState())
   }, []);
 
   const cloudProjectsList = [
