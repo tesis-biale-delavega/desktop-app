@@ -1,6 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
+import "./index.scss";
 import App from "./App";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -10,6 +9,7 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import reportWebVitals from "./reportWebVitals";
+import { render } from 'react-dom'
 
 const themeOptions = {
   palette: {
@@ -79,20 +79,22 @@ const queryClient = new QueryClient();
 
 let persistor = persistStore(store);
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-  <BrowserRouter>
-    <ThemeProvider theme={theme}>
-      <QueryClientProvider client={queryClient}>
-        <Provider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
-            <App />
-          </PersistGate>
-        </Provider>
-      </QueryClientProvider>
-    </ThemeProvider>
-  </BrowserRouter>
-);
+let root = document.createElement('div')
+
+root.id = 'root'
+document.body.appendChild(root)
+
+render(<BrowserRouter>
+  <ThemeProvider theme={theme}>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <App />
+        </PersistGate>
+      </Provider>
+    </QueryClientProvider>
+  </ThemeProvider>
+</BrowserRouter>, document.getElementById('root'))
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

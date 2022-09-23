@@ -42,8 +42,15 @@ const Navbar = () => {
     return http.post(`compress`, body);
   });
 
+  const {shell} = require('electron').remote
+
+  console.log("heree")
+
+  //shell.showItemInFolder('/Users/braianb/PycharmProjects/image-processing/')
+
   const handleExportProjectPress = () => {
     const body = { path: projectPath };
+
 
     exportProjectMutation.mutate(body, {
       onSuccess: (res) => {

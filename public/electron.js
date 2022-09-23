@@ -22,6 +22,9 @@ function createWindow() {
         height: 720,
         webPreferences: {
             nodeIntegration: true,
+            nodeIntegrationInWorker: true,
+            nodeIntegrationInSubFrames: true,
+            contextIsolation: false,
             webSecurity: !isDev,
         },
     });
