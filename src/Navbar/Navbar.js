@@ -1,3 +1,4 @@
+import React from "react";
 import {
   AppBar,
   Box,
@@ -42,7 +43,7 @@ const Navbar = () => {
     return http.post(`compress`, body);
   });
 
-  const {shell} = require('electron').remote
+  const {shell} = require('electron')
 
   console.log("heree")
 

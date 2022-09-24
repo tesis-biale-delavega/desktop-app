@@ -3,12 +3,11 @@ import "./index.scss";
 import App from "./App";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { BrowserRouter } from "react-router-dom";
+import {BrowserRouter, HashRouter} from "react-router-dom";
 import { store } from "./app/store";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
-import reportWebVitals from "./reportWebVitals";
 import { render } from 'react-dom'
 
 const themeOptions = {
@@ -84,7 +83,7 @@ let root = document.createElement('div')
 root.id = 'root'
 document.body.appendChild(root)
 
-render(<BrowserRouter>
+render(<HashRouter>
   <ThemeProvider theme={theme}>
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
@@ -94,9 +93,4 @@ render(<BrowserRouter>
       </Provider>
     </QueryClientProvider>
   </ThemeProvider>
-</BrowserRouter>, document.getElementById('root'))
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+</HashRouter>, document.getElementById('root'))
