@@ -79,19 +79,19 @@ const ProjectsListScreen = () => {
   const cloudProjectsList = [
     {
       name: "Proyecto sin nombre 5",
-      date: 628021800000,
+      date: 628021800,
       orthophoto_path:
         "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
     },
     {
       name: "Proyecto sin nombre 6",
-      date: 628021800000,
+      date: 628021800,
       orthophoto_path:
         "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
     },
     {
       name: "Proyecto sin nombre 5",
-      date: 628021800000,
+      date: 628021800,
       orthophoto_path:
         "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
     },

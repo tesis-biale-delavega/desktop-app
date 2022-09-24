@@ -2,7 +2,9 @@ import React from "react";
 import {
   AppBar,
   Box,
+  Button,
   IconButton,
+  Link,
   Stack,
   TextField,
   Toolbar,
@@ -20,40 +22,52 @@ import HomeIcon from "@mui/icons-material/Home";
 import { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
+import { toast } from "react-toastify";
+
+const { shell } = require("electron");
 
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const location = useLocation()
+  const location = useLocation();
   const processingState = useSelector(
     (state) => state.analysis.processingState
   );
   const projectPath = useSelector((state) => state.analysis.projectPath);
   const projectName = useSelector((state) => state.analysis.projectName);
-  const projectFolderAlreadyCreated = useSelector((state) => state.analysis.projectFolderAlreadyCreated);
+  const projectFolderAlreadyCreated = useSelector(
+    (state) => state.analysis.projectFolderAlreadyCreated
+  );
 
   const [projectNameEditMode, setProjectNameEditMode] = useState(false);
-  const [temporalProjectName, setTemporalProjectName] = useState(projectName ? projectName : "");
+  const [temporalProjectName, setTemporalProjectName] = useState(
+    projectName ? projectName : ""
+  );
 
   const handleHomePress = () => {
     navigate("/");
   };
 
   const exportProjectMutation = useMutation((body) => {
-    return http.post(`compress`, body);
+    return http.post(`export-zip`, body);
   });
 
-  const {shell} = require('electron')
 
-  //shell.showItemInFolder('/Users/braianb/PycharmProjects/image-processing/')
 
   const handleExportProjectPress = () => {
     const body = { path: projectPath };
 
-
     exportProjectMutation.mutate(body, {
       onSuccess: (res) => {
-        console.log("res", res);
+        toast(
+            <Box>
+              <Typography>Compresion del proyecto finalizada</Typography>
+              <Link onClick={() => shell.showItemInFolder(res?.path)}>
+                Ir a la carpeta del archivo
+              </Link>
+            </Box>,
+            { autoClose: false }
+        );
       },
       onError: (error) => {
         console.log("error", error);
@@ -98,45 +112,46 @@ const Navbar = () => {
         >
           <HomeIcon />
         </IconButton>
-        {(location.pathname === "/processing" || location.pathname === "/import-images") && (
-            <>
-              {projectNameEditMode && !projectFolderAlreadyCreated ? (
-                <Stack direction={"row"} alignItems={"center"}>
-                  <TextField
-                    value={temporalProjectName}
-                    onChange={handleProjectNameChange}
-                    size={"small"}
-                  />
+        {(location.pathname === "/processing" ||
+          location.pathname === "/import-images") && (
+          <>
+            {projectNameEditMode && !projectFolderAlreadyCreated ? (
+              <Stack direction={"row"} alignItems={"center"}>
+                <TextField
+                  value={temporalProjectName}
+                  onChange={handleProjectNameChange}
+                  size={"small"}
+                />
+                <IconButton
+                  size="large"
+                  edge="start"
+                  color="inherit"
+                  aria-label="confirm"
+                  onClick={handleConfirmEditProjectName}
+                  sx={{ ml: 1 }}
+                >
+                  <CheckIcon />
+                </IconButton>
+              </Stack>
+            ) : (
+              <Stack direction={"row"} alignItems={"center"}>
+                <Typography>{temporalProjectName}</Typography>
+                {!projectFolderAlreadyCreated && (
                   <IconButton
                     size="large"
                     edge="start"
                     color="inherit"
-                    aria-label="confirm"
-                    onClick={handleConfirmEditProjectName}
+                    aria-label="edit"
+                    onClick={handleEditProjectNamePress}
                     sx={{ ml: 1 }}
                   >
-                    <CheckIcon />
+                    <EditIcon />
                   </IconButton>
-                </Stack>
-              ) : (
-                <Stack direction={"row"} alignItems={"center"}>
-                  <Typography>{temporalProjectName}</Typography>
-                  {!projectFolderAlreadyCreated &&
-                    <IconButton
-                      size="large"
-                      edge="start"
-                      color="inherit"
-                      aria-label="edit"
-                      onClick={handleEditProjectNamePress}
-                      sx={{ ml: 1 }}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                  }
-                </Stack>
-              )}
-            </>
-          )}
+                )}
+              </Stack>
+            )}
+          </>
+        )}
         {(processingState === processingStates.INDEX_VISUALIZATION_HEATMAP ||
           processingState === processingStates.IMAGE_COMPARISON_SLIDER) && (
           <Box ml={"auto"}>

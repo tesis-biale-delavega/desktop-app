@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ThresholdCreatorDialog from "../ThresholdCreatorDialog/ThresholdCreatorDialog";
 import { setAvailableImageLayers } from "../../analysis/analysisSlice";
 
