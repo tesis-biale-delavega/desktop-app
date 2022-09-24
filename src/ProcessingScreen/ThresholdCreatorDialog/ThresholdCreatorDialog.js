@@ -36,7 +36,6 @@ const ThresholdCreatorDialog = ({
     dispatch(setProcessingIsLoading(true));
     thresholdMutation.mutate(body, {
       onSuccess: (res) => {
-        console.log("res", res);
         const layerName =
           layerData.name + "_THRESHOLD_" + value[0] + "_" + value[1];
         const imageUrl = res.zone;

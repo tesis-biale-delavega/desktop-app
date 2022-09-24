@@ -66,7 +66,6 @@ const ProjectsListScreen = () => {
       {},
       {
         onSuccess: (res) => {
-          console.log(res);
           setLocalProjectList(res.projects);
         },
         onError: (error) => {

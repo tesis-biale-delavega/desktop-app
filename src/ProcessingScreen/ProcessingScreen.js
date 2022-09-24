@@ -35,8 +35,6 @@ const ProcessingScreen = () => {
 
   const [overlayImageData, setOverlayImageData] = useState(undefined);
 
-  console.log(stitchingData)
-
   useEffect(() => {
     !stitchingData && dispatch(setProcessingState(processingStates.PRE_STITCHING));
   }, []);

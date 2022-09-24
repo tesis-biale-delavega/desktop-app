@@ -45,8 +45,6 @@ const Navbar = () => {
 
   const {shell} = require('electron')
 
-  console.log("heree")
-
   //shell.showItemInFolder('/Users/braianb/PycharmProjects/image-processing/')
 
   const handleExportProjectPress = () => {

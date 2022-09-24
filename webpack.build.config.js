@@ -2,6 +2,7 @@ const webpack = require('webpack')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const dotenv = require("dotenv");
 
 // Any directories you will be adding code/files into, need to be added to this array so webpack will pick them up
 const defaultInclude = path.resolve(__dirname, 'src')
@@ -44,9 +45,10 @@ module.exports = {
       filename: 'bundle.css',
       chunkFilename: '[id].css'
     }),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production')
-    }),
+    new webpack.EnvironmentPlugin({
+      'NODE_ENV': JSON.stringify('development'),
+      ...dotenv.config().parsed
+    })
     // new MinifyPlugin()
   ],
   stats: {
