@@ -29,14 +29,13 @@ const ProcessingScreen = () => {
   const processingIsLoading = useSelector(
     (state) => state.analysis.processingIsLoading
   );
-  const stitchingData = useSelector(
-      (state) => state.analysis.stitchingData
-  );
+  const stitchingData = useSelector((state) => state.analysis.stitchingData);
 
   const [overlayImageData, setOverlayImageData] = useState(undefined);
 
   useEffect(() => {
-    !stitchingData && dispatch(setProcessingState(processingStates.PRE_STITCHING));
+    !stitchingData &&
+      dispatch(setProcessingState(processingStates.PRE_STITCHING));
   }, []);
 
   const getSideBarOptions = () => {

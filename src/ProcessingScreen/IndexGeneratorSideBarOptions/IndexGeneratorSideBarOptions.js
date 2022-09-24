@@ -20,7 +20,7 @@ import {
 } from "../../analysis/analysisSlice";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import { useState } from "react";
+import React, { useState } from "react";
 import IndexInfoDialog from "../IndexInfoDialog/IndexInfoDialog";
 import { processingStates } from "../../utils/processingStates";
 

@@ -1,21 +1,20 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore } from "@reduxjs/toolkit";
 import analysisReducer from "../analysis/analysisSlice";
-import storage from 'redux-persist/lib/storage'
-import {combineReducers} from "redux";
-import { persistReducer } from 'redux-persist'
-
+import storage from "redux-persist/lib/storage";
+import { combineReducers } from "redux";
+import { persistReducer } from "redux-persist";
 
 const reducers = combineReducers({
-    analysis: analysisReducer
+  analysis: analysisReducer,
 });
 
 const persistConfig = {
-    key: 'root',
-    storage
+  key: "root",
+  storage,
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 
 export const store = configureStore({
-    reducer: persistedReducer,
-})
+  reducer: persistedReducer,
+});

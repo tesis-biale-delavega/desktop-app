@@ -1,3 +1,4 @@
+import React from "react";
 import BasicDialog from "../../BasicDialog/BasicDialog";
 import { Stack, Typography } from "@mui/material";
 
@@ -15,12 +16,16 @@ const IndexInfoDialog = ({ open, setShowIndexInfoDialog, indexData }) => {
         <Stack>
           <Stack mt={2}>
             <Typography variant={"subtitle1"}>Descripcion:</Typography>
-            <Typography variant={"body2"}>{indexData?.info?.description}</Typography>
+            <Typography variant={"body2"}>
+              {indexData?.info?.description}
+            </Typography>
           </Stack>
           {indexData?.info?.interpretation && (
             <Stack mt={2}>
               <Typography variant={"subtitle1"}>Como interpretarlo:</Typography>
-              <Typography variant={"body2"}>{indexData?.info?.interpretation}</Typography>
+              <Typography variant={"body2"}>
+                {indexData?.info?.interpretation}
+              </Typography>
             </Stack>
           )}
         </Stack>

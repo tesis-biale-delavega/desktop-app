@@ -1,4 +1,3 @@
-import React from "react";
 import {
   AppBar,
   Box,
@@ -17,9 +16,13 @@ import { useMutation } from "react-query";
 import * as http from "../utils/http";
 import GetAppOutlinedIcon from "@mui/icons-material/GetAppOutlined";
 import CompareIcon from "@mui/icons-material/Compare";
-import {setProcessingIsLoading, setProcessingState, setProjectName} from "../analysis/analysisSlice";
+import {
+  setProcessingIsLoading,
+  setProcessingState,
+  setProjectName,
+} from "../analysis/analysisSlice";
 import HomeIcon from "@mui/icons-material/Home";
-import { useState } from "react";
+import React, { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
 import { toast } from "react-toastify";
@@ -52,8 +55,6 @@ const Navbar = () => {
     return http.post(`export-zip`, body);
   });
 
-
-
   const handleExportProjectPress = () => {
     const body = { path: projectPath };
     dispatch(setProcessingIsLoading(true));
@@ -62,13 +63,13 @@ const Navbar = () => {
       onSuccess: (res) => {
         dispatch(setProcessingIsLoading(false));
         toast(
-            <Box>
-              <Typography>Compresion del proyecto finalizada</Typography>
-              <Link onClick={() => shell.showItemInFolder(res?.path)}>
-                Ir a la carpeta del archivo
-              </Link>
-            </Box>,
-            { autoClose: false }
+          <Box>
+            <Typography>Compresion del proyecto finalizada</Typography>
+            <Link onClick={() => shell.showItemInFolder(res?.path)}>
+              Ir a la carpeta del archivo
+            </Link>
+          </Box>,
+          { autoClose: false }
         );
       },
       onError: (error) => {

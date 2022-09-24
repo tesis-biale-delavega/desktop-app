@@ -1,7 +1,6 @@
-import React from "react";
 import FormDialog from "../../FormDialog/FormDialog";
 import DialogContentText from "@mui/material/DialogContentText";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Box, Slider } from "@mui/material";
 import { useMutation } from "react-query";
 import * as http from "../../utils/http";

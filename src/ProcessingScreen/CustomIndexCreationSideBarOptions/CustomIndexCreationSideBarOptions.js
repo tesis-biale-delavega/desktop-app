@@ -6,20 +6,23 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import {useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {setIndexesData, setProcessingState} from "../../analysis/analysisSlice";
-import {processingStates} from "../../utils/processingStates";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setIndexesData,
+  setProcessingState,
+} from "../../analysis/analysisSlice";
+import { processingStates } from "../../utils/processingStates";
 
 const CustomIndexCreationSideBarOptions = () => {
-  const dispatch = useDispatch()
-  const indexesData = useSelector(state => state.analysis.indexesData)
-  const [customIndexData, setCustomIndexData] = useState(undefined)
+  const dispatch = useDispatch();
+  const indexesData = useSelector((state) => state.analysis.indexesData);
+  const [customIndexData, setCustomIndexData] = useState(undefined);
 
   const handleCreateClick = () => {
-    dispatch(setProcessingState(processingStates.INDEX_GENERATOR))
-    dispatch(setIndexesData([...indexesData, customIndexData]))
-  }
+    dispatch(setProcessingState(processingStates.INDEX_GENERATOR));
+    dispatch(setIndexesData([...indexesData, customIndexData]));
+  };
 
   return (
     <Box m={2} flexGrow={1}>
@@ -35,7 +38,9 @@ const CustomIndexCreationSideBarOptions = () => {
             variant="standard"
             fullWidth
             margin={"dense"}
-            onChange={(e) => setCustomIndexData({...customIndexData, name: e.target.value})}
+            onChange={(e) =>
+              setCustomIndexData({ ...customIndexData, name: e.target.value })
+            }
           />
           <TextField
             id="standard-multiline-static"
@@ -45,10 +50,20 @@ const CustomIndexCreationSideBarOptions = () => {
             variant="standard"
             fullWidth
             margin={"dense"}
-            onChange={(e) => setCustomIndexData({...customIndexData, formula: e.target.value})}
+            onChange={(e) =>
+              setCustomIndexData({
+                ...customIndexData,
+                formula: e.target.value,
+              })
+            }
           />
         </div>
-        <Button disabled={!customIndexData?.name || !customIndexData?.formula} variant={"contained"} size={"small"} onClick={handleCreateClick}>
+        <Button
+          disabled={!customIndexData?.name || !customIndexData?.formula}
+          variant={"contained"}
+          size={"small"}
+          onClick={handleCreateClick}
+        >
           Crear
         </Button>
       </Stack>

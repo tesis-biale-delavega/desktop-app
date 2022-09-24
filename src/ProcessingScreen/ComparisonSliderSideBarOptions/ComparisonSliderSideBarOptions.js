@@ -8,7 +8,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import React, { useState } from "react";
 import { setCompareLayersSlider } from "../../analysis/analysisSlice";
 
 const ComparisonSliderSideBarOptions = ({
@@ -16,7 +16,9 @@ const ComparisonSliderSideBarOptions = ({
   overlayImageData,
 }) => {
   const dispatch = useDispatch();
-  const availableImageLayers = useSelector(state => state.analysis.availableImageLayers)
+  const availableImageLayers = useSelector(
+    (state) => state.analysis.availableImageLayers
+  );
 
   const [compareLayers, setCompareLayers] = useState({
     leftLayer: availableImageLayers?.[0],

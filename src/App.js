@@ -26,7 +26,7 @@ function App() {
         pauseOnFocusLoss
         pauseOnHover
         theme={"dark"}
-        toastStyle={{backgroundColor: "#747474"}}
+        toastStyle={{ backgroundColor: "#747474" }}
       />
     </div>
   );

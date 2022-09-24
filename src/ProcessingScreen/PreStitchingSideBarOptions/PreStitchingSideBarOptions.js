@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useMutation } from "react-query";
 import * as http from "../../utils/http";
 import { processingStates } from "../../utils/processingStates";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 const PreStitchingSideBarOptions = ({ setOverlayImageData }) => {
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ const PreStitchingSideBarOptions = ({ setOverlayImageData }) => {
       path: folderPath,
       name: projectName,
     };
-    dispatch(setProcessingIsLoading(true))
+    dispatch(setProcessingIsLoading(true));
     startAnalysisMutation.mutate(body, {
       onSuccess: (res) => {
         const overlayImageData = {
@@ -40,14 +40,14 @@ const PreStitchingSideBarOptions = ({ setOverlayImageData }) => {
         dispatch(setProjectPath(res.project_path));
         dispatch(setProcessingState(processingStates.INDEX_GENERATOR));
         dispatch(setProjectFolderAlreadyCreated(true));
-        dispatch(setProcessingIsLoading(false))
+        dispatch(setProcessingIsLoading(false));
       },
       onError: (error) => {
         console.log("error", error);
-        dispatch(setProcessingIsLoading(false))
+        dispatch(setProcessingIsLoading(false));
       },
     });
-    toast.success("Proyecto creado y guardado con exito!")
+    toast.success("Proyecto creado y guardado con exito!");
   };
 
   return (

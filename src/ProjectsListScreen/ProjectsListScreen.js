@@ -73,7 +73,7 @@ const ProjectsListScreen = () => {
         },
       }
     );
-    dispatch(clearState())
+    dispatch(clearState());
   }, []);
 
   const cloudProjectsList = [

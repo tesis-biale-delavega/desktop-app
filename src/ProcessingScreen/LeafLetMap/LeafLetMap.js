@@ -1,6 +1,6 @@
 import { LatLngBounds } from "leaflet";
 import { ImageOverlay, MapContainer, TileLayer } from "react-leaflet";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const LeafLetMap = ({ imageUrl, imageCoords, centerCoords }) => {
   const mapboxStyle = process.env.REACT_APP_MAPBOX_STYLE;
@@ -26,7 +26,7 @@ const LeafLetMap = ({ imageUrl, imageCoords, centerCoords }) => {
   }, [centerCoords]);
 
   return (
-    <div style={{ width: "100%", display: "flex",flexGrow: 1 }}>
+    <div style={{ width: "100%", display: "flex", flexGrow: 1 }}>
       <MapContainer
         center={
           centerCoords ? centerCoords : [46.59916666666667, 6.621111111111111]

@@ -49,9 +49,9 @@ const IndexVisualizationHeatmapSideBarOptions = ({
   ]);
 
   useEffect(() => {
-    const orthophotoData = defaultLayers[0]
-    !overlayImageData && setOverlayImageData(orthophotoData)
-  }, [])
+    const orthophotoData = defaultLayers[0];
+    !overlayImageData && setOverlayImageData(orthophotoData);
+  }, []);
 
   useEffect(() => {
     dispatch(setAvailableImageLayers(availableLayers));

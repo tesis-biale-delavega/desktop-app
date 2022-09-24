@@ -3,12 +3,12 @@ import "./index.scss";
 import App from "./App";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "react-query";
-import {BrowserRouter, HashRouter} from "react-router-dom";
+import { BrowserRouter, HashRouter } from "react-router-dom";
 import { store } from "./app/store";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
-import { render } from 'react-dom'
+import { render } from "react-dom";
 
 const themeOptions = {
   palette: {
@@ -54,8 +54,8 @@ const themeOptions = {
         root: {
           color: "#fff",
           "&:before": {
-            borderBottom: "1px solid #fff !important"
-          }
+            borderBottom: "1px solid #fff !important",
+          },
         },
       },
     },
@@ -64,8 +64,8 @@ const themeOptions = {
         root: {
           "&.Mui-disabled": {
             color: "#4d4d4d",
-            backgroundColor: "#757373"
-          }
+            backgroundColor: "#757373",
+          },
         },
       },
     },
@@ -78,19 +78,22 @@ const queryClient = new QueryClient();
 
 let persistor = persistStore(store);
 
-let root = document.createElement('div')
+let root = document.createElement("div");
 
-root.id = 'root'
-document.body.appendChild(root)
+root.id = "root";
+document.body.appendChild(root);
 
-render(<HashRouter>
-  <ThemeProvider theme={theme}>
-    <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <App />
-        </PersistGate>
-      </Provider>
-    </QueryClientProvider>
-  </ThemeProvider>
-</HashRouter>, document.getElementById('root'))
+render(
+  <HashRouter>
+    <ThemeProvider theme={theme}>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <App />
+          </PersistGate>
+        </Provider>
+      </QueryClientProvider>
+    </ThemeProvider>
+  </HashRouter>,
+  document.getElementById("root")
+);
