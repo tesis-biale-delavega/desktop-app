@@ -17,7 +17,7 @@ import { useMutation } from "react-query";
 import * as http from "../utils/http";
 import GetAppOutlinedIcon from "@mui/icons-material/GetAppOutlined";
 import CompareIcon from "@mui/icons-material/Compare";
-import { setProcessingState, setProjectName } from "../analysis/analysisSlice";
+import {setProcessingIsLoading, setProcessingState, setProjectName} from "../analysis/analysisSlice";
 import HomeIcon from "@mui/icons-material/Home";
 import { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
@@ -56,9 +56,11 @@ const Navbar = () => {
 
   const handleExportProjectPress = () => {
     const body = { path: projectPath };
+    dispatch(setProcessingIsLoading(true));
 
     exportProjectMutation.mutate(body, {
       onSuccess: (res) => {
+        dispatch(setProcessingIsLoading(false));
         toast(
             <Box>
               <Typography>Compresion del proyecto finalizada</Typography>
@@ -70,6 +72,7 @@ const Navbar = () => {
         );
       },
       onError: (error) => {
+        dispatch(setProcessingIsLoading(false));
         console.log("error", error);
       },
     });
