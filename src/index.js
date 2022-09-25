@@ -14,7 +14,7 @@ const themeOptions = {
   palette: {
     mode: "dark",
     primary: {
-      main: "#45c711",
+      main: "#49BB58",
     },
     secondary: {
       main: "#f50057",
@@ -84,7 +84,7 @@ root.id = "root";
 document.body.appendChild(root);
 
 render(
-  <HashRouter>
+  <BrowserRouter>
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
@@ -94,6 +94,6 @@ render(
         </Provider>
       </QueryClientProvider>
     </ThemeProvider>
-  </HashRouter>,
+  </BrowserRouter>,
   document.getElementById("root")
 );

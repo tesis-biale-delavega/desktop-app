@@ -1,19 +1,29 @@
 import React from "react";
 import "./App.scss";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import ImportImagesScreen from "./ImportImagesScreen/ImportImagesScreen";
 import Navbar from "./Navbar/Navbar";
 import ProcessingScreen from "./ProcessingScreen/ProcessingScreen";
 import ProjectsListScreen from "./ProjectsListScreen/ProjectsListScreen";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import SignUp from "./SignUp/SignUp";
+import Login from "./Login/Login";
 
 function App() {
+  const location = useLocation();
+  const showNavbar =
+    location.pathname !== "/" && location.pathname !== "/signup" && location.pathname !== "/index.html";
+
+  console.log(location)
+
   return (
     <div className={"App"}>
-      <Navbar />
+      {showNavbar && <Navbar />}
       <Routes>
-        <Route path="/" element={<ProjectsListScreen />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/projects" element={<ProjectsListScreen />} />
         <Route path="/import-images" element={<ImportImagesScreen />} />
         <Route path="/processing" element={<ProcessingScreen />} />
       </Routes>
