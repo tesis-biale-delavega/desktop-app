@@ -70,5 +70,20 @@ module.exports = {
         .on("error", (spawnError) => console.error(spawnError));
     },
     historyApiFallback: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        pathRewrite: {
+          '^/api' : ''
+        }
+      },
+      '/auth': {
+        target: 'http://localhost:8080',
+        pathRewrite: {
+          '^/auth' : ''
+        }
+      }
+    },
+    port: "3001"
   },
 };
