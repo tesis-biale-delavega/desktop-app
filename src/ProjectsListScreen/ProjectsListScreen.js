@@ -155,7 +155,8 @@ const ProjectsListScreen = () => {
                 backgroundSize: "contain",
                 bgcolor: "#AEAEAE",
               }}
-              image={"file://" + project.orthophoto_path}
+              component='img'
+              image={"file://" + project.orthophoto_thumb_path}
             />
           ) : (
             <Box

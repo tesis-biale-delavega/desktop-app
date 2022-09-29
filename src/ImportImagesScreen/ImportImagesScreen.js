@@ -30,7 +30,7 @@ const ImportImagesScreen = () => {
 
     if (files.length > 0) {
       const firstFilePath = files[0].path;
-      const folderPathSplit = firstFilePath.split("/").slice(0, -1);
+      const folderPathSplit = firstFilePath.split("\\").slice(0, -1);
       const folderPath = folderPathSplit.join("/");
 
       dispatch(setFolderPath(folderPath));
