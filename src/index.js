@@ -12,13 +12,17 @@ import { render } from "react-dom";
 
 const themeOptions = {
   palette: {
-    mode: "dark",
+    type: "dark",
     primary: {
-      main: "#49BB58",
+      main: "#41A44D",
     },
     secondary: {
-      main: "#f50057",
+      main: "#bdff00",
     },
+    text: {
+      primary: "#fff",
+      secondary: "#27c539",
+    }
   },
   components: {
     MuiDrawer: {
@@ -42,19 +46,12 @@ const themeOptions = {
         },
       },
     },
-    MuiInputLabel: {
-      styleOverrides: {
-        root: {
-          color: "#fff",
-        },
-      },
-    },
     MuiInputBase: {
       styleOverrides: {
         root: {
           color: "#fff",
           "&:before": {
-            borderBottom: "1px solid #fff !important",
+            borderBottom: "1px solid #27c539 !important",
           },
         },
       },
