@@ -26,7 +26,7 @@ const PreStitchingSideBarOptions = ({ setOverlayImageData }) => {
   const [progress, setProgress] = useState({});
 
   const startAnalysisMutation = useMutation((body) => {
-    return http.post(`analysis`, body);
+    return http.post(/python-api/`analysis`, body);
   });
 
   const handleProgress = useCallback(async res => {

@@ -71,18 +71,18 @@ module.exports = {
     },
     historyApiFallback: true,
     proxy: {
-      '/api': {
-        target: 'http://localhost:5000',
-        pathRewrite: {
-          '^/api' : ''
-        }
-      },
-      '/auth': {
+      '/spring-api': {
         target: 'http://localhost:8080',
         pathRewrite: {
-          '^/auth' : ''
+          '^/spring-api' : ''
         }
-      }
+      },
+      '/python-api': {
+        target: 'http://localhost:5000',
+        pathRewrite: {
+          '^/python-api' : ''
+        }
+      },
     },
     port: "3001"
   },

@@ -47,7 +47,7 @@ const IndexGeneratorSideBarOptions = () => {
   };
 
   const generateIndexesMutation = useMutation((body) => {
-    return http.post(`index`, body);
+    return http.post(`/python-api/index`, body);
   });
 
   const onGenerateIndexesPress = () => {

@@ -1,10 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Button, Link, Stack, TextField, Typography } from "@mui/material";
 import vegexLogo from "../assets/vegex-logo.png";
 import vegexBackground from "../assets/vegex-background.png";
 import "./SignUp.scss";
+import { useMutation } from "react-query";
+import * as http from "../utils/http";
+import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 
 const SignUp = () => {
+  const navigate = useNavigate();
+  const [signUpData, setSignUpData] = useState(undefined);
+
+  const signUpMutation = useMutation((body) => {
+    return http.post(`/spring-api/auth/register`, body);
+  });
+
+  const onSubmit = () => {
+    signUpMutation.mutate(signUpData, {
+      onSuccess: () => {
+        navigate("/")
+        toast.success("Se ha registrado exitosamente!")
+      },
+      onError: (error) => {
+        toast.error(error.data.message)
+      }
+    })
+  }
+
+  const areFieldsCompleted = () => {
+    return signUpData && signUpData?.username && signUpData?.email && signUpData?.password
+  }
+
   return (
     <Stack direction={"row"} flexGrow={1} sx={{ overflow: "hidden" }}>
       <Stack
@@ -25,27 +52,27 @@ const SignUp = () => {
             variant="standard"
             fullWidth
             margin={"dense"}
-            onChange={(e) => console.log(e.target.value)}
+            onChange={(e) => setSignUpData({...signUpData, username: e.target.value})}
           />
           <TextField
-            id="sign-up-username"
+            id="sign-up-email"
             label="Email"
             variant="standard"
             type={"email"}
             fullWidth
             margin={"dense"}
-            onChange={(e) => console.log(e.target.value)}
+            onChange={(e) => setSignUpData({...signUpData, email: e.target.value})}
           />
           <TextField
-            id="sign-up-username"
+            id="sign-up-password"
             label="Password"
             variant="standard"
             type={"password"}
             fullWidth
             margin={"dense"}
-            onChange={(e) => console.log(e.target.value)}
+            onChange={(e) => setSignUpData({...signUpData, password: e.target.value})}
           />
-          <Button variant={"contained"} sx={{ marginTop: 3 }}>
+          <Button variant={"contained"} sx={{ marginTop: 3 }} onClick={onSubmit} disabled={!areFieldsCompleted()}>
             Registrarse
           </Button>
         </Stack>
@@ -54,12 +81,9 @@ const SignUp = () => {
           <Link href={"/"} mr={1} variant={"body1"} underline={"none"}>
             Login
           </Link>
-          <Link href={"/projects"} variant={"body1"} underline={"none"}>
-            Projects List
-          </Link>
         </Stack>
       </Stack>
-      <Box sx={{ flexGrow: 8 }}>
+      <Box sx={{ flexGrow: 6 }}>
         <img
           src={vegexBackground}
           alt={"vegex-background"}

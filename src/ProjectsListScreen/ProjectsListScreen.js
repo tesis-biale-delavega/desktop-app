@@ -56,7 +56,7 @@ const ProjectsListScreen = () => {
   };
 
   const localProjectsListMutation = useMutation(() => {
-    return http.get(`projects`);
+    return http.get(`/python-api/projects`);
   });
 
   const [localProjectsList, setLocalProjectList] = useState([]);

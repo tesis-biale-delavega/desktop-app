@@ -52,7 +52,7 @@ const Navbar = () => {
   };
 
   const exportProjectMutation = useMutation((body) => {
-    return http.post(`export-zip`, body);
+    return http.post(`/python-api/export-zip`, body);
   });
 
   const handleExportProjectPress = () => {

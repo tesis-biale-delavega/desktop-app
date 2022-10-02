@@ -23,7 +23,7 @@ const ThresholdCreatorDialog = ({
   };
 
   const thresholdMutation = useMutation((body) => {
-    return http.post(`threshold`, body);
+    return http.post(`/python-api/threshold`, body);
   });
 
   const handleThresholdSend = () => {

@@ -13,4 +13,4 @@ Install dependencies with npm. Run the following command: `npm install`
 
 ## Run the electron app
 
-Run the following command: `npm run dev`
+Run the following command: `npm run start`
