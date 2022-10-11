@@ -15,8 +15,6 @@ function App() {
   const showNavbar =
     location.pathname !== "/" && location.pathname !== "/signup" && location.pathname !== "/index.html";
 
-  console.log(location)
-
   return (
     <div className={"App"}>
       {showNavbar && <Navbar />}

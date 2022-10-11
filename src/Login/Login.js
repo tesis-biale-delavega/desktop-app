@@ -20,6 +20,7 @@ const Login = () => {
         signUpMutation.mutate(loginData, {
             onSuccess: (res) => {
                 localStorage.setItem("token", res.token)
+                localStorage.setItem("username", res.username)
                 navigate("/projects")
             },
             onError: (error) => {
@@ -72,6 +73,9 @@ const Login = () => {
                 <Stack direction={"row"} mt={4} alignItems={"center"}>
                     <Link href={"/signup"} mr={1} variant={"body1"} underline={"none"}>
                         Crear una cuenta
+                    </Link>
+                    <Link href={"/projects"} variant={"body1"} underline={"none"}>
+                        Proyectos (DEV ONLY)
                     </Link>
                 </Stack>
             </Stack>

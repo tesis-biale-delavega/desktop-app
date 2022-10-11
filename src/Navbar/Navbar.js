@@ -26,6 +26,7 @@ import React, { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
 import { toast } from "react-toastify";
+import AccountOptions from "../AccountOptions/AccountOptions";
 
 const { shell } = require("electron");
 
@@ -48,7 +49,7 @@ const Navbar = () => {
   );
 
   const handleHomePress = () => {
-    navigate("/");
+    navigate("/projects");
   };
 
   const exportProjectMutation = useMutation((body) => {
@@ -181,6 +182,9 @@ const Navbar = () => {
             </IconButton>
           </Box>
         )}
+        <Box ml={"auto"}>
+          <AccountOptions />
+        </Box>
       </Toolbar>
     </AppBar>
   );
