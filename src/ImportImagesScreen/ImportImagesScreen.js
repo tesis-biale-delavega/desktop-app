@@ -32,8 +32,9 @@ const ImportImagesScreen = () => {
 
     if (files.length > 0) {
       const firstFilePath = files[0].path;
-      const folderPathSplit = firstFilePath.split("/").slice(0, -1);
-      const folderPath = folderPathSplit.join("/")
+      const splitChar = firstFilePath.includes('\\') ? '\\' : '/'
+      const folderPathSplit = firstFilePath.split(splitChar).slice(0, -1);
+      const folderPath = folderPathSplit.join(splitChar)
 
       dispatch(setFolderPath(folderPath));
       folderPath && navigate("/processing");
