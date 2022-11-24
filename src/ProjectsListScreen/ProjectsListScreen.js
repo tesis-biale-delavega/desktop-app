@@ -27,6 +27,7 @@ import * as http from "../utils/http";
 import moment from "moment";
 import PhotoSizeSelectActualOutlinedIcon from "@mui/icons-material/PhotoSizeSelectActualOutlined";
 import { processingStates } from "../utils/processingStates";
+import CachedIcon from "@mui/icons-material/Cached";
 
 const createProjectSX = {
   borderStyle: "dashed",
@@ -155,7 +156,7 @@ const ProjectsListScreen = () => {
                 backgroundSize: "contain",
                 bgcolor: "#AEAEAE",
               }}
-              component='img'
+              component="img"
               image={"file://" + project.orthophoto_thumb_path}
             />
           ) : (
@@ -204,7 +205,13 @@ const ProjectsListScreen = () => {
         </Stack>
       </Stack>
       <Stack m={5}>
-        <Typography>Proyectos en la Nube</Typography>
+        <Stack flexDirection={"row"}>
+          <Typography>Proyectos en la Nube</Typography>
+          <Button variant={"outlined"} sx={{ml: "auto", textTransform: "unset"}}>
+              <Typography mr={2}>Actualizar lista</Typography>
+              <CachedIcon />
+          </Button>
+        </Stack>
         {cloudProjectsList.length > 0 ? (
           <Stack
             direction={"row"}

@@ -27,6 +27,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
 import { toast } from "react-toastify";
 import AccountOptions from "../AccountOptions/AccountOptions";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 const { shell } = require("electron");
 
@@ -165,7 +166,7 @@ const Navbar = () => {
                 size="large"
                 edge="start"
                 color="inherit"
-                aria-label="export-project"
+                aria-label="compare-slider"
                 onClick={handleCompareSliderPress}
               >
                 <CompareIcon />
@@ -180,9 +181,19 @@ const Navbar = () => {
             >
               <GetAppOutlinedIcon />
             </IconButton>
+            <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="cloud-save"
+                onClick={() => console.log("upload")}
+            >
+              <CloudUploadIcon />
+            </IconButton>
           </Box>
         )}
-        <Box ml={"auto"}>
+        <Box ml={processingState === processingStates.INDEX_VISUALIZATION_HEATMAP ||
+            processingState === processingStates.IMAGE_COMPARISON_SLIDER ? "unset" : "auto"}>
           <AccountOptions />
         </Box>
       </Toolbar>
