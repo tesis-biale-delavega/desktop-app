@@ -117,7 +117,7 @@ const ProjectsListScreen = () => {
     navigate("/processing");
   };
 
-  const ProjectListItem = ({ project }) => {
+  const ProjectListItem = ({ project, showImage }) => {
     return (
       <Card
         sx={{
@@ -129,12 +129,12 @@ const ProjectsListScreen = () => {
         elevation={4}
         onClick={() => onProjectItemClick(project)}
       >
-        <CardActionArea sx={{ display: "flex" }}>
-          <CardContent sx={{ flex: "1 0 auto" }}>
+        <CardActionArea sx={{ display: "flex", flexGrow: 1, height: "100%" }}>
+          <CardContent sx={{ display: "flex", flexGrow: 1 }}>
             <Stack
               direction={"column"}
               alignItems={"space-between"}
-              sx={{ width: "100%" }}
+              sx={{ width: "100%", height: "100%" }}
             >
               <Typography component="div" variant="body1">
                 {project.name}
@@ -148,32 +148,33 @@ const ProjectsListScreen = () => {
               </Typography>
             </Stack>
           </CardContent>
-          {project.orthophoto_path ? (
-            <CardMedia
-              sx={{
-                height: "110px",
-                width: "35%",
-                backgroundSize: "contain",
-                bgcolor: "#AEAEAE",
-              }}
-              component="img"
-              image={"file://" + project.orthophoto_thumb_path}
-            />
-          ) : (
-            <Box
-              sx={{
-                height: "110px",
-                width: "35%",
-                backgroundSize: "contain",
-                bgcolor: "#AEAEAE",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <PhotoSizeSelectActualOutlinedIcon />
-            </Box>
-          )}
+          {showImage &&
+            (project.orthophoto_path ? (
+              <CardMedia
+                sx={{
+                  height: "110px",
+                  width: "35%",
+                  backgroundSize: "contain",
+                  bgcolor: "#AEAEAE",
+                }}
+                component="img"
+                image={"file://" + project.orthophoto_thumb_path}
+              />
+            ) : (
+              <Box
+                sx={{
+                  height: "110px",
+                  width: "35%",
+                  backgroundSize: "contain",
+                  bgcolor: "#AEAEAE",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <PhotoSizeSelectActualOutlinedIcon />
+              </Box>
+            ))}
         </CardActionArea>
       </Card>
     );
@@ -200,16 +201,19 @@ const ProjectsListScreen = () => {
             <AddIcon />
           </Button>
           {localProjectsList.map((project) => (
-            <ProjectListItem project={project} />
+            <ProjectListItem project={project} showImage />
           ))}
         </Stack>
       </Stack>
       <Stack m={5}>
         <Stack flexDirection={"row"}>
           <Typography>Proyectos en la Nube</Typography>
-          <Button variant={"outlined"} sx={{ml: "auto", textTransform: "unset"}}>
-              <Typography mr={2}>Actualizar lista</Typography>
-              <CachedIcon />
+          <Button
+            variant={"outlined"}
+            sx={{ ml: "auto", textTransform: "unset" }}
+          >
+            <Typography mr={2}>Actualizar lista</Typography>
+            <CachedIcon />
           </Button>
         </Stack>
         {cloudProjectsList.length > 0 ? (
