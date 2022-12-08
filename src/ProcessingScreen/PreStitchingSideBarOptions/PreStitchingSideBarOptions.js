@@ -64,8 +64,6 @@ const PreStitchingSideBarOptions = ({setOverlayImageData}) => {
         toast.success("Proyecto creado y guardado con exito!");
     };
 
-    console.log(progress)
-
     const shouldRenderRGB = progress.rgb && progress.rgb.progress !== 0;
     const shouldRenderMultispectral = progress.multispectral && progress.multispectral.progress !== 0;
 

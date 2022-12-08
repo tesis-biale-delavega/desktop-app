@@ -28,8 +28,6 @@ const ImportImagesScreen = () => {
   const onFileInputChange = (event) => {
     const files = event.target.files;
 
-    console.log(files)
-
     if (files.length > 0) {
       const firstFilePath = files[0].path;
       const splitChar = firstFilePath.includes('\\') ? '\\' : '/'

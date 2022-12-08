@@ -16,6 +16,8 @@ import {
   ReactCompareSlider,
   ReactCompareSliderImage,
 } from "react-compare-slider";
+import {useMutation} from "react-query";
+import * as http from "../utils/http";
 
 const ProcessingScreen = () => {
   const navigate = useNavigate();
@@ -30,12 +32,22 @@ const ProcessingScreen = () => {
     (state) => state.analysis.processingIsLoading
   );
   const stitchingData = useSelector((state) => state.analysis.stitchingData);
+  const folderPath = useSelector((state) => state.analysis.folderPath);
 
   const [overlayImageData, setOverlayImageData] = useState(undefined);
 
+  const getImagesCoordsMutation = useMutation((body) => {
+    return http.post(`/python-api/coords`, body);
+  });
+
   useEffect(() => {
-    !stitchingData &&
+    if(!stitchingData) {
       dispatch(setProcessingState(processingStates.PRE_STITCHING));
+
+      getImagesCoordsMutation.mutate({path: folderPath}, {
+        onSuccess: (res) => setOverlayImageData({centerCoords: [res.avg_rgb_lat, res.avg_rgb_long]})
+      })
+    }
   }, []);
 
   const getSideBarOptions = () => {
@@ -75,7 +87,6 @@ const ProcessingScreen = () => {
   };
 
   return (
-    // TODO: fix the height of the map to fill entire container
     <Box sx={{ display: "flex", flexGrow: 1 }}>
       <SideBar children={getSideBarOptions()} onGoBackClick={handleGoBack} />
       <Stack direction={"column"} flexGrow={1}>
