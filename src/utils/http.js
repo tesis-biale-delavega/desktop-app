@@ -10,6 +10,11 @@ const request = async (url, method, data) => {
     url: url,
     method,
     data,
+    ...{
+      headers: {
+        Authorization: localStorage.getItem("token"),
+      },
+    },
   })
     .then((res) => {
       return res.data;

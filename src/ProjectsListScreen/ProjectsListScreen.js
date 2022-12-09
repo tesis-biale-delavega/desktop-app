@@ -28,6 +28,7 @@ import moment from "moment";
 import PhotoSizeSelectActualOutlinedIcon from "@mui/icons-material/PhotoSizeSelectActualOutlined";
 import { processingStates } from "../utils/processingStates";
 import CachedIcon from "@mui/icons-material/Cached";
+import 'moment/locale/es'
 
 const createProjectSX = {
   borderStyle: "dashed",
@@ -61,6 +62,11 @@ const ProjectsListScreen = () => {
   });
 
   const [localProjectsList, setLocalProjectList] = useState([]);
+  const [cloudProjectsList, setCloudProjectList] = useState([]);
+
+  const cloudProjectsListMutation = useMutation(() => {
+    return http.get(`/spring-api/api/project`);
+  });
 
   useEffect(() => {
     localProjectsListMutation.mutate(
@@ -74,29 +80,18 @@ const ProjectsListScreen = () => {
         },
       }
     );
+    cloudProjectsListMutation.mutate({},
+        {
+          onSuccess: (res) => {
+            const projectList = res.map(projectData => ({date: projectData.creationDate}))
+            setCloudProjectList(res);
+          },
+          onError: (error) => {
+            console.log(error);
+          },
+        })
     dispatch(clearState());
   }, []);
-
-  const cloudProjectsList = [
-    {
-      name: "Proyecto sin nombre 5",
-      date: 628021800,
-      orthophoto_path:
-        "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
-    },
-    {
-      name: "Proyecto sin nombre 6",
-      date: 628021800,
-      orthophoto_path:
-        "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
-    },
-    {
-      name: "Proyecto sin nombre 5",
-      date: 628021800,
-      orthophoto_path:
-        "/Users/braianb/PycharmProjects/image-processing/algo_13082022170009/rgb/odm_orthophoto/odm_orthophoto.png",
-    },
-  ];
 
   const onProjectItemClick = (project) => {
     dispatch(setProjectName(project.name));
@@ -137,10 +132,10 @@ const ProjectsListScreen = () => {
               sx={{ width: "100%", height: "100%" }}
             >
               <Typography component="div" variant="body1">
-                {project.name}
+                {project.name ? project.name : "Proyecto sin nombre"}
               </Typography>
               <Typography variant="subtitle1" color="#c6c6c6" component="div">
-                {moment(project.date * 1000).format("L")}
+                {moment(project.creationDate ? project.creationDate : project.date * 1000).locale('es').format("L")}
               </Typography>
             </Stack>
           </CardContent>
