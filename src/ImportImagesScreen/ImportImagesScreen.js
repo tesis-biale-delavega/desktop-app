@@ -1,22 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./ImportImagesScreen.scss";
-import { Button, createTheme, ThemeProvider } from "@mui/material";
+import {
+  Button,
+  createTheme,
+  ImageList,
+  ImageListItem,
+  ImageListItemBar,
+  Stack,
+  ThemeProvider,
+  Toolbar,
+} from "@mui/material";
 import { useDispatch } from "react-redux";
 import { setFolderPath } from "../analysis/analysisSlice";
 import { useNavigate } from "react-router-dom";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#B1B1B1",
-    },
-  },
-});
 
 const ImportImagesScreen = () => {
   const fileInput = React.useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [currentFolder, setCurrentFolderPath] = useState(undefined);
+  const [currentImages, setCurrentImages] = useState(undefined);
 
   useEffect(() => {
     if (fileInput.current !== null) {
@@ -30,33 +34,89 @@ const ImportImagesScreen = () => {
 
     if (files.length > 0) {
       const firstFilePath = files[0].path;
-      const splitChar = firstFilePath.includes('\\') ? '\\' : '/'
+      const splitChar = firstFilePath.includes("\\") ? "\\" : "/";
       const folderPathSplit = firstFilePath.split(splitChar).slice(0, -1);
-      const folderPath = folderPathSplit.join(splitChar)
+      const folderPath = folderPathSplit.join(splitChar);
 
-      dispatch(setFolderPath(folderPath));
-      folderPath && navigate("/processing");
+      setCurrentFolderPath(folderPath);
+      setCurrentImages(files);
     }
   };
 
+  const onConfirmPress = () => {
+    dispatch(setFolderPath(currentFolder));
+    currentFolder && navigate("/processing");
+  };
+
+  const getImageName = (imagePath) => {
+    const splitChar = imagePath.includes("\\") ? "\\" : "/";
+    const imagePathSplit = imagePath.split(splitChar).slice();
+    return imagePathSplit[imagePathSplit.length - 1];
+  };
+
   return (
-    <ThemeProvider theme={theme}>
-      <div className={"import-images-screen-container"}>
-        <Button
-          className={"import-button"}
-          variant={"contained"}
-          onClick={() => fileInput.current.click()}
-        >
-          {"Importar Imagenes (.tiff, .jpg)"}
-        </Button>
-        <input
-          ref={fileInput}
-          type="file"
-          onChange={onFileInputChange}
-          style={{ display: "none" }}
-        />
-      </div>
-    </ThemeProvider>
+    <Stack flexGrow={1} maxHeight={"100vh"}>
+      <Toolbar />
+      {currentImages && (
+        <ImageList sx={{ width: "100%" }} variant="standard" cols={4} gap={8}>
+          {Array.from(currentImages)
+            ?.filter(
+              (imageData) =>
+                imageData.type === "image/jpeg" ||
+                imageData.type === "image/png"
+            )
+            .slice(0, 20)
+            .map((imageData) => (
+              <ImageListItem key={imageData?.path}>
+                <img
+                  src={`file://${imageData.path}?w=248&fit=crop&auto=format`}
+                  srcSet={`file://${imageData.path}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                  alt={imageData.title}
+                  loading="lazy"
+                />
+                <ImageListItemBar
+                  position="bottom"
+                  title={getImageName(imageData.path)}
+                />
+              </ImageListItem>
+            ))}
+        </ImageList>
+      )}
+      <Stack
+        flexDirection={"row"}
+        alignItems={currentImages ? "flex-end" : "center"}
+        justifyContent={currentImages ? "space-evenly" : "center"}
+        flexGrow={1}
+        mb={2}
+      >
+        <>
+          <Button
+            variant={"contained"}
+            onClick={() => fileInput.current.click()}
+            sx={{ ml: 2, mr: 2 }}
+            fullWidth={currentImages}
+          >
+            {"Importar imagenes (.tiff, .jpg)"}
+          </Button>
+          <input
+            ref={fileInput}
+            type="file"
+            onChange={onFileInputChange}
+            style={{ display: "none" }}
+          />
+        </>
+        {currentFolder && (
+          <Button
+            variant={"contained"}
+            onClick={onConfirmPress}
+            sx={{ ml: 2, mr: 2 }}
+            fullWidth
+          >
+            {"Avanzar"}
+          </Button>
+        )}
+      </Stack>
+    </Stack>
   );
 };
 
