@@ -40,6 +40,8 @@ const ComparisonSliderSideBarOptions = ({
     setCompareLayers(newCompareLayers);
   };
 
+  console.log(availableImageLayers)
+
   return (
     <Box flexGrow={1}>
       <Stack justifyContent={"space-between"} height={"100%"}>
@@ -59,7 +61,7 @@ const ComparisonSliderSideBarOptions = ({
                 onChange={(e) => handleLayerChange(e, true)}
               >
                 {availableImageLayers.map((layer) => (
-                  <MenuItem value={layer.imageUrl}>{layer.name}</MenuItem>
+                  <MenuItem sx={{color: "#000"}} value={layer.imageUrl}>{layer.name}</MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -72,7 +74,7 @@ const ComparisonSliderSideBarOptions = ({
                 onChange={(e) => handleLayerChange(e, false)}
               >
                 {availableImageLayers.map((layer) => (
-                  <MenuItem value={layer.imageUrl}>{layer.name}</MenuItem>
+                  <MenuItem sx={{color: "#000"}} value={layer.imageUrl}>{layer.name}</MenuItem>
                 ))}
               </Select>
             </FormControl>

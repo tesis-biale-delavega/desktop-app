@@ -68,7 +68,12 @@ const IndexGeneratorSideBarOptions = () => {
     dispatch(setProcessingIsLoading(true));
     generateIndexesMutation.mutate(body, {
       onSuccess: (res) => {
-        dispatch(setGeneratedIndexes(res));
+        const generatedIndexes = Object.entries(res).map((index) => ({
+          index: index[0],
+          path: index[1]?.img,
+          vector: index[1]?.vector,
+        }));
+        dispatch(setGeneratedIndexes(generatedIndexes));
         dispatch(
           setProcessingState(processingStates.INDEX_VISUALIZATION_HEATMAP)
         );

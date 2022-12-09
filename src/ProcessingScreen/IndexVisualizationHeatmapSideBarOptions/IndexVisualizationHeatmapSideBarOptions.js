@@ -33,15 +33,14 @@ const IndexVisualizationHeatmapSideBarOptions = ({
       imageCoords: stitchingData?.imageCoords,
     },
   ];
-  const generatedIndexesArray = Object.entries(generatedIndexes).map(
-    (index) => {
-      return {
-        name: index[0].toUpperCase(),
-        imageUrl: index[1]?.img,
-        imageVector: index[1]?.vector,
-      };
-    }
-  );
+  console.log(generatedIndexes);
+  const generatedIndexesArray = generatedIndexes?.map((index) => {
+    return {
+      name: index?.index?.toUpperCase(),
+      imageUrl: index?.path,
+      imageVector: index?.vector,
+    };
+  });
 
   const [availableLayers, setAvailableLayers] = useState([
     ...defaultLayers,
