@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./ImportImagesScreen.scss";
 import {
   Button,
   createTheme,
@@ -9,6 +8,7 @@ import {
   Stack,
   ThemeProvider,
   Toolbar,
+  Typography,
 } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { setFolderPath } from "../analysis/analysisSlice";
@@ -89,6 +89,12 @@ const ImportImagesScreen = () => {
         flexGrow={1}
         mb={2}
       >
+        {!currentFolder && (
+          <Typography>
+            Por favor seleccione la carpeta que contiene las imágenes que desea
+            procesar. Estas deben tener la extensión .tiff o .jpg.
+          </Typography>
+        )}
         <>
           <Button
             variant={"contained"}

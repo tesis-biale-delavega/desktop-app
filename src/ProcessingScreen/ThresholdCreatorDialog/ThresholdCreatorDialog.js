@@ -62,15 +62,15 @@ const ThresholdCreatorDialog = ({
       title={"Crear un threshold"}
       content={() => (
         <div>
-          <DialogContentText sx={{ color: "#fff" }}>
+          <DialogContentText sx={{ color: "#fff" }} mt={2}>
             Threshold
           </DialogContentText>
-          <Box mt={4} sx={{ width: 300 }}>
+          <Box mt={6} sx={{ width: 400 }}>
             <Slider
               getAriaLabel={() => "Threshold"}
               value={value}
               onChange={handleChange}
-              valueLabelDisplay={"auto"}
+              valueLabelDisplay={"on"}
               step={0.1}
               min={0}
               max={1}

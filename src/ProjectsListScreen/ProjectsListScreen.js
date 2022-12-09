@@ -196,7 +196,7 @@ const ProjectsListScreen = () => {
             <Typography ml={2}>Crear Proyecto</Typography>
             <AddIcon />
           </Button>
-          {localProjectsList.map((project) => (
+          {localProjectsList.filter(projectData => projectData.avg_coordinates !== null).map((project) => (
             <ProjectListItem project={project} showImage />
           ))}
         </Stack>

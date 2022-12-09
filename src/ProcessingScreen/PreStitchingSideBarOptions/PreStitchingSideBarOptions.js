@@ -44,6 +44,7 @@ const PreStitchingSideBarOptions = ({ setOverlayImageData }) => {
       name: projectName,
     };
     dispatch(setProcessingIsLoading(true));
+    dispatch(setProjectFolderAlreadyCreated(true))
     startAnalysisMutation.mutate(body, {
       onSuccess: (res) => {
         const overlayImageData = {
@@ -55,7 +56,6 @@ const PreStitchingSideBarOptions = ({ setOverlayImageData }) => {
         dispatch(setStitchingData(res));
         dispatch(setProjectPath(res.project_path));
         dispatch(setProcessingState(processingStates.INDEX_GENERATOR));
-        dispatch(setProjectFolderAlreadyCreated(true));
         dispatch(setProcessingIsLoading(false));
       },
       onError: (error) => {

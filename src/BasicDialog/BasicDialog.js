@@ -13,7 +13,7 @@ const BasicDialog = ({ open, handleClose, title, content }) => {
         onClose={handleClose}
         PaperProps={{ sx: { backgroundColor: "#383838" } }}
       >
-        <DialogTitle>{title}</DialogTitle>
+        <DialogTitle bgcolor={"#136536"}>{title}</DialogTitle>
         <DialogContent>{content()}</DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Close</Button>

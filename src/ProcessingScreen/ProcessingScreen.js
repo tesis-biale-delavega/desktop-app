@@ -81,7 +81,7 @@ const ProcessingScreen = () => {
       dispatch(setProcessingState(processingStates.INDEX_GENERATOR));
     } else {
       processingState === 0
-        ? navigate("/")
+        ? navigate("/projects")
         : dispatch(setProcessingState(processingState - 1));
     }
   };

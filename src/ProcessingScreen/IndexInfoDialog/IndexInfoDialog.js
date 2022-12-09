@@ -15,15 +15,15 @@ const IndexInfoDialog = ({ open, setShowIndexInfoDialog, indexData }) => {
       content={() => (
         <Stack>
           <Stack mt={2}>
-            <Typography variant={"subtitle1"}>Descripcion:</Typography>
-            <Typography variant={"body2"}>
+            <Typography variant={"subtitle1"}>Descripcion</Typography>
+            <Typography variant={"body2"} color={"#cacaca"} mt={2}>
               {indexData?.info?.description}
             </Typography>
           </Stack>
           {indexData?.info?.interpretation && (
             <Stack mt={2}>
-              <Typography variant={"subtitle1"}>Como interpretarlo:</Typography>
-              <Typography variant={"body2"}>
+              <Typography variant={"subtitle1"}>Como interpretarlo</Typography>
+              <Typography variant={"body2"} color={"#cacaca"} mt={2}>
                 {indexData?.info?.interpretation}
               </Typography>
             </Stack>

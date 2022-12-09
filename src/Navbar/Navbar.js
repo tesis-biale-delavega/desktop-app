@@ -22,12 +22,12 @@ import {
   setProjectName,
 } from "../analysis/analysisSlice";
 import HomeIcon from "@mui/icons-material/Home";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
 import { toast } from "react-toastify";
 import AccountOptions from "../AccountOptions/AccountOptions";
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 const { shell } = require("electron");
 
@@ -43,11 +43,18 @@ const Navbar = () => {
   const projectFolderAlreadyCreated = useSelector(
     (state) => state.analysis.projectFolderAlreadyCreated
   );
+  const processingIsLoading = useSelector(
+    (state) => state.analysis.processingIsLoading
+  );
 
   const [projectNameEditMode, setProjectNameEditMode] = useState(false);
   const [temporalProjectName, setTemporalProjectName] = useState(
     projectName ? projectName : ""
   );
+
+  useEffect(() => {
+    setTemporalProjectName(projectName);
+  }, [projectName]);
 
   const handleHomePress = () => {
     navigate("/projects");
@@ -142,7 +149,7 @@ const Navbar = () => {
             ) : (
               <Stack direction={"row"} alignItems={"center"}>
                 <Typography>{temporalProjectName}</Typography>
-                {!projectFolderAlreadyCreated && (
+                {!(processingIsLoading || projectFolderAlreadyCreated) && (
                   <IconButton
                     size="large"
                     edge="start"
@@ -182,18 +189,24 @@ const Navbar = () => {
               <GetAppOutlinedIcon />
             </IconButton>
             <IconButton
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="cloud-save"
-                onClick={() => console.log("upload")}
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="cloud-save"
+              onClick={() => console.log("upload")}
             >
               <CloudUploadIcon />
             </IconButton>
           </Box>
         )}
-        <Box ml={processingState === processingStates.INDEX_VISUALIZATION_HEATMAP ||
-            processingState === processingStates.IMAGE_COMPARISON_SLIDER ? "unset" : "auto"}>
+        <Box
+          ml={
+            processingState === processingStates.INDEX_VISUALIZATION_HEATMAP ||
+            processingState === processingStates.IMAGE_COMPARISON_SLIDER
+              ? "unset"
+              : "auto"
+          }
+        >
           <AccountOptions />
         </Box>
       </Toolbar>
