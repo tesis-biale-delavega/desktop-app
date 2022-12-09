@@ -139,11 +139,7 @@ const ProjectsListScreen = () => {
               <Typography component="div" variant="body1">
                 {project.name}
               </Typography>
-              <Typography
-                variant="subtitle1"
-                color="text.secondary"
-                component="div"
-              >
+              <Typography variant="subtitle1" color="#c6c6c6" component="div">
                 {moment(project.date * 1000).format("L")}
               </Typography>
             </Stack>

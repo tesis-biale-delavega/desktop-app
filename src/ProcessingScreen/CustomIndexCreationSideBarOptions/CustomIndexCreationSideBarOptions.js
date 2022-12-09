@@ -34,7 +34,7 @@ const CustomIndexCreationSideBarOptions = () => {
           <Typography mt={2}>Indice</Typography>
           <TextField
             id="standard-basic"
-            label="Index name"
+            label="Nombre"
             variant="standard"
             fullWidth
             margin={"dense"}
@@ -44,7 +44,7 @@ const CustomIndexCreationSideBarOptions = () => {
           />
           <TextField
             id="standard-multiline-static"
-            label="Index formula"
+            label="Formula"
             multiline
             rows={4}
             variant="standard"

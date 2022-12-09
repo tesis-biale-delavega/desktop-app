@@ -16,8 +16,8 @@ const FormDialog = ({ open, handleClose, handleConfirm, title, content }) => {
         <DialogTitle>{title}</DialogTitle>
         <DialogContent>{content()}</DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleConfirm}>Confirm</Button>
+          <Button onClick={handleClose}>Cancelar</Button>
+          <Button onClick={handleConfirm}>Confirmar</Button>
         </DialogActions>
       </Dialog>
     </div>

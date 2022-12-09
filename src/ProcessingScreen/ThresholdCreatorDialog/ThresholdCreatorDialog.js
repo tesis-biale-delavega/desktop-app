@@ -59,7 +59,7 @@ const ThresholdCreatorDialog = ({
       open={isOpen}
       handleClose={handleClose}
       handleConfirm={handleThresholdSend}
-      title={"Threshold Creator"}
+      title={"Crear un threshold"}
       content={() => (
         <div>
           <DialogContentText sx={{ color: "#fff" }}>

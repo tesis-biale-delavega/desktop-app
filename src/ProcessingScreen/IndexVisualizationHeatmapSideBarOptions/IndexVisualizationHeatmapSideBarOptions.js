@@ -27,7 +27,7 @@ const IndexVisualizationHeatmapSideBarOptions = ({
 
   const defaultLayers = [
     {
-      name: "Orthophoto",
+      name: "Ortofotografía",
       imageUrl: stitchingData?.orthophoto_path,
       centerCoords: stitchingData?.centerCoords,
       imageCoords: stitchingData?.imageCoords,

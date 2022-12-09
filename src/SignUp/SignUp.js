@@ -77,8 +77,8 @@ const SignUp = () => {
           </Button>
         </Stack>
         <Stack direction={"row"} mt={4} alignItems={"center"}>
-          <Typography mr={1}>Ya tienes una cuenta?</Typography>
-          <Link href={"/"} mr={1} variant={"body1"} underline={"none"}>
+          <Typography color={"#c2c2c2"} mr={1}>¿Ya tienes una cuenta?</Typography>
+          <Link color={"#27c539"} href={"/"} mr={1} variant={"body1"} underline={"none"}>
             Login
           </Link>
         </Stack>
