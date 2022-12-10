@@ -15,7 +15,7 @@ const IndexInfoDialog = ({ open, setShowIndexInfoDialog, indexData }) => {
       content={() => (
         <Stack>
           <Stack mt={2}>
-            <Typography variant={"subtitle1"}>Descripcion</Typography>
+            <Typography variant={"subtitle1"}>Descripción</Typography>
             <Typography variant={"body2"} color={"#cacaca"} mt={2}>
               {indexData?.info?.description}
             </Typography>

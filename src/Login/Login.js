@@ -24,7 +24,7 @@ const Login = () => {
                 navigate("/projects")
             },
             onError: (error) => {
-                toast.error(error.data.message)
+                error.status === 401 && toast.error("Credenciales inválidas")
             }
         })
     }

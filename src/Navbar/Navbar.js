@@ -84,7 +84,7 @@ const Navbar = () => {
         dispatch(setProcessingIsLoading(false));
         toast(
           <Box>
-            <Typography>Compresion del proyecto finalizada</Typography>
+            <Typography>Compresión del proyecto finalizada</Typography>
             <Link onClick={() => shell.showItemInFolder(res?.path)}>
               Ir a la carpeta del archivo
             </Link>
