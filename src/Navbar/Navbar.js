@@ -92,16 +92,16 @@ const Navbar = () => {
           { autoClose: false }
         );
       },
-      onError: (error) => {
+      onError: (err) => {
         dispatch(setProcessingIsLoading(false));
-        console.log("error", error);
+        toast.error(err);
       },
     });
   };
 
   const handleProjectCloudUpload = () => {
     const compressBody = { path: projectPath };
-
+    dispatch(setProcessingIsLoading(true));
     compressProjectMutation.mutate(compressBody, {
       onSuccess: (res) => {
         let fs = require("fs");
@@ -114,11 +114,20 @@ const Navbar = () => {
 
         const formData = new FormData();
         formData.append("file", file);
-        cloudUploadProjectMutation.mutate(formData);
+        cloudUploadProjectMutation.mutate(formData, {
+          onSuccess: () => {
+            dispatch(setProcessingIsLoading(false));
+            toast.success("El proyecto se ha subido a la nube exitosamente!");
+          },
+          onError: (err) => {
+            dispatch(setProcessingIsLoading(false));
+            toast.error(err);
+          },
+        });
       },
-      onError: (error) => {
+      onError: (err) => {
         dispatch(setProcessingIsLoading(false));
-        console.log("error", error);
+        toast.error(err);
       },
     });
   };

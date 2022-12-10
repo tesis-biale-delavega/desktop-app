@@ -16,7 +16,7 @@ const BasicDialog = ({ open, handleClose, title, content }) => {
         <DialogTitle bgcolor={"#136536"}>{title}</DialogTitle>
         <DialogContent>{content()}</DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Close</Button>
+          <Button onClick={handleClose}>Cerrar</Button>
         </DialogActions>
       </Dialog>
     </div>

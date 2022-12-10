@@ -4,7 +4,8 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  CardMedia,
+  CardMedia, CircularProgress,
+  Link,
   Stack,
   Toolbar,
   Typography,
@@ -28,7 +29,8 @@ import moment from "moment";
 import PhotoSizeSelectActualOutlinedIcon from "@mui/icons-material/PhotoSizeSelectActualOutlined";
 import { processingStates } from "../utils/processingStates";
 import CachedIcon from "@mui/icons-material/Cached";
-import 'moment/locale/es'
+import "moment/locale/es";
+import { toast } from "react-toastify";
 
 const createProjectSX = {
   borderStyle: "dashed",
@@ -63,12 +65,13 @@ const ProjectsListScreen = () => {
 
   const [localProjectsList, setLocalProjectList] = useState([]);
   const [cloudProjectsList, setCloudProjectList] = useState([]);
+  const [downloadCloudProjectIsLoading, setDownloadCloudProjectIsLoading] = useState(false);
 
   const cloudProjectsListMutation = useMutation(() => {
     return http.get(`/spring-api/api/project`);
   });
 
-  useEffect(() => {
+  const getLocalProjects = () => {
     localProjectsListMutation.mutate(
       {},
       {
@@ -80,16 +83,25 @@ const ProjectsListScreen = () => {
         },
       }
     );
-    cloudProjectsListMutation.mutate({},
-        {
-          onSuccess: (res) => {
-            const projectList = res.map(projectData => ({date: projectData.creationDate}))
-            setCloudProjectList(res);
-          },
-          onError: (error) => {
-            console.log(error);
-          },
-        })
+  };
+
+  const getCloudProjects = () => {
+    cloudProjectsListMutation.mutate(
+      {},
+      {
+        onSuccess: (res) => {
+          setCloudProjectList(res);
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      }
+    );
+  };
+
+  useEffect(() => {
+    getLocalProjects();
+    getCloudProjects();
     dispatch(clearState());
   }, []);
 
@@ -112,7 +124,31 @@ const ProjectsListScreen = () => {
     navigate("/processing");
   };
 
-  const ProjectListItem = ({ project, showImage }) => {
+  const downloadCloudProjectMutation = useMutation((body) => {
+    return http.post(`/python-api/download-dip`, body);
+  });
+
+  const onDownloadCloudProjectPress = (project) => {
+    const body = { projectUrl: project.projectUrl, fileName: project.fileName };
+    setDownloadCloudProjectIsLoading(true);
+    downloadCloudProjectMutation.mutate(body, {
+      onSuccess: () => {
+        setDownloadCloudProjectIsLoading(false);
+        toast.success("Proyecto descargado exitosamente!");
+        getLocalProjects();
+      },
+      onError: (err) => {
+        setDownloadCloudProjectIsLoading(false);
+        toast.error(err);
+      },
+    });
+  };
+
+  const ProjectListItem = ({
+    project,
+    showImage,
+    disableProjectInfoRedirect,
+  }) => {
     return (
       <Card
         sx={{
@@ -122,7 +158,9 @@ const ProjectsListScreen = () => {
           width: "298px",
         }}
         elevation={4}
-        onClick={() => onProjectItemClick(project)}
+        onClick={() =>
+          !disableProjectInfoRedirect && onProjectItemClick(project)
+        }
       >
         <CardActionArea sx={{ display: "flex", flexGrow: 1, height: "100%" }}>
           <CardContent sx={{ display: "flex", flexGrow: 1 }}>
@@ -135,8 +173,20 @@ const ProjectsListScreen = () => {
                 {project.name ? project.name : "Proyecto sin nombre"}
               </Typography>
               <Typography variant="subtitle1" color="#c6c6c6" component="div">
-                {moment(project.creationDate ? project.creationDate : project.date * 1000).locale('es').format("L")}
+                {moment(
+                  project.creationDate
+                    ? project.creationDate
+                    : project.date * 1000
+                ).locale("es").format("L")}
               </Typography>
+              {project.projectUrl && (
+                <Link
+                  color={"#49BB58"}
+                  onClick={() => onDownloadCloudProjectPress(project)}
+                >
+                  Descargar proyecto
+                </Link>
+              )}
             </Stack>
           </CardContent>
           {showImage &&
@@ -191,9 +241,11 @@ const ProjectsListScreen = () => {
             <Typography ml={2}>Crear Proyecto</Typography>
             <AddIcon />
           </Button>
-          {localProjectsList.filter(projectData => projectData.avg_coordinates !== null).map((project) => (
-            <ProjectListItem project={project} showImage />
-          ))}
+          {localProjectsList
+            .filter((projectData) => projectData.avg_coordinates !== null)
+            .map((project) => (
+              <ProjectListItem project={project} showImage />
+            ))}
         </Stack>
       </Stack>
       <Stack m={5}>
@@ -202,6 +254,7 @@ const ProjectsListScreen = () => {
           <Button
             variant={"outlined"}
             sx={{ ml: "auto", textTransform: "unset" }}
+            onClick={getCloudProjects}
           >
             <Typography mr={2}>Actualizar lista</Typography>
             <CachedIcon />
@@ -216,7 +269,7 @@ const ProjectsListScreen = () => {
             gap={"45px"}
           >
             {cloudProjectsList.map((project) => (
-              <ProjectListItem project={project} />
+              <ProjectListItem project={project} disableProjectInfoRedirect />
             ))}
           </Stack>
         ) : (
@@ -225,6 +278,11 @@ const ProjectsListScreen = () => {
           </Typography>
         )}
       </Stack>
+      {downloadCloudProjectIsLoading &&
+        <CircularProgress
+          sx={{ color: "#fff", position: "fixed", right: 40, top: 90 }}
+        />
+      }
     </Stack>
   );
 };
