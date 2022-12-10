@@ -4,7 +4,7 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  CardMedia, CircularProgress,
+  CardMedia, CircularProgress, Divider,
   Link,
   Stack,
   Toolbar,
@@ -224,14 +224,15 @@ const ProjectsListScreen = () => {
   return (
     <Stack>
       <Toolbar />
-      <Stack m={5}>
-        <Typography>Proyectos Locales</Typography>
+      <Stack>
+        <Typography bgcolor={"#136536"} p={3} variant={"h6"}>Proyectos Locales</Typography>
+        <Divider color={"#fff"} />
         <Stack
           direction={"row"}
           alignItems={"center"}
-          mt={2}
           flexWrap={"wrap"}
           gap={"45px"}
+          m={5}
         >
           <Button
             variant={"outlined"}
@@ -248,33 +249,34 @@ const ProjectsListScreen = () => {
             ))}
         </Stack>
       </Stack>
-      <Stack m={5}>
-        <Stack flexDirection={"row"}>
-          <Typography>Proyectos en la Nube</Typography>
+      <Stack>
+        <Stack flexDirection={"row"} bgcolor={"#136536"} alignItems={"center"}>
+          <Typography p={3} variant={"h6"}>Proyectos en la Nube</Typography>
           <Button
-            variant={"outlined"}
-            sx={{ ml: "auto", textTransform: "unset" }}
+            variant={"contained"}
+            sx={{ ml: "auto", mr: 2, textTransform: "unset" }}
             onClick={getCloudProjects}
           >
             <Typography mr={2}>Actualizar lista</Typography>
             <CachedIcon />
           </Button>
         </Stack>
+        <Divider color={"#fff"} />
         {cloudProjectsList.length > 0 ? (
           <Stack
             direction={"row"}
             alignItems={"center"}
-            mt={2}
             flexWrap={"wrap"}
             gap={"45px"}
+            m={5}
           >
             {cloudProjectsList.map((project) => (
               <ProjectListItem project={project} disableProjectInfoRedirect />
             ))}
           </Stack>
         ) : (
-          <Typography mt={2} variant={"body1"}>
-            No hay proyectos para mostrar
+          <Typography m={5} variant={"body1"}>
+            Aún no se ha subido ningún proyecto a la nube
           </Typography>
         )}
       </Stack>

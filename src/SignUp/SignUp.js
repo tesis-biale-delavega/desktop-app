@@ -48,7 +48,7 @@ const SignUp = () => {
         <Stack mt={4}>
           <TextField
             id="sign-up-username"
-            label="Username"
+            label="Nombre de usuario"
             variant="standard"
             fullWidth
             margin={"dense"}
@@ -65,7 +65,7 @@ const SignUp = () => {
           />
           <TextField
             id="sign-up-password"
-            label="Password"
+            label="Contraseña"
             variant="standard"
             type={"password"}
             fullWidth
