@@ -30,6 +30,7 @@ import AccountOptions from "../AccountOptions/AccountOptions";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 const { shell } = require("electron");
+import { Blob } from "buffer";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -64,6 +65,16 @@ const Navbar = () => {
     return http.post(`/python-api/export-zip`, body);
   });
 
+  const compressProjectMutation = useMutation((body) => {
+    return http.post(`/python-api/compress`, body);
+  });
+
+  const cloudUploadProjectMutation = useMutation((body) => {
+    return http.post(`/spring-api/api/project`, body, {
+      "Content-Type": "multipart/form-data",
+    });
+  });
+
   const handleExportProjectPress = () => {
     const body = { path: projectPath };
     dispatch(setProcessingIsLoading(true));
@@ -80,6 +91,30 @@ const Navbar = () => {
           </Box>,
           { autoClose: false }
         );
+      },
+      onError: (error) => {
+        dispatch(setProcessingIsLoading(false));
+        console.log("error", error);
+      },
+    });
+  };
+
+  const handleProjectCloudUpload = () => {
+    const compressBody = { path: projectPath };
+
+    compressProjectMutation.mutate(compressBody, {
+      onSuccess: (res) => {
+        let fs = require("fs");
+        let buffer = fs.readFileSync(res.path);
+
+        const splitChar = res.path.includes("\\") ? "\\" : "/";
+        const pathSplit = res.path.split(splitChar);
+        let fileName = `${pathSplit[pathSplit.length - 1]}`;
+        let file = new File([buffer], fileName);
+
+        const formData = new FormData();
+        formData.append("file", file);
+        cloudUploadProjectMutation.mutate(formData);
       },
       onError: (error) => {
         dispatch(setProcessingIsLoading(false));
@@ -193,7 +228,7 @@ const Navbar = () => {
               edge="start"
               color="inherit"
               aria-label="cloud-save"
-              onClick={() => console.log("upload")}
+              onClick={handleProjectCloudUpload}
             >
               <CloudUploadIcon />
             </IconButton>

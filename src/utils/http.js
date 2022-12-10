@@ -5,7 +5,7 @@ const httpClient = axios.create({
   baseURL: settings.baseUrl,
 });
 
-const request = async (url, method, data) => {
+const request = async (url, method, data, headersConfig) => {
   return httpClient({
     url: url,
     method,
@@ -13,6 +13,7 @@ const request = async (url, method, data) => {
     ...{
       headers: {
         Authorization: localStorage.getItem("token"),
+        ...headersConfig
       },
     },
   })
@@ -26,7 +27,7 @@ const request = async (url, method, data) => {
 
 export const get = (url) => request(url, "GET", null);
 
-export const post = (url, body) => request(url, "POST", body);
+export const post = (url, body, headersConfig) => request(url, "POST", body, headersConfig);
 
 export const put = (url, body) => request(url, "PUT", body);
 
