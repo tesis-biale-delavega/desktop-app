@@ -8,7 +8,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { setCompareLayersSlider } from "../../analysis/analysisSlice";
 
 const ComparisonSliderSideBarOptions = ({
@@ -25,6 +25,10 @@ const ComparisonSliderSideBarOptions = ({
     rightLayer: availableImageLayers?.[1],
   });
 
+  useEffect(() => {
+    compareLayers && dispatch(setCompareLayersSlider(compareLayers));
+  }, [])
+
   const handleLayerChange = (e, isLeftLayer) => {
     const value = e.target.value;
     const layer = availableImageLayers.find(
@@ -39,8 +43,6 @@ const ComparisonSliderSideBarOptions = ({
     dispatch(setCompareLayersSlider(newCompareLayers));
     setCompareLayers(newCompareLayers);
   };
-
-  console.log(availableImageLayers)
 
   return (
     <Box flexGrow={1}>

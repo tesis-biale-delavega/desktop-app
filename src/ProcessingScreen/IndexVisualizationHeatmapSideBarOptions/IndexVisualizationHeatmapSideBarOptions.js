@@ -33,7 +33,7 @@ const IndexVisualizationHeatmapSideBarOptions = ({
       imageCoords: stitchingData?.imageCoords,
     },
   ];
-  console.log(generatedIndexes);
+
   const generatedIndexesArray = generatedIndexes?.map((index) => {
     return {
       name: index?.index?.toUpperCase(),
@@ -104,10 +104,16 @@ const IndexVisualizationHeatmapSideBarOptions = ({
             variant="body2"
             onClick={handleCreateThresholdClick}
             underline={"none"}
-            color={"#ffffff"}
             disabled={!overlayImageData?.imageVector}
+            sx={{
+              cursor: !overlayImageData?.imageVector ? "not-allowed" : "pointer",
+            }}
           >
-            <Typography mt={2} ml={2}>
+            <Typography
+              mt={2}
+              ml={2}
+              color={!overlayImageData?.imageVector ? "#ababab" : "#fff"}
+            >
               Crear threshold
             </Typography>
           </Link>
