@@ -19,7 +19,7 @@ const ThresholdCreatorDialog = ({
   onLayerClick,
 }) => {
   const dispatch = useDispatch();
-  const [value, setValue] = useState([0.2, 0.8]);
+  const [value, setValue] = useState([-0.8, 0.8]);
   const generatedIndexes = useSelector(
     (state) => state.analysis.generatedIndexes
   );
@@ -87,7 +87,7 @@ const ThresholdCreatorDialog = ({
               onChange={handleChange}
               valueLabelDisplay={"on"}
               step={0.1}
-              min={0}
+              min={-1}
               max={1}
             />
           </Box>

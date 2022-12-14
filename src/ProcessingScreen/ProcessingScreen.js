@@ -86,9 +86,13 @@ const ProcessingScreen = () => {
     }
   };
 
+  const handleGoForward = () => {
+    dispatch(setProcessingState(processingState + 1));
+  };
+
   return (
     <Box sx={{ display: "flex", flexGrow: 1 }}>
-      <SideBar children={getSideBarOptions()} onGoBackClick={handleGoBack} />
+      <SideBar children={getSideBarOptions()} onGoBackClick={handleGoBack} onGoForwardClick={handleGoForward}/>
       <Stack direction={"column"} flexGrow={1}>
         <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
           <Toolbar />

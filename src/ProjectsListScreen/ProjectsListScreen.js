@@ -4,7 +4,9 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  CardMedia, CircularProgress, Divider,
+  CardMedia,
+  CircularProgress,
+  Divider,
   Link,
   Stack,
   Toolbar,
@@ -65,7 +67,8 @@ const ProjectsListScreen = () => {
 
   const [localProjectsList, setLocalProjectList] = useState([]);
   const [cloudProjectsList, setCloudProjectList] = useState([]);
-  const [downloadCloudProjectIsLoading, setDownloadCloudProjectIsLoading] = useState(false);
+  const [downloadCloudProjectIsLoading, setDownloadCloudProjectIsLoading] =
+    useState(false);
 
   const cloudProjectsListMutation = useMutation(() => {
     return http.get(`/spring-api/api/project`);
@@ -119,7 +122,14 @@ const ProjectsListScreen = () => {
       })
     );
     dispatch(setGeneratedIndexes(project.indexes));
-    dispatch(setProcessingState(processingStates.INDEX_VISUALIZATION_HEATMAP));
+    dispatch(
+      setProcessingState(
+        project.orthophoto_path === undefined ||
+          project.orthophoto_path === null
+          ? processingStates.PRE_STITCHING
+          : processingStates.INDEX_VISUALIZATION_HEATMAP
+      )
+    );
     dispatch(setProjectFolderAlreadyCreated(true));
     navigate("/processing");
   };
@@ -177,7 +187,9 @@ const ProjectsListScreen = () => {
                   project.creationDate
                     ? project.creationDate
                     : project.date * 1000
-                ).locale("es").format("L")}
+                )
+                  .locale("es")
+                  .format("L")}
               </Typography>
               {project.projectUrl && (
                 <Link
@@ -225,7 +237,9 @@ const ProjectsListScreen = () => {
     <Stack>
       <Toolbar />
       <Stack>
-        <Typography bgcolor={"#136536"} p={3} variant={"h6"}>Proyectos Locales</Typography>
+        <Typography bgcolor={"#136536"} p={3} variant={"h6"}>
+          Proyectos Locales
+        </Typography>
         <Divider color={"#fff"} />
         <Stack
           direction={"row"}
@@ -251,7 +265,9 @@ const ProjectsListScreen = () => {
       </Stack>
       <Stack>
         <Stack flexDirection={"row"} bgcolor={"#136536"} alignItems={"center"}>
-          <Typography p={3} variant={"h6"}>Proyectos en la Nube</Typography>
+          <Typography p={3} variant={"h6"}>
+            Proyectos en la Nube
+          </Typography>
           <Button
             variant={"contained"}
             sx={{ ml: "auto", mr: 2, textTransform: "unset" }}
@@ -280,11 +296,11 @@ const ProjectsListScreen = () => {
           </Typography>
         )}
       </Stack>
-      {downloadCloudProjectIsLoading &&
+      {downloadCloudProjectIsLoading && (
         <CircularProgress
           sx={{ color: "#fff", position: "fixed", right: 40, top: 90 }}
         />
-      }
+      )}
     </Stack>
   );
 };

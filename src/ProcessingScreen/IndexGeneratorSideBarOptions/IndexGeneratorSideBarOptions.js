@@ -28,6 +28,7 @@ const IndexGeneratorSideBarOptions = () => {
   const dispatch = useDispatch();
   const projectPath = useSelector((state) => state.analysis.projectPath);
   const indexesData = useSelector((state) => state.analysis.indexesData);
+  const currentGeneratedIndexes = useSelector((state) => state.analysis.generatedIndexes);
   const [showIndexInfoDialog, setShowIndexInfoDialog] = useState(false);
   const [indexInfo, setIndexInfo] = useState(undefined);
 
@@ -73,7 +74,7 @@ const IndexGeneratorSideBarOptions = () => {
           path: index[1]?.img,
           vector: index[1]?.vector,
         }));
-        dispatch(setGeneratedIndexes(generatedIndexes));
+        dispatch(setGeneratedIndexes([...currentGeneratedIndexes, ...generatedIndexes]));
         dispatch(
           setProcessingState(processingStates.INDEX_VISUALIZATION_HEATMAP)
         );
