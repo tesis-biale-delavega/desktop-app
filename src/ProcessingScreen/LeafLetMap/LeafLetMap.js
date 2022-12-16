@@ -22,14 +22,23 @@ const LeafLetMap = ({ imageUrl, imageCoords, centerCoords }) => {
   const [map, setMap] = useState(null);
 
   useEffect(() => {
-    centerCoords && map && map.target.panTo(centerCoords);
+    if(centerCoords &&
+        centerCoords[0] &&
+        centerCoords[1] &&
+        map) {
+      map.target.panTo(centerCoords);
+    }
   }, [centerCoords]);
 
   return (
     <div style={{ width: "100%", display: "flex", flexGrow: 1 }}>
       <MapContainer
         center={
-          centerCoords ? centerCoords : [46.59916666666667, 6.621111111111111]
+          centerCoords &&
+          centerCoords[0] &&
+          centerCoords[1]
+            ? centerCoords
+            : [46.59916666666667, 6.621111111111111]
         }
         zoom={17}
         maxZoom={30}

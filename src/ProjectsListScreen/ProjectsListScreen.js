@@ -115,10 +115,10 @@ const ProjectsListScreen = () => {
       setStitchingData({
         orthophoto_path: project.orthophoto_path,
         centerCoords: [
-          project.avg_coordinates.avg_rgb_lat,
-          project.avg_coordinates.avg_rgb_long,
+          project.avg_coordinates?.avg_rgb_lat,
+          project.avg_coordinates?.avg_rgb_long,
         ],
-        imageCoords: project.avg_coordinates.rgb_points,
+        imageCoords: project.avg_coordinates?.rgb_points,
       })
     );
     dispatch(setGeneratedIndexes(project.indexes));
