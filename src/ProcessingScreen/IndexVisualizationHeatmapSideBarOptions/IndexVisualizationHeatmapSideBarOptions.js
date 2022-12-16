@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Container,
   Link,
   List,
@@ -13,6 +14,8 @@ import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import ThresholdCreatorDialog from "../ThresholdCreatorDialog/ThresholdCreatorDialog";
 import { setAvailableImageLayers } from "../../analysis/analysisSlice";
+import IndexInfoDialog from "../IndexInfoDialog/IndexInfoDialog";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 const IndexVisualizationHeatmapSideBarOptions = ({
   setOverlayImageData,
@@ -23,7 +26,11 @@ const IndexVisualizationHeatmapSideBarOptions = ({
     (state) => state.analysis.generatedIndexes
   );
   const stitchingData = useSelector((state) => state.analysis.stitchingData);
+  const indexesData = useSelector((state) => state.analysis.indexesData);
   const [showThresholdDialog, setShowThresholdDialog] = useState(false);
+
+  const [showIndexInfoDialog, setShowIndexInfoDialog] = useState(false);
+  const [indexInfo, setIndexInfo] = useState(undefined);
 
   const defaultLayers = [
     {
@@ -75,6 +82,13 @@ const IndexVisualizationHeatmapSideBarOptions = ({
     setOverlayImageData(newOverlayImageData);
   };
 
+  console.log(availableLayers);
+
+  const handleIndexInfoClick = (indexData) => {
+    setShowIndexInfoDialog(true);
+    setIndexInfo(indexData);
+  };
+
   return (
     <Box flexGrow={1}>
       <Stack justifyContent={"space-between"} height={"100%"}>
@@ -89,7 +103,30 @@ const IndexVisualizationHeatmapSideBarOptions = ({
           </Typography>
           <List>
             {availableLayers.map((layer) => (
-              <ListItem disablePadding>
+              <ListItem
+                disablePadding
+                secondaryAction={
+                  indexesData.find((indexData) => indexData.name === layer.name)
+                    ?.info && (
+                    <Button
+                      onClick={() =>
+                        handleIndexInfoClick(
+                          indexesData.find(
+                            (indexData) => indexData.name === layer.name
+                          )
+                        )
+                      }
+                    >
+                      <InfoOutlinedIcon />
+                    </Button>
+                  )
+                }
+                sx={{
+                  ".MuiListItemSecondaryAction-root": {
+                    right: 5
+                  },
+                }}
+              >
                 <ListItemButton
                   selected={layer.name === overlayImageData?.name}
                   onClick={() => onLayerClick(layer)}
@@ -106,7 +143,9 @@ const IndexVisualizationHeatmapSideBarOptions = ({
             underline={"none"}
             disabled={!overlayImageData?.imageVector}
             sx={{
-              cursor: !overlayImageData?.imageVector ? "not-allowed" : "pointer",
+              cursor: !overlayImageData?.imageVector
+                ? "not-allowed"
+                : "pointer",
             }}
           >
             <Typography
@@ -129,6 +168,11 @@ const IndexVisualizationHeatmapSideBarOptions = ({
           onLayerClick={onLayerClick}
         />
       )}
+      <IndexInfoDialog
+        open={showIndexInfoDialog}
+        setShowIndexInfoDialog={setShowIndexInfoDialog}
+        indexData={indexInfo}
+      />
     </Box>
   );
 };

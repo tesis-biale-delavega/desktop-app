@@ -7,6 +7,8 @@ const dotenv = require("dotenv");
 // Any directories you will be adding code/files into, need to be added to this array so webpack will pick them up
 const defaultInclude = path.resolve(__dirname, "src");
 
+console.log(process.env)
+
 module.exports = {
   module: {
     rules: [
@@ -72,7 +74,7 @@ module.exports = {
     historyApiFallback: true,
     proxy: {
       '/spring-api': {
-        target: 'http://localhost:8080',
+        target: process.env.HOSTED ? 'http://34.139.251.9:8080' : 'http://localhost:8080',
         pathRewrite: {
           '^/spring-api' : ''
         }

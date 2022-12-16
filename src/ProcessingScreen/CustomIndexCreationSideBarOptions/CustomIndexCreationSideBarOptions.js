@@ -57,6 +57,15 @@ const CustomIndexCreationSideBarOptions = () => {
               })
             }
           />
+          <Typography mt={1} variant={"body2"}>
+            Los valores que acepta la formula para su construcción son: gre,
+            nir, red, reg, blue, (, ), +, -, *, /, números enteros, números con
+            decimales divididos por un punto.
+          </Typography>
+          <Typography mt={1} variant={"body2"}>
+            Por ejemplo para el indice NDVI la formula seria: <br /> (nir - red)
+            / (nir + red).
+          </Typography>
         </div>
         <Button
           disabled={!customIndexData?.name || !customIndexData?.formula}

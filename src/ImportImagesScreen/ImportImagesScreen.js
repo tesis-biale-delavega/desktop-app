@@ -39,7 +39,12 @@ const ImportImagesScreen = () => {
       const folderPath = folderPathSplit.join(splitChar);
 
       setCurrentFolderPath(folderPath);
-      setCurrentImages(files);
+
+      const imagesFiltered = Array.from(files)?.filter(
+        (imageData) =>
+          imageData.type === "image/jpeg" || imageData.type === "image/png"
+      );
+      setCurrentImages(imagesFiltered);
     }
   };
 
@@ -59,12 +64,7 @@ const ImportImagesScreen = () => {
       <Toolbar />
       {currentImages && (
         <ImageList sx={{ width: "100%" }} variant="standard" cols={4} gap={8}>
-          {Array.from(currentImages)
-            ?.filter(
-              (imageData) =>
-                imageData.type === "image/jpeg" ||
-                imageData.type === "image/png"
-            )
+          {currentImages
             .slice(0, 20)
             .map((imageData) => (
               <ImageListItem key={imageData?.path}>
@@ -82,6 +82,15 @@ const ImportImagesScreen = () => {
             ))}
         </ImageList>
       )}
+      {currentImages &&
+        currentImages?.length === 0 && (
+          <Stack flexGrow={5} alignItems={"center"} justifyContent={"center"}>
+            <Typography>
+              No se encontraron imagenes compatibles dentro de la carpeta
+              seleccionada. Estas deben tener la extensión .tiff o .jpg.
+            </Typography>
+          </Stack>
+        )}
       <Stack
         flexDirection={"row"}
         alignItems={currentImages ? "flex-end" : "center"}
@@ -117,6 +126,7 @@ const ImportImagesScreen = () => {
             onClick={onConfirmPress}
             sx={{ ml: 2, mr: 2 }}
             fullWidth
+            disabled={currentImages && currentImages.length === 0}
           >
             {"Avanzar"}
           </Button>

@@ -124,7 +124,10 @@ const IndexGeneratorSideBarOptions = () => {
                   label={index.name}
                 />
                 {index.info && (
-                  <Button onClick={() => handleIndexInfoClick(index)}>
+                  <Button
+                    onClick={() => handleIndexInfoClick(index)}
+                    sx={{ position: "relative", right: -10 }}
+                  >
                     <InfoOutlinedIcon />
                   </Button>
                 )}
