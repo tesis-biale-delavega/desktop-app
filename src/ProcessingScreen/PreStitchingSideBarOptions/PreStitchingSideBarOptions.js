@@ -44,7 +44,7 @@ const PreStitchingSideBarOptions = ({ setOverlayImageData }) => {
       name: projectName,
     };
     dispatch(setProcessingIsLoading(true));
-    dispatch(setProjectFolderAlreadyCreated(true))
+    dispatch(setProjectFolderAlreadyCreated(true));
     startAnalysisMutation.mutate(body, {
       onSuccess: (res) => {
         const overlayImageData = {
@@ -77,6 +77,7 @@ const PreStitchingSideBarOptions = ({ setOverlayImageData }) => {
           variant={"contained"}
           size={"small"}
           onClick={handleStartProcessing}
+          disabled={processingIsLoading}
         >
           Empezar procesamiento
         </Button>

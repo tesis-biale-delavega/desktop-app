@@ -298,7 +298,7 @@ const ProjectsListScreen = () => {
       </Stack>
       {downloadCloudProjectIsLoading && (
         <CircularProgress
-          sx={{ color: "#fff", position: "fixed", right: 40, top: 90 }}
+          sx={{ color: "#fff", position: "fixed", right: 40, top: 85 }}
         />
       )}
     </Stack>
