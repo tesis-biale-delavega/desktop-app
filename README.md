@@ -14,3 +14,7 @@ Install dependencies with npm. Run the following command: `npm install`
 ## Run the electron app
 
 Run the following command: `npm run start`
+
+## Run the electron app with hosted spring boot for cloud support
+
+Run the following command: `npm run hosted`
