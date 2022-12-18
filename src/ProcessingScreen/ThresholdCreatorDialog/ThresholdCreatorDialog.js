@@ -23,6 +23,9 @@ const ThresholdCreatorDialog = ({
   const generatedIndexes = useSelector(
     (state) => state.analysis.generatedIndexes
   );
+  const processingIsLoading = useSelector(
+      (state) => state.analysis.processingIsLoading
+  );
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -72,8 +75,10 @@ const ThresholdCreatorDialog = ({
   return (
     <FormDialog
       open={isOpen}
-      handleClose={handleClose}
+      handleClose={() => !processingIsLoading && handleClose()}
       handleConfirm={handleThresholdSend}
+      disableCancel={processingIsLoading}
+      disableConfirm={processingIsLoading}
       title={"Crear un threshold"}
       content={() => (
         <div>
@@ -89,6 +94,7 @@ const ThresholdCreatorDialog = ({
               step={0.1}
               min={-1}
               max={1}
+              disabled={processingIsLoading}
             />
           </Box>
         </div>
