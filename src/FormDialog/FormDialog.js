@@ -30,6 +30,7 @@ const FormDialog = ({
             sx={{
               "&.Mui-disabled": {
                 color: "#575757",
+                backgroundColor: "unset",
               },
             }}
           >
@@ -41,6 +42,7 @@ const FormDialog = ({
             sx={{
               "&.Mui-disabled": {
                 color: "#575757",
+                backgroundColor: "unset",
               },
             }}
           >

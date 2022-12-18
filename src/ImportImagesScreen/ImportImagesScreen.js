@@ -64,33 +64,30 @@ const ImportImagesScreen = () => {
       <Toolbar />
       {currentImages && (
         <ImageList sx={{ width: "100%" }} variant="standard" cols={4} gap={8}>
-          {currentImages
-            .slice(0, 20)
-            .map((imageData) => (
-              <ImageListItem key={imageData?.path}>
-                <img
-                  src={`file://${imageData.path}?w=248&fit=crop&auto=format`}
-                  srcSet={`file://${imageData.path}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                  alt={imageData.title}
-                  loading="lazy"
-                />
-                <ImageListItemBar
-                  position="bottom"
-                  title={getImageName(imageData.path)}
-                />
-              </ImageListItem>
-            ))}
+          {currentImages.slice(0, 20).map((imageData) => (
+            <ImageListItem key={imageData?.path}>
+              <img
+                src={`file://${imageData.path}?w=248&fit=crop&auto=format`}
+                srcSet={`file://${imageData.path}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                alt={imageData.title}
+                loading="lazy"
+              />
+              <ImageListItemBar
+                position="bottom"
+                title={getImageName(imageData.path)}
+              />
+            </ImageListItem>
+          ))}
         </ImageList>
       )}
-      {currentImages &&
-        currentImages?.length === 0 && (
-          <Stack flexGrow={5} alignItems={"center"} justifyContent={"center"}>
-            <Typography>
-              No se encontraron imagenes compatibles dentro de la carpeta
-              seleccionada. Estas deben tener la extensión .tiff o .jpg.
-            </Typography>
-          </Stack>
-        )}
+      {currentImages && currentImages?.length === 0 && (
+        <Stack flexGrow={5} alignItems={"center"} justifyContent={"center"}>
+          <Typography>
+            No se encontraron imagenes compatibles dentro de la carpeta
+            seleccionada. Estas deben tener la extensión .tiff o .jpg.
+          </Typography>
+        </Stack>
+      )}
       <Stack
         flexDirection={"row"}
         alignItems={currentImages ? "flex-end" : "center"}

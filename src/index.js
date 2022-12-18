@@ -56,6 +56,16 @@ const themeOptions = {
         },
       },
     },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          "&.Mui-disabled": {
+            color: "#4d4d4d",
+            backgroundColor: "#757373",
+          },
+        },
+      },
+    },
   },
 };
 

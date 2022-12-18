@@ -73,11 +73,7 @@ const Login = () => {
           <Button
             variant={"contained"}
             sx={{
-              marginTop: 8,
-              "&.Mui-disabled": {
-                color: "#4d4d4d",
-                backgroundColor: "#757373",
-              },
+              marginTop: 8
             }}
             onClick={onSubmit}
             disabled={!areFieldsCompleted()}
