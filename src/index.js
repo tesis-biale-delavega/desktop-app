@@ -1,17 +1,96 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import "./index.scss";
+import App from "./App";
+import { createTheme, ThemeProvider } from "@mui/material";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { BrowserRouter, HashRouter } from "react-router-dom";
+import { store } from "./app/store";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
+import { render } from "react-dom";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+const themeOptions = {
+  palette: {
+    type: "dark",
+    primary: {
+      main: "#41A44D",
+    },
+    secondary: {
+      main: "#bdff00",
+    },
+    text: {
+      primary: "#fff",
+      secondary: "#27c539",
+    }
+  },
+  components: {
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          background: "#383838",
+        },
+      },
+    },
+    MuiCheckbox: {
+      styleOverrides: {
+        root: {
+          color: "#fff",
+        },
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          color: "#fff",
+        },
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          color: "#fff",
+          "&:before": {
+            borderBottom: "1px solid #27c539 !important",
+          },
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          "&.Mui-disabled": {
+            color: "#4d4d4d",
+            backgroundColor: "#757373",
+          },
+        },
+      },
+    },
+  },
+};
+
+const theme = createTheme(themeOptions);
+
+const queryClient = new QueryClient();
+
+let persistor = persistStore(store);
+
+let root = document.createElement("div");
+
+root.id = "root";
+document.body.appendChild(root);
+
+render(
+  <BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <App />
+          </PersistGate>
+        </Provider>
+      </QueryClientProvider>
+    </ThemeProvider>
+  </BrowserRouter>,
+  document.getElementById("root")
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

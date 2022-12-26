@@ -1,36 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
-import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
-import { purple } from '@mui/material/colors';
-
-const ColorButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.getContrastText(purple[500]),
-  backgroundColor: purple[500],
-  '&:hover': {
-    backgroundColor: purple[700],
-  },
-  marginTop: 10
-}));
+import React from "react";
+import "./App.scss";
+import { Route, Routes, useLocation } from "react-router-dom";
+import ImportImagesScreen from "./ImportImagesScreen/ImportImagesScreen";
+import Navbar from "./Navbar/Navbar";
+import ProcessingScreen from "./ProcessingScreen/ProcessingScreen";
+import ProjectsListScreen from "./ProjectsListScreen/ProjectsListScreen";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import SignUp from "./SignUp/SignUp";
+import Login from "./Login/Login";
 
 function App() {
+  const location = useLocation();
+  const showNavbar =
+    location.pathname !== "/" && location.pathname !== "/signup" && location.pathname !== "/index.html";
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <ColorButton>Material Test</ColorButton>
-      </header>
+    <div className={"App"}>
+      {showNavbar && <Navbar />}
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/projects" element={<ProjectsListScreen />} />
+        <Route path="/import-images" element={<ImportImagesScreen />} />
+        <Route path="/processing" element={<ProcessingScreen />} />
+      </Routes>
+      <ToastContainer
+        position="top-right"
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+        theme={"dark"}
+        toastStyle={{ backgroundColor: "#747474" }}
+      />
     </div>
   );
 }
